@@ -13,7 +13,20 @@ class Register extends Component {
     //         customers: []
     //     };
     // }
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            posts: []
+        }
+    }
+    componentDidMount() {
+        fetch('user/register') // or whatever URL you want
+            .then((response) => response.json())
+            .then((response) => console.log("this is response",response))
+            .then((posts) => this.setState({
+                posts: posts
+            }))
+    }
     // componentDidMount() {
     //     fetch('/api/customers')
     //         .then(res => res.json())
@@ -23,9 +36,10 @@ class Register extends Component {
     render() {
         return (
             <div className="container-fluid" >
+            <div>{this.state.posts}</div>
                 <div className="row justify-content-center">
                     <div style={styles.maxWidth} className="border border-dark rounded pt-2 pr-4 pb-2 pl-4">
-                        <form className="form-signin" method="post" action="/register_user">
+                        <form className="form-signup" method="post" action="/api/account/signup">
                             <div className="text-center mb-4">
                                 <h1>PARK P2P</h1>
                                 <h4>REGISTER</h4>

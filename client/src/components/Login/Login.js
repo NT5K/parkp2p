@@ -25,18 +25,18 @@ class Login extends Component {
             <div className="container-fluid" >
                 <div className="row justify-content-center">
                     <div style={styles.maxWidth} className="border border-dark rounded pt-2 pr-4 pb-2 pl-4">
-                        <form className="form-signin">
+                        <form className="form-signin" method="post" action="/api/account/signin">
                             <div className="text-center mb-4">
                                 <h1>PARK P2P</h1>
                                 <h4>LOGIN</h4>
                             </div>
 
                                 <div className="form-label-group mb-2">
-                                    <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required autoFocus />
+                                    <input type="email" id="inputEmail" name="inputEmail" className="form-control" placeholder="Email address" required autoFocus />
                                 </div>
 
                                 <div className="form-label-group mb-2">
-                                    <input type="password" id="inputPassword2" className="form-control" placeholder="Password" required />
+                                <input type="password" id="inputPassword" name="inputPassword" className="form-control" placeholder="Password" required />
                                 </div>
 
                                 <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>
