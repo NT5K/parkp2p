@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import { getFromStorage, setInStorage } from '../../utils/storage'
+
 const styles = {
     maxWidth: {
         maxWidth: 400,

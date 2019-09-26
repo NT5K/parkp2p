@@ -5,9 +5,8 @@ USE PARKP2P;
 CREATE TABLE UserSessions
 (
 
-    userId INT
-    AUTO_INCREMENT NOT NULL,
-    _id BINARY(60) NOT NULL,
+    userId INT AUTO_INCREMENT NOT NULL,
+    _id INTEGER UNIQUE NOT NULL,
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     idDeleted BOOLEAN DEFAULT false,
 	PRIMARY KEY(userId)
@@ -15,4 +14,4 @@ CREATE TABLE UserSessions
 
     USE PARKP2P;
     INSERT INTO UserSessions(_id)
-    values ("userid")
+    values(1)

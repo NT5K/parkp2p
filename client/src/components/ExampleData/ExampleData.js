@@ -5,12 +5,12 @@ class Customers extends Component {
   constructor() {
     super();
     this.state = {
-      customers: []
+      customers: [],
+      token: localStorage.getItem('key')
     };
   }
-
   componentDidMount() {
-    fetch('/api/customers')
+    fetch('/api/customers?token=' + this.state.token)
       .then(res => res.json())
       .then(customers => this.setState({customers}, () => console.log('Customers fetched...', customers)));
   }
@@ -18,10 +18,10 @@ class Customers extends Component {
   render() {
     return (
       <div>
-        <h2>Example Data From Database</h2>
+        <h2>Example Data From Database {this.state.token}</h2>
         <ul>
         {this.state.customers.map(customer => 
-          <li key={customer.ID}>{customer.Email} {customer.Username}</li>
+          <li key={customer.ID}>{customer.Email} {customer.Username} {this.state.token}</li>
         )}
         </ul>
       </div>
