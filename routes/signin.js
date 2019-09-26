@@ -92,7 +92,7 @@ router.post('/api/account/signin', (req, res, next) => {
         if (users.length != 1) {
             return res.send({
                 success: false,
-                message: 'Error: Invalid'
+                message: 'Error: Invalid User'
             });
         }
         // const user = users[0];
@@ -114,11 +114,69 @@ router.post('/api/account/signin', (req, res, next) => {
                     message: 'Error: server error'
                 });
             }
+            console.log("returned", doc._id)
             return res.send({
                 success: true,
                 message: 'Valid sign in',
-                token: doc._id
+                test: "test message",
+                token: input2
             });
         });
     });
+});
+
+router.get('/api/account/verify', (req, res, next) => {
+    // Get the token
+    const { query } = req;
+    const { token } = query;
+    // ?token=test
+    // Verify the token is one of a kind and it's not deleted.
+    const query3 = "SELECT _id FROM UserSessions WHERE !idDeleted and _id = ?;";
+    const input3 = [token];
+    connection.query(query3, input3, (err, sessions) => {
+        if (err) {
+            console.log(err);
+            return res.send({
+                success: false,
+                message: 'Error: Server error'
+            });
+        }
+        if (sessions.length != 1) {
+            return res.send({
+                success: false,
+                message: 'Error: Invalid'
+            });
+        } else {
+            // DO ACTION
+            return res.send({
+                success: true,
+                message: 'Good'
+            });
+        }
+    })
+});
+
+router.delete('/api/account/logout', (req, res, next) => {
+    // Get the token
+    const { query } = req;
+    const { token } = query;
+    // ?token=test
+    // Verify the token is one of a kind and it's not deleted.
+    // localStorage.removeItem('park_p2p')
+    const query4 = 'DELETE FROM usersessions WHERE _id = ?;'
+    const input4 = [token[0]];
+    connection.query(query4, input4, (err, sessions) => {
+        if (err) {
+            console.log(err);
+            return res.send({
+                success: false,
+                message: 'Error: Server error'
+            });
+        }
+           
+        return res.send({
+            success: true,
+            message: 'Session Deleted'
+        });
+    })
 });
