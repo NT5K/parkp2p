@@ -180,3 +180,31 @@ router.delete('/api/account/logout', (req, res, next) => {
         });
     })
 });
+
+//functions for removing spaces for geolocation api
+// $(function () {
+//     $(empEventCity).val(function (_, v) {
+//       return v.replace(/\s+/g, '');
+//     });
+//   });
+//   $(function () {
+//     $(empEventAddress).val(function (_, v) {
+//       return v.replace(/\s+/g, '');
+//     });
+//   });
+
+//   //identifying variables for query
+//   const location = empEventAddress + empEventCity + state
+//   const geolocatorURL = 'https://maps.googleapis.com/maps/api/geocode/json?address=' +
+//     location + '&key=AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g'
+//   console.log(geolocatorURL);
+
+//   // query geolocatorURL
+//   $.ajax({
+//     url: geolocatorURL,
+//     method: "GET"
+//   }).then(function (response) {
+
+//     // json variables for lng,lat
+//     const latitude = response.results[0].geometry.location.lat;
+//     const longitude = response.results[0].geometry.location.lng;
