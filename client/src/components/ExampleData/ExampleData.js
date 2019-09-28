@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './ExampleData.css';
+import StreetView from '../GoogleMap/streetView'
 
 class Customers extends Component {
   constructor() {
@@ -18,7 +19,7 @@ class Customers extends Component {
   render() {
     return (
       <div>
-        <h2>Example Data From Database {this.state.token}</h2>
+        <h2><StreetView></StreetView>Example Data From Database {this.state.token}</h2>
         <ul>
         {this.state.customers.map(customer => 
           <li key={customer.ID}>{customer.Email} {customer.Username} {this.state.token}</li>
