@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import ExampleData from '../ExampleData/ExampleData';
 
 const styles = {
     shadow: {
@@ -27,16 +28,17 @@ class MapContainer extends Component {
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
-            selectedPlace: {} 
+            selectedPlace: {}
         };
+        this.onMarkerClick = this.onMarkerClick.bind(this);
     }
 
-    onMarkerClick = (props, marker, e) =>
+    onMarkerClick(locationString){
+        console.log(locationString)
         this.setState({
-            selectedPlace: props,
-            activeMarker: marker,
-            showingInfoWindow: true
-        });
+            selectedPlace: locationString
+        })
+    }
 
     onClose = props => {
         if (this.state.showingInfoWindow) {
@@ -49,7 +51,8 @@ class MapContainer extends Component {
 
     render() {
         return (
-            <div style={{ position: "relative", width: "100vw", height: "45vh" }} className="border border-dark">
+            <div>
+             <div style={{ position: "relative", width: "100vw", height: "45vh" }} className="border border-dark">
                 <Map
                     google={this.props.google}
                     zoom={15}
@@ -64,11 +67,13 @@ class MapContainer extends Component {
                 >
                     <Marker position={{ lat: 40, lng: -80 }} />
                     <Marker
-                        onClick={this.onMarkerClick}
+                        onClick={this.onMarkerClick.bind(this)}
                         name={"Downtown Cleveland"}
+                        position={{ lat: 41.4993,
+                            lng: -81.6944 }}
                     />
                     <Marker
-                        onClick={this.onMarkerClick}
+                        onClick={this.onMarkerClick.bind(this)}
                         name={"Browns Stadium"}
                         position={{ lat: 41.5061, lng: -81.6995 }}
                     />
@@ -77,12 +82,14 @@ class MapContainer extends Component {
                         visible={this.state.showingInfoWindow}
                         onClose={this.onClose}
                     >
-                        <div>
-                            <h4>{this.state.selectedPlace.name}</h4>
-                        </div>
                     </InfoWindow>
                 </Map>
             </div>
+                <div>
+                <ExampleData 
+                location={this.state.selectedPlace} />
+                </div>
+</div>
         );
     }
 }
