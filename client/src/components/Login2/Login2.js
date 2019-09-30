@@ -7,7 +7,12 @@ const styles = {
     maxWidth: {
         maxWidth: 400,
         marginTop:50
-    }
+    },
+    backgroundImage: {
+        backgroundImage: "url('../../../images/noSpots.jpg')",
+        height: "100vh",
+        // backgroundRepeat: "initial"
+    },
 }
 
 class Login extends Component {
@@ -48,7 +53,7 @@ class Login extends Component {
             // if successful credentials
             if (json.success) {
                 // set local storage
-                setInStorage('park_p2p', { token: json.token });
+                setInStorage('park_p2p', { token: json.token[0] });
                 console.log(json.token)
                 // clear states and display message
                 this.setState({
@@ -129,9 +134,9 @@ class Login extends Component {
         }
         if (!token) {
             return (
-                <div className="container-fluid" >
+                <div className="container-fluid  pb-5 pt-5" style={styles.backgroundImage}>
                     <div className="row justify-content-center">
-                        <div style={styles.maxWidth} className="border border-dark rounded pt-2 pr-4 pb-2 pl-4">
+                        <div style={styles.maxWidth} className="border border-dark rounded pt-2 pr-4 pb-2 pl-4 bg-light">
                             <form className="form-signin" method="post" action="/api/account/signin">
                                 <div className="text-center mb-4">
                                     <h1>PARK P2P</h1>
@@ -143,7 +148,7 @@ class Login extends Component {
                                         ) : (null)
                                     }
 
-                                <div className="form-label-group mb-2">
+                                <div className="form-label-group mb-3">
                                     <input
                                         type="email"
                                         id="inputEmail"
@@ -157,7 +162,7 @@ class Login extends Component {
                                     />
                                 </div>
 
-                                <div className="form-label-group mb-2">
+                                <div className="form-label-group mb-3">
                                     <input
                                         type="password"
                                         id="inputPassword"
@@ -173,7 +178,10 @@ class Login extends Component {
                                 <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={this.onSignIn}>
                                     Login
                                 </button>
-                                <p className="mt-5 mb-3 text-muted text-center">&copy; 2019 PARK P2P</p>
+                                <div className="text-center mt-5 mb-3">
+                                    <a href="/register">Account Register</a>
+                                    <p className="text-muted">&copy; 2019 PARK P2P</p>
+                                </div>
                             </form>
                         </div>
                     </div>
