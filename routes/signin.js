@@ -2,6 +2,7 @@ const connection = require("./connection");
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
+const store = require('store')
 
 module.exports = router;
 
@@ -9,15 +10,19 @@ const generateHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
-function validPassword(password, databasePass) {
-    return bcrypt.compareSync(password, databasePass);
-};
+// function validPassword(password, databasePass) {
+//     return bcrypt.compareSync(password, databasePass);
+// };
 
-// function validPassword(password) {
-//     return bcrypt.compareSync(password, this.password)
-// }
+function validPassword(password) {
+    return bcrypt.compareSync(password, this.password)
+}
 //===========================================================================
 
+/* SIGN UP TODO:
+    Duplicate email addresses crashes
+*/
+//===========================================================================
 router.post('/api/account/signup', (req, res, next) => {
     const { body } = req;
     const { inputPassword } = body;
@@ -38,6 +43,18 @@ router.post('/api/account/signup', (req, res, next) => {
     inputEmail = inputEmail.toLowerCase();
     inputEmail = inputEmail.trim();
 
+    // const query1 = " SELECT Email FROM driveways;"
+    // connection.query(query1, (err, data) => {
+    //     const mappedArray = data.map(x => x === inputEmail)
+    //     console.log(mappedArray)
+    //     if (mappedArray === inputEmail) {
+    //         return res.send({
+    //             success: false,
+    //             message: 'Error: username already exists.'
+    //         });
+    //     }
+    // })
+
 
    
         const query = "INSERT INTO driveways(Email, Pass) VALUES(?, ?);";
@@ -50,12 +67,17 @@ router.post('/api/account/signup', (req, res, next) => {
             } else {
                 console.log(result)
                 res.json({ msg: "congrats" })
+                
             };
         });
 })
 
 //===========================================================================
 
+/* SIGN IN TODO:
+    verify password is correct
+*/
+//===========================================================================
 router.post('/api/account/signin', (req, res, next) => {
     const { body } = req;
     const { inputPassword } = body;
@@ -96,7 +118,7 @@ router.post('/api/account/signin', (req, res, next) => {
             });
         }
         // const user = users[0];
-        // if (!user.validPassword(inputPassword, user.Pass)) {
+        // if (!user.validPassword(inputPassword)) {
         //     return res.send({
         //         success: false,
         //         message: 'Error: Invalid'
@@ -106,7 +128,7 @@ router.post('/api/account/signin', (req, res, next) => {
         // create session
         const query2 = "INSERT INTO UserSessions(_id) VALUES (?);";
         const input2 = [ID];
-        connection.query(query2, input2, (err, doc) => {
+        connection.query(query2, input2, (err, __) => {
             if (err) {
                 console.log(err);
                 return res.send({
@@ -114,7 +136,7 @@ router.post('/api/account/signin', (req, res, next) => {
                     message: 'Error: server error'
                 });
             }
-            console.log("returned", doc._id)
+            // console.log("returned", doc._id)
             return res.send({
                 success: true,
                 message: 'Valid sign in',
@@ -124,6 +146,9 @@ router.post('/api/account/signin', (req, res, next) => {
         });
     });
 });
+
+//===========================================================================
+// Verify session is on the database
 
 router.get('/api/account/verify', (req, res, next) => {
     // Get the token
@@ -156,27 +181,33 @@ router.get('/api/account/verify', (req, res, next) => {
     })
 });
 
-router.delete('/api/account/logout', (req, res, next) => {
+//===========================================================================
+// log user out of local session and session on database
+
+router.delete('/api/account/logout/:token', (req, res, next) => {
     // Get the token
     const { query } = req;
     const { token } = query;
+    const input = [req.params.token]
     // ?token=test
     // Verify the token is one of a kind and it's not deleted.
     // localStorage.removeItem('park_p2p')
     const query4 = 'DELETE FROM usersessions WHERE _id = ?;'
-    const input4 = [token[0]];
-    connection.query(query4, input4, (err, sessions) => {
+    const input4 = [token];
+    connection.query(query4, input, (err, sessions) => {
         if (err) {
             console.log(err);
             return res.send({
                 success: false,
-                message: 'Error: Server error'
+                message: 'Error: Server error',
+                token: token
             });
         }
-           
+        store.remove('park_p2p')
         return res.send({
             success: true,
-            message: 'Session Deleted'
+            message: 'Session Deleted',
+            console: token
         });
     })
 });

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 
-const styles = {
-    shadow: {
-        boxShadow: "4px 4px 4px #9E9E9E"
-    },
-    zIndex: {
-        zIndex: 0
-    }
-}
+// const styles = {
+//     shadow: {
+//         boxShadow: "4px 4px 4px #9E9E9E"
+//     },
+//     zIndex: {
+//         zIndex: 0
+//     }
+// }
 
-const mapStyles = {
-    width: '100%',
-    height: '40%'
-};
+// const mapStyles = {
+//     width: '100%',
+//     height: '40%'
+// };
 
 class MapContainer extends Component {
     constructor(props) {

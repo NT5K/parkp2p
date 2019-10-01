@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import Container from './../components/Container/Container';
-import GoogleMap from './../components/GoogleMap/GoogleMap';
-import NavBar from './../components/NavBar/NavBar';
-import ExampleData from './../components/ExampleData/ExampleData';
+import GoogleMap from '../components/GoogleMap';
+import NavBar from './../components/NavBar';
+import ExampleData from '../components/ExampleData';
 
 
 class Main extends Component {

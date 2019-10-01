@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../../utils/storage'
+import { getFromStorage } from '../utils/storage'
 import { Redirect } from 'react-router-dom'
+
 
 const styles = {
     maxWidth: {
         maxWidth: 400,
         marginTop: 50
-    }
+    },
+    backgroundImage: {
+        backgroundImage: "url('../../images/noSpots.jpg')",
+        height: "100vh",
+        // backgroundRepeat: "initial"
+    },
+
 }
 
 class Home extends Component {
@@ -15,7 +22,7 @@ class Home extends Component {
         super(props);
 
         this.state = {
-            isLoading: true,
+            isLoading: false,
             token: '',
             signUpError: '',
             signUpEmail: '',
@@ -41,19 +48,22 @@ class Home extends Component {
                 inputEmail: signUpEmail,
                 inputPassword: signUpPassword,
             }),
+        // json response
         }).then(res => res.json())
+            // if json.success, set signUpError to json.msg which is "congrats"
             .then(json => {
                 console.log('json', json);
                 if (json.success) {
                     this.setState({
-                        signUpError: json.message,
+                        signUpError: json.msg,
                         isLoading: false,
                         signUpEmail: '',
                         signUpPassword: '',
                     });
+                // TODO: set msg here maybe will fix duplicate email
                 } else {
                     this.setState({
-                        signUpError: json.message,
+                        signUpError: json.msg,
                         isLoading: false,
                     });
                 }
@@ -72,7 +82,7 @@ class Home extends Component {
         });
     }
 
-    componentDidMount() {
+    UNSAFE_componentDidMount() {
         const token = getFromStorage('park_p2p')
         if (token) {
             fetch('/api/account/verify?token=' + token)
@@ -108,13 +118,11 @@ class Home extends Component {
         const {
             isLoading,
             token,
-            signInError,
-            signInEmail,
-            signInPassword,
             signUpEmail,
             signUpPassword,
             signUpError,
         } = this.state;
+        console.log(signUpError)
         if (isLoading) {
             return (
                 <div>
@@ -122,12 +130,19 @@ class Home extends Component {
                 </div>
             );
         }
+        if (signUpError === "congrats")
+        return (
+                <div>
+                    <Redirect to='/login' />
+                </div>
+            )
+
         if (!token) {
             return (
-                <div className="container-fluid" >
-                    <div>{this.state.posts}</div>
+                <div className="container-fluid pb-5 pt-5" style={styles.backgroundImage}>
+                  
                     <div className="row justify-content-center">
-                        <div style={styles.maxWidth} className="border border-dark rounded pt-2 pr-4 pb-2 pl-4">
+                        <div style={styles.maxWidth} className="border border-dark rounded pt-2 pr-4 pb-2 pl-4 bg-white">
                             <form className="form-signup" method="post" action="/api/account/signup">
                                 <div className="text-center mb-4">
                                     <h1>PARK P2P</h1>
@@ -138,7 +153,7 @@ class Home extends Component {
                                             <p>{signUpError}</p>
                                         ) : (null)
                                     }
-                                <div className="form-label-group mb-2">
+                                <div className="form-label-group mb-3">
                                     <input 
                                     type="email" 
                                     id="inputEmail" 
@@ -151,7 +166,7 @@ class Home extends Component {
                                     autoFocus />
                                 </div>
 
-                                <div className="form-label-group mb-2">
+                                <div className="form-label-group mb-3">
                                     <input 
                                     type="password" 
                                     id="inputPassword" 
@@ -166,7 +181,10 @@ class Home extends Component {
                                 <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={this.onSignUp}>
                                     Create Account
                                 </button>
-                                <p className="mt-5 mb-3 text-muted text-center">&copy; 2019 PARK P2P</p>
+                                <div className="text-center mt-5 mb-3">
+                                    <a href="/login">Account Login</a>
+                                    <p className="text-muted">&copy; 2019 PARK P2P</p>
+                                </div>
                             </form>
                         </div>
                     </div>
