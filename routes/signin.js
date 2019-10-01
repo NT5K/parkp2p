@@ -10,15 +10,19 @@ const generateHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
-function validPassword(password, databasePass) {
-    return bcrypt.compareSync(password, databasePass);
-};
+// function validPassword(password, databasePass) {
+//     return bcrypt.compareSync(password, databasePass);
+// };
 
-// function validPassword(password) {
-//     return bcrypt.compareSync(password, this.password)
-// }
+function validPassword(password) {
+    return bcrypt.compareSync(password, this.password)
+}
 //===========================================================================
 
+/* SIGN UP TODO:
+    Duplicate email addresses crashes
+*/
+//===========================================================================
 router.post('/api/account/signup', (req, res, next) => {
     const { body } = req;
     const { inputPassword } = body;
@@ -39,6 +43,18 @@ router.post('/api/account/signup', (req, res, next) => {
     inputEmail = inputEmail.toLowerCase();
     inputEmail = inputEmail.trim();
 
+    // const query1 = " SELECT Email FROM driveways;"
+    // connection.query(query1, (err, data) => {
+    //     const mappedArray = data.map(x => x === inputEmail)
+    //     console.log(mappedArray)
+    //     if (mappedArray === inputEmail) {
+    //         return res.send({
+    //             success: false,
+    //             message: 'Error: username already exists.'
+    //         });
+    //     }
+    // })
+
 
    
         const query = "INSERT INTO driveways(Email, Pass) VALUES(?, ?);";
@@ -58,6 +74,10 @@ router.post('/api/account/signup', (req, res, next) => {
 
 //===========================================================================
 
+/* SIGN IN TODO:
+    verify password is correct
+*/
+//===========================================================================
 router.post('/api/account/signin', (req, res, next) => {
     const { body } = req;
     const { inputPassword } = body;
@@ -98,7 +118,7 @@ router.post('/api/account/signin', (req, res, next) => {
             });
         }
         // const user = users[0];
-        // if (!user.validPassword(inputPassword, user.Pass)) {
+        // if (!user.validPassword(inputPassword)) {
         //     return res.send({
         //         success: false,
         //         message: 'Error: Invalid'
@@ -126,6 +146,9 @@ router.post('/api/account/signin', (req, res, next) => {
         });
     });
 });
+
+//===========================================================================
+// Verify session is on the database
 
 router.get('/api/account/verify', (req, res, next) => {
     // Get the token
@@ -158,11 +181,14 @@ router.get('/api/account/verify', (req, res, next) => {
     })
 });
 
+//===========================================================================
+// log user out of local session and session on database
+
 router.delete('/api/account/logout/:token', (req, res, next) => {
     // Get the token
     const { query } = req;
     const { token } = query;
-    const input = req.params.token
+    const input = [req.params.token]
     // ?token=test
     // Verify the token is one of a kind and it's not deleted.
     // localStorage.removeItem('park_p2p')

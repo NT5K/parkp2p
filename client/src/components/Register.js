@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../../utils/storage'
+import { getFromStorage } from '../utils/storage'
 import { Redirect } from 'react-router-dom'
 
 
@@ -10,7 +10,7 @@ const styles = {
         marginTop: 50
     },
     backgroundImage: {
-        backgroundImage: "url('../../../images/noSpots.jpg')",
+        backgroundImage: "url('../../images/noSpots.jpg')",
         height: "100vh",
         // backgroundRepeat: "initial"
     },
@@ -22,7 +22,7 @@ class Home extends Component {
         super(props);
 
         this.state = {
-            isLoading: true,
+            isLoading: false,
             token: '',
             signUpError: '',
             signUpEmail: '',
@@ -48,7 +48,9 @@ class Home extends Component {
                 inputEmail: signUpEmail,
                 inputPassword: signUpPassword,
             }),
+        // json response
         }).then(res => res.json())
+            // if json.success, set signUpError to json.msg which is "congrats"
             .then(json => {
                 console.log('json', json);
                 if (json.success) {
@@ -58,7 +60,7 @@ class Home extends Component {
                         signUpEmail: '',
                         signUpPassword: '',
                     });
-                    // window.location.href = "/login";
+                // TODO: set msg here maybe will fix duplicate email
                 } else {
                     this.setState({
                         signUpError: json.msg,
@@ -80,7 +82,7 @@ class Home extends Component {
         });
     }
 
-    componentDidMount() {
+    UNSAFE_componentDidMount() {
         const token = getFromStorage('park_p2p')
         if (token) {
             fetch('/api/account/verify?token=' + token)

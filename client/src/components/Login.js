@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../../utils/storage'
+import { getFromStorage, setInStorage } from '../utils/storage'
 import { Redirect } from 'react-router-dom'
     
 const styles = {
@@ -9,7 +9,7 @@ const styles = {
         marginTop:50
     },
     backgroundImage: {
-        backgroundImage: "url('../../../images/noSpots.jpg')",
+        backgroundImage: "url('../../images/noSpots.jpg')",
         height: "100vh",
         // backgroundRepeat: "initial"
     },
@@ -20,7 +20,7 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            isLoading: true,
+            isLoading: false,
             token: '',
             signInError: '',
             signInEmail: '',
@@ -86,7 +86,7 @@ class Login extends Component {
     }
 
     // check if token is valid on the database
-    componentDidMount() {
+    UNSAFE_componentDidMount() {
         const token = getFromStorage('park_p2p')
         if (token) {
             fetch('/api/account/verify?token=' + token)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './ExampleData.css';
 import store from 'store'
+import 'whatwg-fetch';
+
 import { Redirect } from 'react-router-dom'
 
 // get token value from local storage
@@ -33,6 +34,14 @@ class Customers extends Component {
   }
 
   render() {
+    const { token } = this.state
+    if (!token) {
+      return (
+        <div>
+          <Redirect to='/login' />
+        </div>
+      )
+    }
     return (
       <div>
         <h2>Example Data From Database {this.state.token}</h2>
