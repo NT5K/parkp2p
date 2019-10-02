@@ -50,6 +50,8 @@ class Customers extends Component {
             <li key={customer.ID}>{customer.Email} {customer.Password} {this.state.token}</li>
           )}
         </ul>
+        {this.props.location && <p>{this.props.location.name}</p>}
+        {/* {this.props.location && <StreetView location={this.props.location.position}></StreetView>} */}
       </div>
     );
   }

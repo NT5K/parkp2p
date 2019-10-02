@@ -10,7 +10,6 @@ class Main extends Component {
             <div>
                 <NavBar />
                 <GoogleMap />
-                <ExampleData />
             </div>
         );
     }
