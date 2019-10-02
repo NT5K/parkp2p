@@ -56,8 +56,8 @@ router.post('/api/account/signup', (req, res, next) => {
     // })
 
 
-   
-        const query = "INSERT INTO driveways(Email, Pass) VALUES(?, ?);";
+    
+    const query = "INSERT INTO users (Email, Pass, First_Name, Last_Name, Phone_Number, Address, Address_Extra, City, State, Zip, Longitude, Latitude, Spots, Active_State, Hourly, Daily, Weekly, Monthly, Overnight, Balance) VALUES (?, ?, null, null, null, null, null, null, null, null, null, null, null, false, null, null, null, null, null, null);";
         const input = [inputEmail, generateHash(inputPassword)];
         // console.log(body)
         connection.query(query, input, (err, result) => {
@@ -98,7 +98,7 @@ router.post('/api/account/signin', (req, res, next) => {
     inputEmail = inputEmail.trim();
 
     // const query = "SELECT Email, Pass FROM driveways;";
-    const query = "SELECT * FROM driveways WHERE Email = ?;";
+    const query = "SELECT * FROM users WHERE Email = ?;";
     const input = [inputEmail];
     // console.log(body)
     connection.query(query, input, (err, users) => {
