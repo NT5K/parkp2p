@@ -99,7 +99,7 @@ export default GoogleApiWrapper({
 })(MapContainer);
 
 // class MapContainer extends Component {
-   
+
 
     // state = {
     //     showingInfoWindow: false,  //Hides or the shows the infoWindow

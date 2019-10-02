@@ -13,7 +13,7 @@ class Customers extends Component {
       token: ''
     };
   }
-  
+
   // if token in local storage, set token state to token value
   componentWillMount() {
     localStorage.getItem('park_p2p') && this.setState({
@@ -46,9 +46,9 @@ class Customers extends Component {
       <div>
         <h2>Example Data From Database {this.state.token}</h2>
         <ul>
-        {this.state.customers.map(customer => 
-          <li key={customer.ID}>{customer.Email} {customer.Password} {this.state.token}</li>
-        )}
+          {this.state.customers.map(customer =>
+            <li key={customer.ID}>{customer.Email} {customer.Password} {this.state.token}</li>
+          )}
         </ul>
         {this.props.location && <p>{this.props.location.name}</p>}
         {/* {this.props.location && <StreetView location={this.props.location.position}></StreetView>} */}
