@@ -55,7 +55,7 @@ class Home extends Component {
                 console.log('json', json);
                 if (json.success) {
                     this.setState({
-                        signUpError: json.msg,
+                        signUpError: json.message,
                         isLoading: false,
                         signUpEmail: '',
                         signUpPassword: '',
@@ -63,7 +63,7 @@ class Home extends Component {
                     // TODO: set msg here maybe will fix duplicate email
                 } else {
                     this.setState({
-                        signUpError: json.msg,
+                        signUpError: json.message,
                         isLoading: false,
                     });
                 }
