@@ -1,3 +1,4 @@
+
 const connection = require("./connection");
 const express = require('express');
 const router = express.Router();
@@ -10,11 +11,9 @@ const saltRounds = JSON.parse(process.env.SALT_ROUNDS);
 module.exports = router;
 
 //===========================================================================
-
-/* SIGN UP TODO:
-    Duplicate email addresses crashes
-*/
+    // Sign-up user
 //===========================================================================
+
 router.post('/api/account/signup', (req, res, next) => {
     const { body } = req;
     const { inputPassword } = body;
@@ -23,78 +22,75 @@ router.post('/api/account/signup', (req, res, next) => {
     if (!inputEmail) {
         return res.send({
             success: false,
-            message: 'Error: Email cannot be blank.'
+            message: 'Email cannot be blank.'
         });
     }
     if (!inputPassword) {
         return res.send({
             success: false,
-            message: 'Error: Password cannot be blank.'
+            message: 'Password cannot be blank.'
         });
     }
-    inputEmail = inputEmail.toLowerCase();
-    inputEmail = inputEmail.trim();
+    
+    // email lowercase and trim
+    inputEmail = inputEmail.toLowerCase().trim();
     
     // generate hashed password
     const hashedPass = bcrypt.hashSync(inputPassword, saltRounds);
-    //     // Store hash in your password DB.
+
+    // query's for database
     const query = "INSERT INTO users (Email, Pass, First_Name, Last_Name, Phone_Number, Address, Address_Extra, City, State, Zip, Longitude, Latitude, Car_Make, Car_Model, Spots, Active_State, Hourly, Daily, Weekly, Monthly, Overnight, Balance) VALUES (?, ?, null, null, null, null, null, null, null, null, null, null, null, null, null, false, null, null, null, null, null, null);";
-        const input = [inputEmail, hashedPass];
-        // console.log(body)
+    const input = [inputEmail, hashedPass];
+
     connection.query(query, input, (err, result) => {
         if (err) {
-            console.log(err);
-            return res.status(500).send('Failed to register user')
+        return res.send({
+            success: false,
+            message: 'Invalid email address'
+        });
         } else {
             console.log(result)
-            res.json({ msg: "congrats" })
+            res.json({ message: "congrats" })
             
         };
     });
 })
 
 //===========================================================================
-   // Sign-in user
+   // Sign-in user              TODO: duplicate emails break page
 //===========================================================================
 
 router.post('/api/account/signin', (req, res, next) => {
     const { body } = req;
     const { inputPassword } = body;
     let { inputEmail } = body;
+
     if (!inputEmail) {
         return res.send({
             success: false,
-            message: 'Error: Email cannot be blank.'
+            message: 'Email cannot be blank.'
         });
     }
     if (!inputPassword) {
         return res.send({
             success: false,
-            message: 'Error: Password cannot be blank.'
+            message: 'Password cannot be blank.'
         });
     }
-    inputEmail = inputEmail.toLowerCase();
-    inputEmail = inputEmail.trim();
 
-    // const query = "SELECT Email, Pass FROM driveways;";
+    // email lowercase and trim
+    inputEmail = inputEmail.toLowerCase().trim();
+
+    // query's for database
     const query = "SELECT * FROM users WHERE Email = ?;";
     const input = [inputEmail];
-    // console.log(body)
+
     connection.query(query, input, (err, users) => {
-        const { Pass } = users[0]
-        console.log("users pass on database hashed", Pass)
-        // bcrypt.compare(inputPassword, users[0].Pass, function(err, res) {
-        //  console.log("hashed password decrypted true false", res)
-        // });
-        // var hashedPass = bcrypt.hashSync(inputPassword, saltRounds);
-        // const decryptedPassLive = bcrypt.compareSync(inputPassword, hashedPass)
-        // console.log("plain text pass", inputPassword)
-        // console.log("encrypted incoming password", hashedPass)
-        // console.log("live check of hashed pass :", decryptedPassLive)
+        const { Pass, ID, Email } = users[0]
         const decryptedPass = bcrypt.compareSync(inputPassword, Pass)
         console.log("decrypted pass true or false: ", decryptedPass)
-        const { ID } = users[0]
-        console.log(users[0].ID)
+        console.log(ID)
+        // if input password does not match database
         if (!decryptedPass) {
             return res.send({
                 success: false,
@@ -114,16 +110,11 @@ router.post('/api/account/signin', (req, res, next) => {
                 message: 'Error: Invalid User'
             });
         }
-        // const user = users[0];
-        // if (!user.validPassword(inputPassword)) {
-        //     return res.send({
-        //         success: false,
-        //         message: 'Error: Invalid'
-        //     });
-        // }
 
-        // create session
+        // create session on database
         const query2 = "INSERT INTO UserSessions(_id) VALUES (?);";
+        // const hashedEmail = bcrypt.hashSync(Email, saltRounds);
+        // const input2 = [JSON.stringify(hashedEmail)];
         const input2 = [ID];
         connection.query(query2, input2, (err, __) => {
             if (err) {
@@ -133,7 +124,6 @@ router.post('/api/account/signin', (req, res, next) => {
                     message: 'Error: server error'
                 });
             }
-            // console.log("returned", doc._id)
             return res.send({
                 success: true,
                 message: 'Valid sign in',
