@@ -1,22 +1,14 @@
 const connection = require("./connection");
 const express = require('express');
-const bcrypt = require('bcrypt');
 const router = express.Router();
 const store = require('store')
+require('dotenv').config()
+
+const bcrypt = require('bcrypt');
+const saltRounds = JSON.parse(process.env.SALT_ROUNDS);
 
 module.exports = router;
 
-const generateHash = (password) => {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-}
-
-// function validPassword(password, databasePass) {
-//     return bcrypt.compareSync(password, databasePass);
-// };
-
-function validPassword(password) {
-    return bcrypt.compareSync(password, this.password)
-}
 //===========================================================================
 
 /* SIGN UP TODO:
@@ -42,40 +34,29 @@ router.post('/api/account/signup', (req, res, next) => {
     }
     inputEmail = inputEmail.toLowerCase();
     inputEmail = inputEmail.trim();
-
-    // const query1 = " SELECT Email FROM driveways;"
-    // connection.query(query1, (err, data) => {
-    //     const mappedArray = data.map(x => x === inputEmail)
-    //     console.log(mappedArray)
-    //     if (mappedArray === inputEmail) {
-    //         return res.send({
-    //             success: false,
-    //             message: 'Error: username already exists.'
-    //         });
-    //     }
-    // })
-
+    
+    // generate hashed password
+    const hashedPass = bcrypt.hashSync(inputPassword, saltRounds);
+    //     // Store hash in your password DB.
     const query = "INSERT INTO users (Email, Pass, First_Name, Last_Name, Phone_Number, Address, Address_Extra, City, State, Zip, Longitude, Latitude, Car_Make, Car_Model, Spots, Active_State, Hourly, Daily, Weekly, Monthly, Overnight, Balance) VALUES (?, ?, null, null, null, null, null, null, null, null, null, null, null, null, null, false, null, null, null, null, null, null);";
-        const input = [inputEmail, generateHash(inputPassword)];
+        const input = [inputEmail, hashedPass];
         // console.log(body)
-        connection.query(query, input, (err, result) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).send('Failed to register user')
-            } else {
-                console.log(result)
-                res.json({ msg: "congrats" })
-                
-            };
-        });
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Failed to register user')
+        } else {
+            console.log(result)
+            res.json({ msg: "congrats" })
+            
+        };
+    });
 })
 
 //===========================================================================
-
-/* SIGN IN TODO:
-    verify password is correct
-*/
+   // Sign-in user
 //===========================================================================
+
 router.post('/api/account/signin', (req, res, next) => {
     const { body } = req;
     const { inputPassword } = body;
@@ -100,8 +81,26 @@ router.post('/api/account/signin', (req, res, next) => {
     const input = [inputEmail];
     // console.log(body)
     connection.query(query, input, (err, users) => {
+        const { Pass } = users[0]
+        console.log("users pass on database hashed", Pass)
+        // bcrypt.compare(inputPassword, users[0].Pass, function(err, res) {
+        //  console.log("hashed password decrypted true false", res)
+        // });
+        // var hashedPass = bcrypt.hashSync(inputPassword, saltRounds);
+        // const decryptedPassLive = bcrypt.compareSync(inputPassword, hashedPass)
+        // console.log("plain text pass", inputPassword)
+        // console.log("encrypted incoming password", hashedPass)
+        // console.log("live check of hashed pass :", decryptedPassLive)
+        const decryptedPass = bcrypt.compareSync(inputPassword, Pass)
+        console.log("decrypted pass true or false: ", decryptedPass)
         const { ID } = users[0]
         console.log(users[0].ID)
+        if (!decryptedPass) {
+            return res.send({
+                success: false,
+                message: 'Incorrect email or password'
+            });
+        }
         if (err) {
             console.log('err 2:', err);
             return res.send({
@@ -147,6 +146,7 @@ router.post('/api/account/signin', (req, res, next) => {
 
 //===========================================================================
 // Verify session is on the database
+//===========================================================================
 
 router.get('/api/account/verify', (req, res, next) => {
     // Get the token
@@ -181,6 +181,7 @@ router.get('/api/account/verify', (req, res, next) => {
 
 //===========================================================================
 // log user out of local session and session on database
+//===========================================================================
 
 router.delete('/api/account/logout/:token', (req, res, next) => {
     // Get the token
