@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
-import ExampleData from '../ExampleData/ExampleData';
+import ExampleData from './ExampleData';
 
 // const styles = {
 //     shadow: {
