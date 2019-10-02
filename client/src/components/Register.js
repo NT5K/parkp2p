@@ -48,7 +48,7 @@ class Home extends Component {
                 inputEmail: signUpEmail,
                 inputPassword: signUpPassword,
             }),
-        // json response
+            // json response
         }).then(res => res.json())
             // if json.success, set signUpError to json.msg which is "congrats"
             .then(json => {
@@ -60,7 +60,7 @@ class Home extends Component {
                         signUpEmail: '',
                         signUpPassword: '',
                     });
-                // TODO: set msg here maybe will fix duplicate email
+                    // TODO: set msg here maybe will fix duplicate email
                 } else {
                     this.setState({
                         signUpError: json.msg,
@@ -131,7 +131,7 @@ class Home extends Component {
             );
         }
         if (signUpError === "congrats")
-        return (
+            return (
                 <div>
                     <Redirect to='/login' />
                 </div>
@@ -140,7 +140,7 @@ class Home extends Component {
         if (!token) {
             return (
                 <div className="container-fluid pb-5 pt-5" style={styles.backgroundImage}>
-                  
+
                     <div className="row justify-content-center">
                         <div style={styles.maxWidth} className="border border-dark rounded pt-2 pr-4 pb-2 pl-4 bg-white">
                             <form className="form-signup" method="post" action="/api/account/signup">
@@ -148,34 +148,34 @@ class Home extends Component {
                                     <h1>PARK P2P</h1>
                                     <h4>REGISTER</h4>
                                 </div>
-                                    {
-                                        (signUpError) ? (
-                                            <p>{signUpError}</p>
-                                        ) : (null)
-                                    }
+                                {
+                                    (signUpError) ? (
+                                        <p>{signUpError}</p>
+                                    ) : (null)
+                                }
                                 <div className="form-label-group mb-3">
-                                    <input 
-                                    type="email" 
-                                    id="inputEmail" 
-                                    name="inputEmail" 
-                                    value={signUpEmail}
-                                    onChange={this.onTextboxChangeSignUpEmail}
-                                    className="form-control" 
-                                    placeholder="Email address" 
-                                    required 
-                                    autoFocus />
+                                    <input
+                                        type="email"
+                                        id="inputEmail"
+                                        name="inputEmail"
+                                        value={signUpEmail}
+                                        onChange={this.onTextboxChangeSignUpEmail}
+                                        className="form-control"
+                                        placeholder="Email address"
+                                        required
+                                        autoFocus />
                                 </div>
 
                                 <div className="form-label-group mb-3">
-                                    <input 
-                                    type="password" 
-                                    id="inputPassword" 
-                                    name="inputPassword" 
-                                    value={signUpPassword}
-                                    onChange={this.onTextboxChangeSignUpPassword}
-                                    className="form-control" 
-                                    placeholder="Password" 
-                                    required />
+                                    <input
+                                        type="password"
+                                        id="inputPassword"
+                                        name="inputPassword"
+                                        value={signUpPassword}
+                                        onChange={this.onTextboxChangeSignUpPassword}
+                                        className="form-control"
+                                        placeholder="Password"
+                                        required />
                                 </div>
 
                                 <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={this.onSignUp}>

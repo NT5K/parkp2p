@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../utils/storage'
 import { Redirect } from 'react-router-dom'
-    
+
 const styles = {
     maxWidth: {
         maxWidth: 400,
-        marginTop:50
+        marginTop: 50
     },
     backgroundImage: {
         backgroundImage: "url('../../images/noSpots.jpg')",
@@ -48,29 +48,29 @@ class Login extends Component {
                 inputPassword: signInPassword,
             }),
         }).then(res => res.json())
-        .then(json => {
-            console.log('json', json);
-            // if successful credentials
-            if (json.success) {
-                // set local storage
-                setInStorage('park_p2p', { token: json.token[0] });
-                console.log(json.token)
-                // clear states and display message
-                this.setState({
-                    signInError: json.message,
-                    isLoading: false,
-                    signInPassword: '',
-                    signInEmail: '',
-                    token: json.token,
-                });
-            // display error message, loading state false
-            } else {
-                this.setState({
-                    signInError: json.message,
-                    isLoading: false,
-                });
-            }
-        });
+            .then(json => {
+                console.log('json', json);
+                // if successful credentials
+                if (json.success) {
+                    // set local storage
+                    setInStorage('park_p2p', { token: json.token[0] });
+                    console.log(json.token)
+                    // clear states and display message
+                    this.setState({
+                        signInError: json.message,
+                        isLoading: false,
+                        signInPassword: '',
+                        signInEmail: '',
+                        token: json.token,
+                    });
+                    // display error message, loading state false
+                } else {
+                    this.setState({
+                        signInError: json.message,
+                        isLoading: false,
+                    });
+                }
+            });
     }
 
     // set states for email and password
@@ -142,11 +142,11 @@ class Login extends Component {
                                     <h1>PARK P2P</h1>
                                     <h4>LOGIN</h4>
                                 </div>
-                                    {
-                                        (signInError) ? (
-                                            <p>{signInError}</p>
-                                        ) : (null)
-                                    }
+                                {
+                                    (signInError) ? (
+                                        <p>{signInError}</p>
+                                    ) : (null)
+                                }
 
                                 <div className="form-label-group mb-3">
                                     <input

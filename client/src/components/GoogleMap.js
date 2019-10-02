@@ -27,7 +27,7 @@ class MapContainer extends Component {
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
-            selectedPlace: {} 
+            selectedPlace: {}
         };
     }
 
@@ -92,7 +92,7 @@ export default GoogleApiWrapper({
 })(MapContainer);
 
 // class MapContainer extends Component {
-   
+
 
     // state = {
     //     showingInfoWindow: false,  //Hides or the shows the infoWindow
