@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
+import Register from '../components/Register'
 
-import Register from './../components/Register/Register'
-import RegisterTwo from './../components/Register2/Register2'
-import LoginNav from './../components/LoginNav/LoginNav'
+const styles = {
+    backgroundImage: {
+        backgroundImage: "url('../images/noSpots.jpg')",
+        height: "100vh",
+        backgroundRepeat: "initial"
+    },
+
+}
 
 class RegisterPage extends Component {
-   
     render() {
         return (
-            <div>
-                <LoginNav/>
-                <RegisterTwo />
+            <div style={styles.backgroundImage}>
+             
+                <Register />
             </div>
         );
     }
