@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
+import Markers from './Markers'
 const styles = require('./GoogleMapStyles.json')
 
 // const styles = {
@@ -58,15 +59,29 @@ class MapContainer extends Component {
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
-            selectedPlace: {}
+            selectedPlace: {},
+            Address: '',
+            lat: 0,
+            lng: 0,
+            marker: []
         };
+        
         this.onMarkerClick = this.onMarkerClick.bind(this);
+        
+    }
+
+    componentDidMount() {
+    fetch('/api/NewUserSeeds')
+    .then(res => res.json())
+    .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
+    .catch(err => console.log(err));
     }
 
     onMarkerClick(locationString){
         console.log(locationString)
         this.setState({
             selectedPlace: locationString
+            
         })
     }
 
@@ -80,12 +95,13 @@ class MapContainer extends Component {
     };
 
     render() {
+        const { marker } = this.state
         return (
             <div>
              <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
                 <Map
                     google={this.props.google}
-                    zoom={15}
+                    zoom={12}
                     style={this.state.mapStyles}
                     initialCenter={{
                         lat: 41.4993,
@@ -95,21 +111,21 @@ class MapContainer extends Component {
                     fullscreenControl={false}
                     streetViewControl={false}
                     mapTypeControl={false}
-                    styles={styles}
-                   
-               >
-                    <Marker position={{ lat: 40, lng: -80 }} />
-                    <Marker
-                        onClick={this.onMarkerClick.bind(this)}
-                        name={"Downtown Cleveland"}
-                        position={{ lat: 41.4993,
-                            lng: -81.6944 }}
-                    />
-                    <Marker
-                        onClick={this.onMarkerClick.bind(this)}
-                        name={"Browns Stadium"}
-                        position={{ lat: 41.5061, lng: -81.6995 }}
-                    />
+                    // styles={styles}
+                    > 
+                    {marker.map(marker =>
+                        <Marker
+                            onClick={this.onMarkerClick}
+                            address={marker.Address}
+                            description={marker.Description}
+                            hourly={marker.Hourly}
+                            daily={marker.Daily}
+                            weekly={marker.Weekly}
+                            monthly={marker.Monthly}
+                            position={{ lat: marker.Latitude, lng: marker.Longitude }}
+                        />
+                        // <Marker key={marker.Address} name={marker.Address} lat={marker.Latitude} lng={marker.Longitude}/>
+                    )}
                     <InfoWindow
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}
@@ -120,7 +136,9 @@ class MapContainer extends Component {
             </div>
                 <div>
                 <ExampleData 
-                location={this.state.selectedPlace} />
+                location={this.state.selectedPlace} 
+
+                />
                 </div>
 </div>
         );
@@ -171,10 +189,10 @@ export default GoogleApiWrapper({
                     // streetViewControl={false}
                     // mapTypeControl={false}
 //                 >
-//                     <Marker
-//                         onClick={this.onMarkerClick}
-//                         name={"Downtown Cleveland"}
-//                     />
+                    // <Marker
+                    //     onClick={this.onMarkerClick}
+                    //     name={"Downtown Cleveland"}
+                    // />
 //                     <Marker
 //                         onClick={this.onMarkerClick}
 //                         name={"Browns Stadium"}

@@ -25,4 +25,19 @@ router.get('/api/customers', (req, res) => {
 
 //===========================================================================
 
-router.post('/api/account/')
+//=======================================querying the dummy data in sql=======
+router.get('/api/NewUserSeeds', (req, res) => {
+  const query = "SELECT * FROM NewUserSeeds;";
+
+  connection.query(query, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("Failed to retrieve Data")
+    } else {
+      return res.json(result);
+    };
+  });
+});
+
+
+//============================================================================
