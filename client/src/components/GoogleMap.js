@@ -71,7 +71,7 @@ class MapContainer extends Component {
     }
 
     componentDidMount() {
-    fetch('/api/NewUserSeeds')
+        fetch('/api/public/driveways')
     .then(res => res.json())
     .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
     .catch(err => console.log(err));

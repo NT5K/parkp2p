@@ -14,7 +14,9 @@ const styles = {
         height: "100vh",
         // backgroundRepeat: "initial"
     },
-
+    shadow: {
+        boxShadow: "1px 1px 1px black"
+    }
 }
 
 class Home extends Component {
@@ -142,7 +144,7 @@ class Home extends Component {
                 <div className="container-fluid pb-5 pt-5" style={styles.backgroundImage}>
 
                     <div className="row justify-content-center">
-                        <div style={styles.maxWidth} className="border border-dark rounded pt-2 pr-4 pb-2 pl-4 bg-white">
+                        <div style={{ ...styles.maxWidth, ...styles.shadow }} className="border border-dark rounded pt-2 pr-4 pb-2 pl-4 bg-white">
                             <form className="form-signup" method="post" action="/api/account/signup">
                                 <div className="text-center mb-4">
                                     <h1>PARK P2P</h1>
