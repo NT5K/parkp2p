@@ -1,4 +1,5 @@
 -- DROP TABLE users
+USE parkp2p;
 CREATE TABLE users
 (
 ID INT AUTO_INCREMENT NOT NULL,
