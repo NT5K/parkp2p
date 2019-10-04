@@ -33,7 +33,7 @@ class MapContainer extends Component {
             Address: '',
             lat: 0,
             lng: 0,
-            Marker: []
+            marker: []
         };
         
         this.onMarkerClick = this.onMarkerClick.bind(this);
@@ -43,7 +43,7 @@ class MapContainer extends Component {
     componentDidMount() {
     fetch('/api/NewUserSeeds')
     .then(res => res.json())
-    .then(position => this.setState({ Marker: position }, () => console.log(this.state.Marker)))
+    .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
     .catch(err => console.log(err));
     }
 
@@ -51,6 +51,7 @@ class MapContainer extends Component {
         console.log(locationString)
         this.setState({
             selectedPlace: locationString
+            
         })
     }
 
@@ -64,12 +65,13 @@ class MapContainer extends Component {
     };
 
     render() {
+        const { marker } = this.state
         return (
             <div>
              <div style={{ position: "relative", width: "100vw", height: "45vh" }} className="border border-dark">
                 <Map
                     google={this.props.google}
-                    zoom={15}
+                    zoom={12}
                     style={this.state.mapStyles}
                     initialCenter={{
                         lat: 41.4993,
@@ -78,10 +80,20 @@ class MapContainer extends Component {
                     fullscreenControl={false}
                     streetViewControl={false}
                     mapTypeControl={false}
-                >
-                    {this.state.Marker.map(Marker =>
-            <Markers onClick={this.onMarkerClick.bind(this)} name={Marker.Address} lat={Marker.Latitude} lng={Marker.Longitude}/>
-          )}
+                    > 
+                    {marker.map(marker =>
+                        <Marker
+                            onClick={this.onMarkerClick}
+                            address={marker.Address}
+                            description={marker.Description}
+                            hourly={marker.Hourly}
+                            daily={marker.Daily}
+                            weekly={marker.Weekly}
+                            monthly={marker.Monthly}
+                            position={{ lat: marker.Latitude, lng: marker.Longitude }}
+                        />
+                        // <Marker key={marker.Address} name={marker.Address} lat={marker.Latitude} lng={marker.Longitude}/>
+                    )}
                     <InfoWindow
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}
@@ -92,7 +104,9 @@ class MapContainer extends Component {
             </div>
                 <div>
                 <ExampleData 
-                location={this.state.selectedPlace} />
+                location={this.state.selectedPlace} 
+
+                />
                 </div>
 </div>
         );
@@ -143,10 +157,10 @@ export default GoogleApiWrapper({
                     // streetViewControl={false}
                     // mapTypeControl={false}
 //                 >
-//                     <Marker
-//                         onClick={this.onMarkerClick}
-//                         name={"Downtown Cleveland"}
-//                     />
+                    // <Marker
+                    //     onClick={this.onMarkerClick}
+                    //     name={"Downtown Cleveland"}
+                    // />
 //                     <Marker
 //                         onClick={this.onMarkerClick}
 //                         name={"Browns Stadium"}
