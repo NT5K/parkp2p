@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
+import Markers from './Markers'
 
 // const styles = {
 //     shadow: {
@@ -28,9 +29,22 @@ class MapContainer extends Component {
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
-            selectedPlace: {}
+            selectedPlace: {},
+            Address: '',
+            lat: 0,
+            lng: 0,
+            Marker: []
         };
+        
         this.onMarkerClick = this.onMarkerClick.bind(this);
+        
+    }
+
+    componentDidMount() {
+    fetch('/api/NewUserSeeds')
+    .then(res => res.json())
+    .then(position => this.setState({ Marker: position }, () => console.log(this.state.Marker)))
+    .catch(err => console.log(err));
     }
 
     onMarkerClick(locationString){
@@ -65,18 +79,9 @@ class MapContainer extends Component {
                     streetViewControl={false}
                     mapTypeControl={false}
                 >
-                    <Marker position={{ lat: 40, lng: -80 }} />
-                    <Marker
-                        onClick={this.onMarkerClick.bind(this)}
-                        name={"Downtown Cleveland"}
-                        position={{ lat: 41.4993,
-                            lng: -81.6944 }}
-                    />
-                    <Marker
-                        onClick={this.onMarkerClick.bind(this)}
-                        name={"Browns Stadium"}
-                        position={{ lat: 41.5061, lng: -81.6995 }}
-                    />
+                    {this.state.Marker.map(Marker =>
+            <Markers onClick={this.onMarkerClick.bind(this)} name={Marker.Address} lat={Marker.Latitude} lng={Marker.Longitude}/>
+          )}
                     <InfoWindow
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}
