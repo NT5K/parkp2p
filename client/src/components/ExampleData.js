@@ -43,6 +43,7 @@ class Customers extends Component {
       )
     }
     return (
+      // <div className="bg-dark text-light h-100">
       <div>
         <div className="row">
           <div className="col-6 border-right">
@@ -69,9 +70,9 @@ class Customers extends Component {
           <div className="col-6">
             <p><u>Example Data</u></p>
             <p>Local Storage Token: {this.state.token}</p>
-            <p>Current users on old database:</p>
+            <p>Current users on database:</p>
             {this.state.customers.map(customer =>
-              <span key={customer.ID}>{customer.Email} {customer.Password} {this.state.token}</span>
+              <p key={customer.ID}>{customer.Email} {customer.Password}</p>
             )}
           </div>
 

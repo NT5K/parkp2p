@@ -9,12 +9,12 @@ module.exports = router;
 //===========================================================================
 
 router.get('/api/customers', (req, res) => {
-  const query = "Select * FROM driveways;";
+  const query = "Select * FROM users;";
 
   connection.query(query, (err, result) => {
     if (err) {
       console.log(err);
-      return res.status(500).send('Failed to get driveways')
+      return res.status(500).send('Failed to get users')
     } else {
       // console.log(result)
       return res.json(result);
@@ -24,10 +24,11 @@ router.get('/api/customers', (req, res) => {
 });
 
 //===========================================================================
-
+  // THIS SHOULD NOT BE ABLE TO PULL PERSONAL INFORMATION
+  // ALSO CHECK IF ACTIVE STATE IS TRUE OR FALSE
 //=======================================querying the dummy data in sql=======
-router.get('/api/NewUserSeeds', (req, res) => {
-  const query = "SELECT * FROM NewUserSeeds;";
+router.get('/api/public/driveways', (req, res) => {
+  const query = "SELECT * FROM users;";
 
   connection.query(query, (err, result) => {
     if(err) {
@@ -38,6 +39,5 @@ router.get('/api/NewUserSeeds', (req, res) => {
     };
   });
 });
-
 
 //============================================================================

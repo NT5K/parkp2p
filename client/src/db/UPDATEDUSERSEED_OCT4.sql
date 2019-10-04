@@ -1,6 +1,6 @@
     USE parkp2p;
-    -- DROP TABLE newuserseeds;
-    CREATE TABLE NewUserSeeds
+    -- DROP TABLE users;
+    CREATE TABLE users
     (
         ID INT AUTO_INCREMENT NOT NULL,
     -- LOGIN
@@ -42,7 +42,7 @@
 
         USE PARKP2P;
 
-        insert into NewUserSeeds
+        insert into users
             (Email, Pass, First_Name, Last_Name, Phone_Number, Address, City, State, Zip, Longitude, Latitude, Car_Make, Car_Model, Spots, Active_State, Hourly, Daily, Weekly, Monthly, Overnight, Balance, Description)
         values
             ('dpinnock0@apache.org', 'Po8wqpqF', 'Dominga', 'Pinnock', 2163211234, '1480 Felton Rd', 'South Euclid', 'OH', 44120, '-81.532300', '41.519640', 'Volkswagen', 'GLI', 2, true, 7.49, 3.41, 2.41, 8.49, 6.49, 843, "House"),

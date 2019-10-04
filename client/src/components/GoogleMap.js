@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
 import Markers from './Markers'
+const styles = require('./GoogleMapStyles.json')
 
 // const styles = {
 //     shadow: {
@@ -17,15 +18,44 @@ import Markers from './Markers'
 //     height: '40%'
 // };
 
+const exampleMapStyles = [
+    {
+        featureType: "poi",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#eeeeee",
+            },
+        ],
+    },
+    {
+        featureType: "poi",
+        elementType: "labels.text",
+        stylers: [
+            {
+                visibility: "off",
+            },
+        ],
+    },
+    {
+        featureType: "water",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#9e9e9e",
+            },
+        ],
+    },
+];
+
 class MapContainer extends Component {
     constructor(props) {
         super(props);
 
-
         this.state = {
             mapStyles: {
                 width: "100%",
-                height: "100%",
+                height: "100%"
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
@@ -41,7 +71,7 @@ class MapContainer extends Component {
     }
 
     componentDidMount() {
-    fetch('/api/NewUserSeeds')
+        fetch('/api/public/driveways')
     .then(res => res.json())
     .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
     .catch(err => console.log(err));
@@ -68,7 +98,7 @@ class MapContainer extends Component {
         const { marker } = this.state
         return (
             <div>
-             <div style={{ position: "relative", width: "100vw", height: "45vh" }} className="border border-dark">
+             <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
                 <Map
                     google={this.props.google}
                     zoom={12}
@@ -77,9 +107,11 @@ class MapContainer extends Component {
                         lat: 41.4993,
                         lng: -81.6944
                     }}
+                    
                     fullscreenControl={false}
                     streetViewControl={false}
                     mapTypeControl={false}
+                    // styles={styles}
                     > 
                     {marker.map(marker =>
                         <Marker
