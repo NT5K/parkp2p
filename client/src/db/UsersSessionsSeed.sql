@@ -13,6 +13,6 @@ CREATE TABLE UserSessions
 	PRIMARY KEY(userId)
 );
 
-    USE PARKP2P;
-    INSERT INTO UserSessions(_id)
-    values(1)
+    -- USE PARKP2P;
+    -- INSERT INTO UserSessions(_id)
+    -- values()

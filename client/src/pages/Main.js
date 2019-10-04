@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import GoogleMap from '../components/GoogleMap';
 import NavBar from './../components/NavBar';
-import ExampleData from '../components/ExampleData';
 
+
+const styles = {
+    overflow: "auto"
+}
 
 class Main extends Component {
     render() {
         return (
-            <div>
+            <div style={styles}>
                 <NavBar />
                 <GoogleMap />
             </div>

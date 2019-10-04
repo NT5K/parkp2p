@@ -1,52 +1,8 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import { Map, GoogleApiWrapper, /*InfoWindow,*/ Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
-import Markers from './Markers'
-const styles = require('./GoogleMapStyles.json')
 
-// const styles = {
-//     shadow: {
-//         boxShadow: "4px 4px 4px #9E9E9E"
-//     },
-//     zIndex: {
-//         zIndex: 0
-//     }
-// }
-
-// const mapStyles = {
-//     width: '100%',
-//     height: '40%'
-// };
-
-const exampleMapStyles = [
-    {
-        featureType: "poi",
-        elementType: "geometry",
-        stylers: [
-            {
-                color: "#eeeeee",
-            },
-        ],
-    },
-    {
-        featureType: "poi",
-        elementType: "labels.text",
-        stylers: [
-            {
-                visibility: "off",
-            },
-        ],
-    },
-    {
-        featureType: "water",
-        elementType: "labels.text.fill",
-        stylers: [
-            {
-                color: "#9e9e9e",
-            },
-        ],
-    },
-];
+// const styles = require('./GoogleMapStyles.json')
 
 class MapContainer extends Component {
     constructor(props) {
@@ -70,7 +26,7 @@ class MapContainer extends Component {
         
     }
 
-    componentDidMount() {
+    UNSAFE_componentWillMount() {
         fetch('/api/public/driveways')
     .then(res => res.json())
     .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
@@ -116,6 +72,8 @@ class MapContainer extends Component {
                     {marker.map(marker =>
                         <Marker
                             onClick={this.onMarkerClick}
+                            
+                            key={marker.ID}
                             address={marker.Address}
                             description={marker.Description}
                             hourly={marker.Hourly}
@@ -126,12 +84,12 @@ class MapContainer extends Component {
                         />
                         // <Marker key={marker.Address} name={marker.Address} lat={marker.Latitude} lng={marker.Longitude}/>
                     )}
-                    <InfoWindow
+                    {/* <InfoWindow
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}
                         onClose={this.onClose}
                     >
-                    </InfoWindow>
+                    </InfoWindow> */}
                 </Map>
             </div>
                 <div>

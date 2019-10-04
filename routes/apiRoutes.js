@@ -2,12 +2,12 @@
 const connection = require("./connection");
 const express = require('express');
 const router = express.Router();
-const expressValidator = require('express-validator');
 
 module.exports = router;
 
 //===========================================================================
-
+  // CAN DELETE OR ALTER THIS ONE
+//===========================================================================
 router.get('/api/customers', (req, res) => {
   const query = "Select * FROM users;";
 

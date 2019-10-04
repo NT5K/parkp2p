@@ -130,16 +130,16 @@ class NavBar extends Component {
                     </form>
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item border-right border-left">
-                            <a className="nav-link text-primary" href="#">Share your driveway! <span className="sr-only">(current)</span></a>
+                            <a className="nav-link text-primary" href="http://localhost:3000/">Share your driveway! <span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item border-right">
-                            <a className="nav-link" href="#">Dashboard</a>
+                            <a className="nav-link" href="http://localhost:3000/">Dashboard</a>
                         </li>
                         <li className="nav-item border-right">
-                            <a className="nav-link" href="#">Help</a>
+                            <a className="nav-link" href="http://localhost:3000/">Help</a>
                         </li>
                         <li className="nav-item border-right">
-                            <a onClick={this.logout} >Logout</a>
+                            <p onClick={this.logout} >Logout</p>
                             {/* <button onClick={this.logout}><a href="/login">Logout</a></button> */}
                             {/* <button onClick={this.logout}>Logout</button> */}
                         </li>

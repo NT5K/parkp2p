@@ -15,7 +15,7 @@ class Customers extends Component {
   }
 
   // if token in local storage, set token state to token value
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     localStorage.getItem('park_p2p') && this.setState({
       token: store.get('park_p2p').token
     })
