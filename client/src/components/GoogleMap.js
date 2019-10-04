@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
+const styles = require('./GoogleMapStyles.json')
 
 // const styles = {
 //     shadow: {
@@ -16,15 +17,44 @@ import ExampleData from './ExampleData';
 //     height: '40%'
 // };
 
+const exampleMapStyles = [
+    {
+        featureType: "poi",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#eeeeee",
+            },
+        ],
+    },
+    {
+        featureType: "poi",
+        elementType: "labels.text",
+        stylers: [
+            {
+                visibility: "off",
+            },
+        ],
+    },
+    {
+        featureType: "water",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#9e9e9e",
+            },
+        ],
+    },
+];
+
 class MapContainer extends Component {
     constructor(props) {
         super(props);
 
-
         this.state = {
             mapStyles: {
                 width: "100%",
-                height: "100%",
+                height: "100%"
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
@@ -52,7 +82,7 @@ class MapContainer extends Component {
     render() {
         return (
             <div>
-             <div style={{ position: "relative", width: "100vw", height: "45vh" }} className="border border-dark">
+             <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
                 <Map
                     google={this.props.google}
                     zoom={15}
@@ -61,10 +91,13 @@ class MapContainer extends Component {
                         lat: 41.4993,
                         lng: -81.6944
                     }}
+                    
                     fullscreenControl={false}
                     streetViewControl={false}
                     mapTypeControl={false}
-                >
+                    styles={styles}
+                   
+               >
                     <Marker position={{ lat: 40, lng: -80 }} />
                     <Marker
                         onClick={this.onMarkerClick.bind(this)}

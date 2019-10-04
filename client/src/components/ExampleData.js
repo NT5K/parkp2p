@@ -43,6 +43,7 @@ class Customers extends Component {
       )
     }
     return (
+      // <div className="bg-dark text-light h-100">
       <div>
         <h2>Example Data From Database {this.state.token}</h2>
         <ul>

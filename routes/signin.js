@@ -31,7 +31,7 @@ router.post('/api/account/signup', (req, res, next) => {
             message: 'Password cannot be blank.'
         });
     }
-    
+    console.log(inputPassword)
     // email lowercase and trim
     inputEmail = inputEmail.toLowerCase().trim();
     
