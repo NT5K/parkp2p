@@ -29,16 +29,18 @@ class Home extends Component {
             signUpError: '',
             signUpEmail: '',
             signUpPassword: '',
+            signUpPasswordCheck: ''
         };
 
         this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
         this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
+        this.onTextboxChangeSignUpPasswordCheck = this.onTextboxChangeSignUpPasswordCheck.bind(this);
         this.onSignUp = this.onSignUp.bind(this);
     }
 
     onSignUp() {
         // Grab state
-        const { signUpEmail, signUpPassword } = this.state;
+        const { signUpEmail, signUpPassword, signUpPasswordCheck } = this.state;
         this.setState({ isLoading: true });
         // Post request to backend
         fetch('/api/account/signup', {
@@ -49,6 +51,7 @@ class Home extends Component {
             body: JSON.stringify({
                 inputEmail: signUpEmail,
                 inputPassword: signUpPassword,
+                inputPasswordCheck: signUpPasswordCheck
             }),
             // json response
         }).then(res => res.json())
@@ -61,12 +64,13 @@ class Home extends Component {
                         isLoading: false,
                         signUpEmail: '',
                         signUpPassword: '',
+                        signUpPasswordCheck: ''
                     });
                     // TODO: set msg here maybe will fix duplicate email
                 } else {
                     this.setState({
                         signUpError: json.message,
-                        isLoading: false,
+                        isLoading: false
                     });
                 }
             });
@@ -74,13 +78,18 @@ class Home extends Component {
 
     onTextboxChangeSignUpEmail(event) {
         this.setState({
-            signUpEmail: event.target.value,
+            signUpEmail: event.target.value
         });
     }
 
     onTextboxChangeSignUpPassword(event) {
         this.setState({
-            signUpPassword: event.target.value,
+            signUpPassword: event.target.value
+        });
+    }
+    onTextboxChangeSignUpPasswordCheck(event) {
+        this.setState({
+            signUpPasswordCheck: event.target.value
         });
     }
 
@@ -97,13 +106,13 @@ class Home extends Component {
                         })
                     } else {
                         this.setState({
-                            isLoading: false,
+                            isLoading: false
                         })
                     }
                 });
         } else {
             this.setState({
-                isLoading: false,
+                isLoading: false
             })
         }
     }
@@ -122,7 +131,8 @@ class Home extends Component {
             token,
             signUpEmail,
             signUpPassword,
-            signUpError,
+            signUpPasswordCheck,
+            signUpError
         } = this.state;
         console.log(signUpError)
         if (isLoading) {
@@ -178,6 +188,19 @@ class Home extends Component {
                                         className="form-control"
                                         placeholder="Password"
                                         required />
+                                </div>
+
+                                <div className="form-label-group mb-3">
+                                    <input
+                                        type="password"
+                                        id="inputPasswordCheck"
+                                        name="inputPasswordCheck"
+                                        value={signUpPasswordCheck}
+                                        onChange={this.onTextboxChangeSignUpPasswordCheck}
+                                        className="form-control"
+                                        placeholder="Verify Password"
+                                        required
+                                    />
                                 </div>
 
                                 <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={this.onSignUp}>
