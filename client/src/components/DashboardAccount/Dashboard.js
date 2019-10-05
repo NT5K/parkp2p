@@ -10,7 +10,7 @@ const styles = {
 }
 
 const sidebarStyle = {
-    height : '740px',
+    height : '100vh',
     color : 'black',
     
 }
@@ -34,7 +34,7 @@ const headerStyle = {
 }
 
 const infoContainer = {
-    width : '600px',
+    // width : '100vw',
     height : '740px',
     color : '#696969',
     backgroundColor : 'white',
@@ -92,8 +92,12 @@ class Dashboard extends Component {
         super();
         this.state = {
             user: [],
-            token: ''
+            token: '',
+            first_name: '',
+            last_name: ''
         };
+
+        this.onTextboxChangeFirstName = this.onTextboxChangeFirstName.bind(this);
     }
 
      // if token in local storage, set token state to token value
@@ -109,10 +113,17 @@ class Dashboard extends Component {
             .then(user => this.setState({ user: user[0] }, () => console.log("user array", this.state.user, "this users token", this.state.token)));
     }
 
+    onTextboxChangeFirstName(event) {
+        this.setState({
+            first_name: event.target.value
+        });
+    }
+
     render() {
         const { user } = this.state
-        const { Email, First_Name = "Empty", Last_Name = "Empty", Phone_Number = "Empty" } = user
-        // const email = this.state.user[0].Email
+        const { Email, First_Name, Last_Name, Phone_Number } = user
+        const { first_name } = this.state
+
         return (
             <div className="container-fluid no-gutter" >
                 <div className="row">
@@ -161,7 +172,7 @@ class Dashboard extends Component {
                     </nav>
                     
                     
-                    <div className="col-xl-10 no-gutter">
+                    <div className="col-xl-10 no-gutter text-center">
                     
                         <div className="row">
                             <div className="col-xl-12 no-gutter">
@@ -176,11 +187,32 @@ class Dashboard extends Component {
                                         <hr></hr>
 
                                         <div className="row">
-                                            <div className="col-xl-1">
+                                            <div className="col-xl-2">
                                             <h5 style={infoContainerTags}>Name</h5>   
                                             </div>
-                                            <div className="col-xl-11 text-center">
+                                            <div className="col-xl-3 text-center">
                                                 <span style={infoContainerContent}>{First_Name} {Last_Name}</span>
+                                            </div>
+                                            <div className="col-xl-3 text-center">
+                                                <p style={infoContainerContent}>
+                                                    <form id="update_first_name" className="form-update" method="PUT" action="/api/account/update/first_name">
+                                                        <input
+                                                            type="text"
+                                                            id="first_name"
+                                                            name="first_name"
+                                                            value={first_name}
+                                                            onChange={this.onTextboxChangeFirstName}
+                                                            className="form-control"
+                                                            placeholder="Email address"
+                                                            required
+                                                            autoFocus />
+                                                    </form> 
+                                                </p>
+                                            </div>
+                                            <div className="col-xl-2 text-center">
+                                                <button className="btn btn-sm btn-primary btn-block" type="submit" form="update_first_name" onClick={this.onSignUp}>
+                                                    Update Name
+                                                </button>
                                             </div>
                                         </div>
 

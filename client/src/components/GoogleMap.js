@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, /*InfoWindow,*/ Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
 
-// const styles = require('./GoogleMapStyles.json')
+const styles = require('./GoogleMapStyles.json')
 
 class MapContainer extends Component {
     constructor(props) {
@@ -67,7 +67,7 @@ class MapContainer extends Component {
                     fullscreenControl={false}
                     streetViewControl={false}
                     mapTypeControl={false}
-                    // styles={styles}
+                    styles={styles}
                     > 
                     {marker.map(marker =>
                         <Marker

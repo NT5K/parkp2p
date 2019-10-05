@@ -42,3 +42,20 @@ router.get('/api/public/driveways', (req, res) => {
 });
 
 //============================================================================
+//===========================================================================
+  // update first name in dashboard
+//=======================================querying the dummy data in sql=======
+router.put('/api/account/update/first_name/', (req, res) => {
+  const query = "SELECT * FROM users;";
+
+  connection.query(query, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("Failed to retrieve Data")
+    } else {
+      return res.json(result);
+    };
+  });
+});
+
+//============================================================================
