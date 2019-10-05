@@ -6,13 +6,23 @@ import NavBar from './../components/NavBar';
 const styles = {
     overflow: "auto"
 }
+const CollapseStyle = {
+    content: {
+        position: "relative"
+    },
+
+    collapseExample: {
+        position: "absolute",
+        zIndex: 1
+    }
+}
 
 class Main extends Component {
     render() {
         return (
             <div style={styles}>
-                <NavBar />
-                <GoogleMap />
+                <NavBar style={CollapseStyle.collapseExample} />
+                <GoogleMap/>
             </div>
         );
     }

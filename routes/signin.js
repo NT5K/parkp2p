@@ -16,7 +16,7 @@ module.exports = router;
 
 router.post('/api/account/signup', (req, res, next) => {
     const { body } = req;
-    const { inputPassword } = body;
+    const { inputPassword, inputPasswordCheck } = body;
     let { inputEmail } = body;
 
     if (!inputEmail) {
@@ -29,6 +29,12 @@ router.post('/api/account/signup', (req, res, next) => {
         return res.send({
             success: false,
             message: 'Password cannot be blank.'
+        });
+    }
+    if (inputPassword !== inputPasswordCheck) {
+        return res.send({
+            success: false,
+            message: 'Passwords do not match.'
         });
     }
     console.log(inputPassword)
@@ -113,9 +119,10 @@ router.post('/api/account/signin', (req, res, next) => {
 
         // create session on database
         const query2 = "INSERT INTO UserSessions(_id) VALUES (?);";
+        const input2 = [ID];
         // const hashedEmail = bcrypt.hashSync(Email, saltRounds);
         // const input2 = [JSON.stringify(hashedEmail)];
-        const input2 = [ID];
+
         connection.query(query2, input2, (err, __) => {
             if (err) {
                 console.log(err);
@@ -142,10 +149,11 @@ router.get('/api/account/verify', (req, res, next) => {
     // Get the token
     const { query } = req;
     const { token } = query;
-    // ?token=test
+
     // Verify the token is one of a kind and it's not deleted.
     const query3 = "SELECT _id FROM UserSessions WHERE !idDeleted and _id = ?;";
     const input3 = [token];
+
     connection.query(query3, input3, (err, sessions) => {
         if (err) {
             console.log(err);
@@ -174,15 +182,14 @@ router.get('/api/account/verify', (req, res, next) => {
 //===========================================================================
 
 router.delete('/api/account/logout/:token', (req, res, next) => {
-    // Get the token
+
     const { query } = req;
     const { token } = query;
     const input = [req.params.token]
-    // ?token=test
-    // Verify the token is one of a kind and it's not deleted.
-    // localStorage.removeItem('park_p2p')
+
     const query4 = 'DELETE FROM usersessions WHERE _id = ?;'
     const input4 = [token];
+
     connection.query(query4, input, (err, sessions) => {
         if (err) {
             console.log(err);

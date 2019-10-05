@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import store from 'store'
 import 'whatwg-fetch';
-
 import { Redirect } from 'react-router-dom'
 
-// get token value from local storage
 class Customers extends Component {
+
   constructor() {
     super();
     this.state = {
@@ -20,6 +19,7 @@ class Customers extends Component {
       token: store.get('park_p2p').token
     })
   }
+
   componentDidMount() {
     fetch('/api/customers?token=' + this.state.token)
       .then(res => res.json())
@@ -35,6 +35,7 @@ class Customers extends Component {
 
   render() {
     const { token } = this.state
+
     if (!token) {
       return (
         <div>
@@ -42,9 +43,10 @@ class Customers extends Component {
         </div>
       )
     }
+
     return (
       // <div className="bg-dark text-light h-100">
-      <div>
+      <div className="bg-light">
         <div className="row">
           <div className="col-6 border-right">
             <div className="row">
@@ -57,12 +59,12 @@ class Customers extends Component {
                 <p>Monthly Rate:</p>
               </div>
               <div className="col-6">
-                {this.props.location && <p>{this.props.location.address}</p>}
-                {this.props.location && <p>{this.props.location.description}</p>}
-                {this.props.location && <p>{this.props.location.hourly}</p>}
-                {this.props.location && <p>{this.props.location.daily}</p>}
-                {this.props.location && <p>{this.props.location.weekly}</p>}
-                {this.props.location && <p>{this.props.location.monthly}</p>}
+                <p>{this.props.location.address}</p>
+                <p>{this.props.location.description}</p>
+                <p>{this.props.location.hourly}</p>
+                <p>{this.props.location.daily}</p>
+                <p>{this.props.location.weekly}</p>
+                <p>{this.props.location.monthly}</p>
               </div>
             </div>
           </div>
@@ -75,13 +77,8 @@ class Customers extends Component {
               <p key={customer.ID}>{customer.Email} {customer.Password}</p>
             )}
           </div>
-
-         
         </div>
       </div>
-    
-        
-      
     );
   }
 }
