@@ -68,7 +68,7 @@ class MapContainer extends Component {
                     streetViewControl={false}
                     mapTypeControl={false}
                     // styles={styles}
-                    > 
+                    >
                     {marker.map(marker =>
                         <Marker
                             onClick={this.onMarkerClick}
@@ -81,6 +81,9 @@ class MapContainer extends Component {
                             weekly={marker.Weekly}
                             monthly={marker.Monthly}
                             position={{ lat: marker.Latitude, lng: marker.Longitude }}
+                            icon={{
+                                url: 'http://www.simpleimageresizer.com/_uploads/photos/3bf361fe/google-maps-marker-for-residencelamontagne-hi_10.png'
+                            }}
                         />
                         // <Marker key={marker.Address} name={marker.Address} lat={marker.Latitude} lng={marker.Longitude}/>
                     )}
