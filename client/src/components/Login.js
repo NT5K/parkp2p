@@ -48,7 +48,7 @@ class Login extends Component {
             },
             body: JSON.stringify({
                 inputEmail: signInEmail,
-                inputPassword: signInPassword,
+                inputPassword: signInPassword
             }),
         }).then(res => res.json())
             .then(json => {
@@ -126,7 +126,7 @@ class Login extends Component {
             token,
             signInError,
             signInEmail,
-            signInPassword,
+            signInPassword
         } = this.state;
         if (isLoading) {
             return (
