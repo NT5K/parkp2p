@@ -60,8 +60,8 @@ class Customers extends Component {
                 <button type="button" class="btn btn-success">Reserve This Spot!</button>
               </div>
               <div className="col-6">
-                <h4>_{this.props.location.address}</h4>
-                <h4>_{this.props.location.description}</h4>
+                <h4>-{this.props.location.address}</h4>
+                <h4>-{this.props.location.description}</h4>
                 <h4>${this.props.location.hourly}</h4>
                 <h4>${this.props.location.daily}</h4>
                 <h4>${this.props.location.weekly}</h4>
