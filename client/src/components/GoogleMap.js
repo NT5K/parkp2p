@@ -36,7 +36,7 @@ class MapContainer extends Component {
     onMarkerClick(locationString){
         console.log(locationString)
         this.setState({
-            selectedPlace: locationString
+            selectedPlace: locationString,
             
         })
     }
@@ -72,7 +72,6 @@ class MapContainer extends Component {
                     {marker.map(marker =>
                         <Marker
                             onClick={this.onMarkerClick}
-                            
                             key={marker.ID}
                             address={marker.Address}
                             description={marker.Description}
@@ -82,7 +81,7 @@ class MapContainer extends Component {
                             monthly={marker.Monthly}
                             position={{ lat: marker.Latitude, lng: marker.Longitude }}
                             icon={{
-                                url: 'http://www.simpleimageresizer.com/_uploads/photos/3bf361fe/google-maps-marker-for-residencelamontagne-hi_10.png'
+                                url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
                             }}
                         />
                         // <Marker key={marker.Address} name={marker.Address} lat={marker.Latitude} lng={marker.Longitude}/>
