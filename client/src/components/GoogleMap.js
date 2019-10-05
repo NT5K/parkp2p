@@ -63,7 +63,7 @@ class MapContainer extends Component {
                         lat: 41.4993,
                         lng: -81.6944
                     }}
-                    
+                    centerAroundCurrentLocation={true}
                     fullscreenControl={false}
                     streetViewControl={false}
                     mapTypeControl={false}
