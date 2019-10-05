@@ -133,7 +133,7 @@ class NavBar extends Component {
                             <a className="nav-link text-primary" href="http://localhost:3000/">Share your driveway! <span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item border-right">
-                            <a className="nav-link" href="http://localhost:3000/">Dashboard</a>
+                            <a className="nav-link" href="http://localhost:3000/dashboard">Dashboard</a>
                         </li>
                         <li className="nav-item border-right">
                             <a className="nav-link" href="http://localhost:3000/">Help</a>
