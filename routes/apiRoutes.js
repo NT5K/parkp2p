@@ -8,10 +8,11 @@ module.exports = router;
 //===========================================================================
   // CAN DELETE OR ALTER THIS ONE
 //===========================================================================
-router.get('/api/customers', (req, res) => {
-  const query = "Select * FROM users;";
-
-  connection.query(query, (err, result) => {
+router.get('/api/account/personal/:token', (req, res) => {
+  const query = "Select Email, First_Name, Last_Name, Phone_Number FROM users WHERE ID = ?;";
+  const { token } = req.params
+  const input = [token]
+  connection.query(query, input, (err, result) => {
     if (err) {
       console.log(err);
       return res.status(500).send('Failed to get users')

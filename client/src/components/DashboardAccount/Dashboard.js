@@ -1,4 +1,7 @@
 import React, {Component} from "react";
+import store from 'store'
+import 'whatwg-fetch';
+
 const styles = {
     maxWidth: {
         maxWidth: 400,
@@ -85,20 +88,31 @@ marginTop : '30px'
 }
 
 class Dashboard extends Component {
-    // constructor() {
-    //     super();
-    //     this.state = {
-    //         customers: []
-    //     };
-    // }
+    constructor() {
+        super();
+        this.state = {
+            user: [],
+            token: ''
+        };
+    }
 
-    // componentDidMount() {
-    //     fetch('/api/customers')
-    //         .then(res => res.json())
-    //         .then(customers => this.setState({ customers }, () => console.log('Customers fetched...', customers)));
-    // }
+     // if token in local storage, set token state to token value
+    UNSAFE_componentWillMount() {
+        localStorage.getItem('park_p2p') && this.setState({
+        token: store.get('park_p2p').token
+        })
+    }
+
+    componentDidMount() {
+        fetch('/api/account/personal/' + this.state.token)
+            .then(res => res.json())
+            .then(user => this.setState({ user: user[0] }, () => console.log("user array", this.state.user, "this users token", this.state.token)));
+    }
 
     render() {
+        const { user } = this.state
+        const { Email, First_Name = "Empty", Last_Name = "Empty", Phone_Number = "Empty" } = user
+        // const email = this.state.user[0].Email
         return (
             <div className="container-fluid no-gutter" >
                 <div className="row">
@@ -114,7 +128,7 @@ class Dashboard extends Component {
                 <div style={sidebarStyle} className="row">
                     
                     
-                    <nav style={siderbarBorder} class="col-xl-2 d-none d-md-block bg-light sidebar">
+                    <nav style={siderbarBorder} className="col-xl-2 d-none d-md-block bg-light sidebar">
                             <div className="sidebar-sticky">
                                 <ul className="nav flex-column">
                                 <li className="nav-item">
@@ -166,7 +180,7 @@ class Dashboard extends Component {
                                             <h5 style={infoContainerTags}>Name</h5>   
                                             </div>
                                             <div className="col-xl-11 text-center">
-                                            <span style={infoContainerContent}>KaVaughn Irons</span>
+                                                <span style={infoContainerContent}>{First_Name} {Last_Name}</span>
                                             </div>
                                         </div>
 
@@ -177,7 +191,7 @@ class Dashboard extends Component {
                                             <h5 style={infoContainerTags}>Email</h5>   
                                             </div>
                                             <div className="col-xl-11 text-center">
-                                            <span style={infoContainerContent}>kavaughn@gmail.com</span>
+                                                <span style={infoContainerContent}>{Email}{console.log(this.state.user)}</span>
                                             </div>
                                         </div>
 
@@ -185,10 +199,10 @@ class Dashboard extends Component {
 
                                         <div className="row">
                                             <div className="col-xl-1">
-                                            <h5 style={infoContainerTags}>Password</h5>   
+                                            <h5 style={infoContainerTags}>Phone Number</h5>   
                                             </div>
                                             <div className="col-xl-11 text-center">
-                                            <span style={infoContainerPassword}>2025 Oakwood Grange</span>
+                                                <span style={infoContainerPassword}>{Phone_Number}</span>
                                             </div>
                                         </div>
 
