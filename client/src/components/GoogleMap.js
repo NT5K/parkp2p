@@ -36,32 +36,30 @@ class MapContainer extends Component {
     onMarkerClick(locationString){
         console.log(locationString)
         this.setState({
-            selectedPlace: locationString,
-            
+            selectedPlace: locationString
         })
     }
 
     onClose = props => {
         if (this.state.showingInfoWindow) {
-            this.setState({
-                showingInfoWindow: false,
-                activeMarker: null
-            });
+          this.setState({
+            showingInfoWindow: false,
+            activeMarker: null
+          });
         }
-    };
+      };
 
     render() {
         const { marker } = this.state
         return (
             <div>
              <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
-                <Map
+         <Map
                     google={this.props.google}
                     zoom={12}
                     style={this.state.mapStyles}
                     initialCenter={{
-                        lat: 41.4993,
-                        lng: -81.6944
+                        lat: 41.50416, lng: -81.60845
                     }}
                     centerAroundCurrentLocation={true}
                     fullscreenControl={false}
@@ -69,6 +67,12 @@ class MapContainer extends Component {
                     mapTypeControl={false}
                     styles={styles}
                     >
+    <Marker 
+    onClick={this.onMarkerClick} 
+    address={'You are Here'}
+    icon={{
+        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+    }} />
                     {marker.map(marker =>
                         <Marker
                             onClick={this.onMarkerClick}
@@ -84,8 +88,9 @@ class MapContainer extends Component {
                                 url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
                             }}
                         />
+
                         // <Marker key={marker.Address} name={marker.Address} lat={marker.Latitude} lng={marker.Longitude}/>
-                    )}
+                    )}                        
                     {/* <InfoWindow
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}
