@@ -71,7 +71,7 @@ class MapContainer extends Component {
     onClick={this.onMarkerClick} 
     address={'You are Here'}
     icon={{
-        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
     }} />
                     {marker.map(marker =>
                         <Marker
