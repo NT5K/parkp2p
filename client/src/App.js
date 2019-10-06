@@ -5,7 +5,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Dashboard from "./pages/Dashboard"
-import Account from "./pages/DashboardAccount"
+import Account from "./components/Dashboard_Account"
 import Driveway from "./pages/DashboardDriveways"
 import addDriveway from "./pages/DashboardAddDriveway"
 import dashboardRoute from "./pages/DashboardRoute"
@@ -24,7 +24,7 @@ class App extends Component {
             <Route exact path="/dashboard/account" component={Account} />
             <Route exact path="/dashboard/driveways" component={Driveway} />
             <Route exact path="/dashboard/add-driveway" component={addDriveway} />
-            <Route exact path="/dashboard/route" component={dashboardRoute} />
+            {/* <Route exact path="/dashboard/route" component={dashboardRoute} /> */}
           </Switch>
         </div>
       </Router>

@@ -45,7 +45,7 @@ router.post('/api/account/signup', (req, res, next) => {
     const hashedPass = bcrypt.hashSync(inputPassword, saltRounds);
 
     // query's for database
-    const query = "INSERT INTO users (Email, Pass, First_Name, Last_Name, Phone_Number, Address, City, State, Zip, Longitude, Latitude, Car_Make, Car_Model, Spots, Active_State, Hourly, Daily, Weekly, Monthly, Overnight, Balance, Description) VALUES (?, ?, null, null, null, null, null, null, null, null, null, null, null, null, false, null, null, null, null, null, null, null);";
+    const query = "INSERT INTO users (Email, Pass, Name, Phone_Number, Address, City, State, Zipcode, Longitude, Latitude, Car_Make, Car_Model, Spots, Active_State, Hourly, Daily, Weekly, Monthly, Overnight, Balance, Description) VALUES (?, ?, null, null, null, null, null, null, null, null, null, null, null, false, null, null, null, null, null, null, null);";
     const input = [inputEmail, hashedPass];
 
     connection.query(query, input, (err, result) => {
@@ -56,7 +56,7 @@ router.post('/api/account/signup', (req, res, next) => {
         });
         } else {
             console.log(result)
-            res.json({ message: "congrats" })
+            return res.json({ message: "congrats" })
             
         };
     });
