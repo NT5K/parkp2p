@@ -1,7 +1,7 @@
 {
-  "name": "reactexpress",
+  "name": "parkp2p",
   "version": "1.0.0",
-  "description": "Starter kit for creating React and Express apps",
+  "description": "turn your driveway into a parking lot",
   "main": "server.js",
   "scripts": {
     "client-install": "cd client && npm install",

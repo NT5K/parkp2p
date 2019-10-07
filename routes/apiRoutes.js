@@ -6,25 +6,6 @@ const router = express.Router();
 module.exports = router;
 
 //===========================================================================
-  // CAN DELETE OR ALTER THIS ONE
-//===========================================================================
-router.get('/api/account/personal/:token', (req, res) => {
-  const query = "Select Email, Name, Phone_Number, Address, City, Zipcode, State FROM users WHERE ID = ?;";
-  const { token } = req.params
-  const input = [token]
-  connection.query(query, input, (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send('Failed to get users')
-    } else {
-      // console.log(result)
-      return res.json(result);
-    };
-  });
-  
-});
-
-//===========================================================================
   // THIS SHOULD NOT BE ABLE TO PULL PERSONAL INFORMATION
   // ALSO CHECK IF ACTIVE STATE IS TRUE OR FALSE
 //=======================================querying the dummy data in sql=======
@@ -41,7 +22,42 @@ router.get('/api/public/driveways', (req, res) => {
   });
 });
 
-//============================================================================
+//===========================================================================
+// get personal info from token
+//===========================================================================
+router.get('/api/account/personal/:token', (req, res) => {
+  const query = "Select Email, Name, Phone_Number, Address, City, Zipcode, State FROM users WHERE ID = ?;";
+  const { token } = req.params
+  const input = [token]
+  connection.query(query, input, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Failed to get users')
+    } else {
+      // console.log(result)
+      return res.json(result);
+    };
+  });
+});
+
+//===========================================================================
+// get rates info info from token
+//===========================================================================
+router.get('/api/account/rates/:token', (req, res) => {
+  const query = "Select Address, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Active_State FROM users WHERE ID = ?;";
+  const { token } = req.params
+  const input = [token]
+  connection.query(query, input, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Failed to get info')
+    } else {
+      // console.log(result)
+      return res.json(result);
+    };
+  });
+});
+
 //===========================================================================
   // update name in dashboard
 //=======================================querying the dummy data in sql=======
@@ -73,6 +89,7 @@ router.post('/api/account/update/name/', (req, res) => {
     };
   });
 });
+
 //===========================================================================
   // update email in dashboard
 //=======================================querying the dummy data in sql=======
@@ -97,6 +114,7 @@ router.post('/api/account/update/email/', (req, res) => {
     };
   });
 });
+
 //===========================================================================
   // update phone number in dashboard
 //=======================================querying the dummy data in sql=======
@@ -121,6 +139,7 @@ router.post('/api/account/update/phone/', (req, res) => {
     };
   });
 });
+
 //===========================================================================
   // update address in dashboard
 //=======================================querying the dummy data in sql=======
@@ -145,6 +164,7 @@ router.post('/api/account/update/address/', (req, res) => {
     };
   });
 });
+
 //===========================================================================
   // update city in dashboard
 //=======================================querying the dummy data in sql=======
@@ -169,6 +189,7 @@ router.post('/api/account/update/city/', (req, res) => {
     };
   });
 });
+
 //===========================================================================
   // update state in dashboard
 //=======================================querying the dummy data in sql=======
@@ -193,6 +214,7 @@ router.post('/api/account/update/state/', (req, res) => {
     };
   });
 });
+
 //===========================================================================
   // update zipcode in dashboard
 //=======================================querying the dummy data in sql=======
