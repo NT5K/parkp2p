@@ -5,7 +5,6 @@ require('dotenv').config()
 
 const styles = require('./GoogleMapStyles.json')
 const { REACT_APP_GOOGLE_API_KEY } = process.env
-
 class MapContainer extends Component {
     constructor(props) {
         super(props);
@@ -107,7 +106,7 @@ class MapContainer extends Component {
 
 export default GoogleApiWrapper({
     // apiKey: GOOGLE_API_KEY
-    apiKey: REACT_APP_GOOGLE_API_KEY
+    apiKey: 'AIzaSyAJRWCPrSP6XMDKu - wlDMZy0rBNhPQjo4g'
 })(MapContainer);
 
 // class MapContainer extends Component {
