@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { Redirect } from 'react-router-dom'
 import store from 'store'
 import 'whatwg-fetch';
 import DashboardNav from './Dashboard_Nav_Top'
@@ -384,6 +385,7 @@ class Dashboard extends Component {
         const { 
             fullName, 
             displayFullName, 
+            token,
 
             displayEmail, 
             emailToPostRequest, 
@@ -444,6 +446,15 @@ class Dashboard extends Component {
 
 
         } = this
+
+        if (!token) {
+            return (
+                <div>
+                    <Redirect to='/login' />
+                </div>
+            )
+        }
+
         return (
             <div>
                 <DashboardNav />
