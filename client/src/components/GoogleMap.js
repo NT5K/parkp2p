@@ -4,7 +4,6 @@ import ExampleData from './ExampleData';
 require('dotenv').config()
 
 const styles = require('./GoogleMapStyles.json')
-const { REACT_APP_GOOGLE_API_KEY } = process.env
 class MapContainer extends Component {
     constructor(props) {
         super(props);
@@ -38,42 +37,45 @@ class MapContainer extends Component {
         console.log(locationString)
         this.setState({
             selectedPlace: locationString
-            
         })
     }
 
     onClose = props => {
         if (this.state.showingInfoWindow) {
-            this.setState({
-                showingInfoWindow: false,
-                activeMarker: null
-            });
+          this.setState({
+            showingInfoWindow: false,
+            activeMarker: null
+          });
         }
-    };
+      };
 
     render() {
         const { marker } = this.state
         return (
             <div>
              <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
-                <Map
+         <Map
                     google={this.props.google}
                     zoom={12}
                     style={this.state.mapStyles}
-                    initialCenter={{
-                        lat: 41.4993,
-                        lng: -81.6944
-                    }}
-                    
+                    // initialCenter={{
+                    //     lat: 41.50416, lng: -81.60845
+                    // }}
+                    centerAroundCurrentLocation={true}
                     fullscreenControl={false}
                     streetViewControl={false}
                     mapTypeControl={false}
                     styles={styles}
-                    > 
+                    >
+    <Marker 
+    onClick={this.onMarkerClick} 
+    address={'You are Here'}
+    icon={{
+        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+    }} />
                     {marker.map(marker =>
                         <Marker
                             onClick={this.onMarkerClick}
-                            
                             key={marker.ID}
                             address={marker.Address}
                             description={marker.Description}
@@ -82,9 +84,13 @@ class MapContainer extends Component {
                             weekly={marker.Weekly}
                             monthly={marker.Monthly}
                             position={{ lat: marker.Latitude, lng: marker.Longitude }}
+                            icon={{
+                                url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                            }}
                         />
+
                         // <Marker key={marker.Address} name={marker.Address} lat={marker.Latitude} lng={marker.Longitude}/>
-                    )}
+                    )}                        
                     {/* <InfoWindow
                         marker={this.state.activeMarker}
                         visible={this.state.showingInfoWindow}
