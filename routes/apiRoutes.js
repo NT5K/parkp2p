@@ -240,4 +240,29 @@ router.post('/api/account/update/zipcode/', (req, res) => {
   });
 });
 
+//===========================================================================
+  // update daily rate in dashboard
+//===========================================================================
+router.post('/api/account/update/rates/daily', (req, res) => {
+  const { token, dailyToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("first name change", dailyToPostRequest)
+  
+  const query = "UPDATE users SET Daily = ? WHERE ID = ?;";
+  const input = [dailyToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update daily rate")
+    } else {
+      return res.send({
+        success: true,
+        new_daily_rate: dailyToPostRequest
+      });
+    };
+  });
+});
+
 //============================================================================
