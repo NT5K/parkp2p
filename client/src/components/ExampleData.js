@@ -18,6 +18,7 @@ class Customers extends Component {
     localStorage.getItem('park_p2p') && this.setState({
       token: store.get('park_p2p').token
     })
+    console.log("state of token", this.state.token)
   }
 
   componentDidMount() {
