@@ -39,10 +39,13 @@ class Dashboard extends Component {
 
     // gets info based on token
     componentDidMount() {
-        fetch('/api/account/personal/' + this.state.token)
+        fetch('/api/account/rates/' + this.state.token)
             .then(res => res.json())
             .then(user => {
                 const { Daily, Weekly, Hourly, Monthly, Overnight } = user[0]
+                console.log(this.state.token)
+                console.log(user[0].Daily)
+                console.log(this.state.user)
                 this.setState({
                     user: user[0],
                     displayDaily: Daily,
