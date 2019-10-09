@@ -22,7 +22,7 @@ class Customers extends Component {
   }
 
   componentDidMount() {
-    fetch('/api/customers?token=' + this.state.token)
+    fetch('/api/public/driveways')
       .then(res => res.json())
       .then(customers => this.setState({ customers }, () => console.log("session token", this.state.token)));
   }
@@ -74,8 +74,8 @@ class Customers extends Component {
           
           <div className="col-6">
             <p><u>Example Data</u></p>
-            <p>Local Storage Token: {this.state.token}</p>
-            <p>Current users on database:</p>
+            {/* <p>Local Storage Token: {this.state.token}</p> */}
+            <p><strong>Current users on database:</strong></p>
             {this.state.customers.map(customer =>
               <p key={customer.ID}>{customer.Email} {customer.Password}</p>
             )}

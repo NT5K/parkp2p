@@ -58,9 +58,9 @@ class MapContainer extends Component {
                     google={this.props.google}
                     zoom={12}
                     style={this.state.mapStyles}
-                    initialCenter={{
-                        lat: 41.50416, lng: -81.60845
-                    }}
+                    // initialCenter={{
+                    //     lat: 41.50416, lng: -81.60845
+                    // }}
                     centerAroundCurrentLocation={true}
                     fullscreenControl={false}
                     streetViewControl={false}
