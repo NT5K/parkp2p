@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, /*InfoWindow,*/ Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
+require('dotenv').config()
 
-// const styles = require('./GoogleMapStyles.json')
-
+const styles = require('./GoogleMapStyles.json')
+const { REACT_APP_GOOGLE_API_KEY } = process.env
 class MapContainer extends Component {
     constructor(props) {
         super(props);
@@ -67,7 +68,7 @@ class MapContainer extends Component {
                     fullscreenControl={false}
                     streetViewControl={false}
                     mapTypeControl={false}
-                    // styles={styles}
+                    styles={styles}
                     > 
                     {marker.map(marker =>
                         <Marker
@@ -104,7 +105,8 @@ class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-    apiKey: 'AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g'
+    // apiKey: GOOGLE_API_KEY
+    apiKey: 'AIzaSyAJRWCPrSP6XMDKu - wlDMZy0rBNhPQjo4g'
 })(MapContainer);
 
 // class MapContainer extends Component {
