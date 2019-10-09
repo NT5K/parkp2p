@@ -60,16 +60,21 @@ class MapContainer extends Component {
                     google={this.props.google}
                     zoom={12}
                     style={this.state.mapStyles}
-                    initialCenter={{
-                        lat: 41.4993,
-                        lng: -81.6944
-                    }}
+                    // initialCenter={{
+                    //     lat: 41.4993,
+                    //     lng: -81.6944
+                    // }}
                     centerAroundCurrentLocation={true}
                     fullscreenControl={false}
                     streetViewControl={false}
                     mapTypeControl={false}
                     styles={styles}
                     > 
+                    <Marker 
+                        address={"You are here."}
+                        icon={{
+                            url: 'http://maps.google.com/mapfiles/ms/icons/red.png'
+                        }}        />
                     {marker.map(marker =>
                         <Marker
                             onClick={this.onMarkerClick}
@@ -82,6 +87,9 @@ class MapContainer extends Component {
                             weekly={marker.Weekly}
                             monthly={marker.Monthly}
                             position={{ lat: marker.Latitude, lng: marker.Longitude }}
+                            icon={{
+                                url: 'http://maps.google.com/mapfiles/ms/icons/green.png'
+                            }}
                         />
                         // <Marker key={marker.Address} name={marker.Address} lat={marker.Latitude} lng={marker.Longitude}/>
                     )}
