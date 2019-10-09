@@ -1,9 +1,11 @@
 import React, {Component} from "react";
+import { Redirect } from 'react-router-dom'
 import store from 'store'
 import 'whatwg-fetch';
 import DashboardNav from './Dashboard_Nav_Top'
 import DashboardNavSide from './Dashboard_Nav_Side'
 import PersonalInfoRow from './PersonalInfoRow'
+import Toolbar from './Toolbar/Toolbar'
 
 class Dashboard extends Component {
     constructor() {
@@ -384,6 +386,7 @@ class Dashboard extends Component {
         const { 
             fullName, 
             displayFullName, 
+            token,
 
             displayEmail, 
             emailToPostRequest, 
@@ -444,8 +447,18 @@ class Dashboard extends Component {
 
 
         } = this
+
+        if (!token) {
+            return (
+                <div>
+                    <Redirect to='/login' />
+                </div>
+            )
+        }
+
         return (
             <div>
+                {/* <Toolbar /> */}
                 <DashboardNav />
                 <div style={{height: "100vh"}} className="row">
                     <DashboardNavSide />     
@@ -458,7 +471,7 @@ class Dashboard extends Component {
                         <h5 className="text-left pt-3 pb-2">Contact Information:</h5>
                         <PersonalInfoRow
                             header="Name"
-                            displayText={displayFullName}
+                            displayText={fullName}
                             id={"update_name"}
                             action={"/api/account/update/name"}
                             type={"text"}

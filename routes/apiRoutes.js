@@ -60,7 +60,7 @@ router.get('/api/account/rates/:token', (req, res) => {
 
 //===========================================================================
   // update name in dashboard
-//=======================================querying the dummy data in sql=======
+//===========================================================================
 router.post('/api/account/update/name/', (req, res) => {
   const { token, fullName } = req.body;
   
@@ -92,7 +92,7 @@ router.post('/api/account/update/name/', (req, res) => {
 
 //===========================================================================
   // update email in dashboard
-//=======================================querying the dummy data in sql=======
+//===========================================================================
 router.post('/api/account/update/email/', (req, res) => {
   const { token, emailToPostRequest } = req.body;
   
@@ -117,7 +117,7 @@ router.post('/api/account/update/email/', (req, res) => {
 
 //===========================================================================
   // update phone number in dashboard
-//=======================================querying the dummy data in sql=======
+//===========================================================================
 router.post('/api/account/update/phone/', (req, res) => {
   const { token, phone_numberToPostRequest } = req.body;
   
@@ -142,7 +142,7 @@ router.post('/api/account/update/phone/', (req, res) => {
 
 //===========================================================================
   // update address in dashboard
-//=======================================querying the dummy data in sql=======
+//===========================================================================
 router.post('/api/account/update/address/', (req, res) => {
   const { token, addressToPostRequest } = req.body;
   
@@ -167,7 +167,7 @@ router.post('/api/account/update/address/', (req, res) => {
 
 //===========================================================================
   // update city in dashboard
-//=======================================querying the dummy data in sql=======
+//===========================================================================
 router.post('/api/account/update/city/', (req, res) => {
   const { token, cityToPostRequest } = req.body;
   
@@ -192,7 +192,7 @@ router.post('/api/account/update/city/', (req, res) => {
 
 //===========================================================================
   // update state in dashboard
-//=======================================querying the dummy data in sql=======
+//===========================================================================
 router.post('/api/account/update/state/', (req, res) => {
   const { token, stateToPostRequest } = req.body;
   
@@ -217,7 +217,7 @@ router.post('/api/account/update/state/', (req, res) => {
 
 //===========================================================================
   // update zipcode in dashboard
-//=======================================querying the dummy data in sql=======
+//===========================================================================
 router.post('/api/account/update/zipcode/', (req, res) => {
   const { token, zipcodeToPostRequest } = req.body;
   
@@ -235,6 +235,31 @@ router.post('/api/account/update/zipcode/', (req, res) => {
       return res.send({
         success: true,
         new_zipcode: zipcodeToPostRequest
+      });
+    };
+  });
+});
+
+//===========================================================================
+  // update daily rate in dashboard
+//===========================================================================
+router.post('/api/account/update/rates/daily', (req, res) => {
+  const { token, dailyToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("first name change", dailyToPostRequest)
+  
+  const query = "UPDATE users SET Daily = ? WHERE ID = ?;";
+  const input = [dailyToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update daily rate")
+    } else {
+      return res.send({
+        success: true,
+        new_daily_rate: dailyToPostRequest
       });
     };
   });
