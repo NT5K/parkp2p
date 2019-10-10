@@ -9,7 +9,7 @@ import { Redirect } from 'react-router-dom'
 const styles = {
 
     shadow: {
-        boxShadow: "1px 1px 1px #9E9E9E"
+        boxShadow: "1px 1px 1px black"
     },
     zIndex: {
         zIndex: 1
@@ -94,7 +94,7 @@ class NavBar extends Component {
             )
         }
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark pt-1 pb-2" style={{ ...styles.shadow, ...styles.zIndex }}>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark pt-1 pb-2" style={ styles.zIndex }>
                 <a className="navbar-brand mr-5" href="/">PARK P2P</a>
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,17 +107,17 @@ class NavBar extends Component {
                         <button className="btn btn-outline-success my-2 my-sm-0" type="submit" style={styles.shadow}>Search</button>
                     </form>
                     <ul className="navbar-nav ml-auto">
-                        <li className="nav-item border-right border-left">
+                        <li className="nav-item">
                             <a className="nav-link text-primary" href="http://localhost:3000/">Share your driveway! <span className="sr-only">(current)</span></a>
                         </li>
-                        <li className="nav-item border-right">
-                            <a className="nav-link" href="http://localhost:3000/dashboard">Dashboard</a>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/dash">Dashboard</a>
                         </li>
-                        <li className="nav-item border-right">
+                        <li className="nav-item">
                             <a className="nav-link" href="http://localhost:3000/">Help</a>
                         </li>
-                        <li className="nav-item border-right">
-                            <p onClick={this.logout} >Logout</p>
+                        <li className="nav-item">
+                            <a className="nav-link" href="http://localhost:3000/login" onClick={this.logout}>Logout</a>
                             {/* <button onClick={this.logout}><a href="/login">Logout</a></button> */}
                             {/* <button onClick={this.logout}>Logout</button> */}
                         </li>

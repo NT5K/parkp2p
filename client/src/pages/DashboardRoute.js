@@ -1,29 +1,27 @@
-import React, { Component } from 'react';
-
-import Dashboard_Nav_Top from '../components/Dashboard_Nav_Top'
-import Dashboard_Nav_Side from '../components/Dashboard_Nav_Side'
-
-import Profits from '../components/Dashboard/Dashboard'
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Account from "./../components/Dashboard_Account"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Driveway from './../components/Dashboard_Driveway'
+import Subscription from './../components/Dashboard_Subscription'
+import Account_Cancel from "./../components/Dashboard_Account_Cancel"
+import "./styles.css";
+import SideBar from "../components/Sidebar";
+import Navbar from './../components/Dashboard_Nav_Top'
 
-class Dashboard extends Component {
-    render() {
-        return (
+function Sidebar() {
+    return (
+        <BrowserRouter>
             <div>
-                <Dashboard_Nav_Top />
-                <Dashboard_Nav_Side />
-
-                <Router>
-                    <Switch>
-                        <Route exact path="/dashboard/" component={Profits} />
-                        <Route exact path="/dashboard/account" component={Account} />
-                    </Switch>
-                </Router>
-           </div>
-            
-        );
-    }
+            <SideBar />
+            <Navbar />
+                <Route exact path="/dash" component={Account} />
+                <Route exact path="/dash/driveway" component={Driveway} />
+                <Route exact path="/dash/subscription" component={Subscription} />
+                <Route exact path="/dash/cancel" component={Account_Cancel} />
+                <Route exact path="/dash/profits" component={Account} />
+            </div>
+        </BrowserRouter>
+    );
 }
 
-export default Dashboard;
+export default Sidebar

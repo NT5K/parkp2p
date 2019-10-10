@@ -96,6 +96,12 @@ router.post('/api/account/signin', (req, res, next) => {
         const decryptedPass = bcrypt.compareSync(inputPassword, Pass)
         console.log("decrypted pass true or false: ", decryptedPass)
         console.log(ID)
+        // if (inputEmail === Email) {
+        //     return res.send({
+        //         success: false,
+        //         message: 'Incorrect email'
+        //     });
+        // }
         // if input password does not match database
         if (!decryptedPass) {
             return res.send({
@@ -206,6 +212,76 @@ router.delete('/api/account/logout/:token', (req, res, next) => {
             console: token
         });
     })
+});
+//===========================================================================
+// delete account from database, requires correct password
+//===========================================================================
+
+router.post('/api/account/delete', (req, res, next) => {
+    const { token, passwordToPostRequest } = req.body;
+    // const { token } = req.params
+    console.log(token, passwordToPostRequest)
+
+    if (!passwordToPostRequest) {
+        return res.send({
+            success: false,
+            message: 'Password cannot be blank.'
+        });
+    }
+
+    // query's for database
+    const query = "SELECT * FROM users WHERE ID = ?;";
+    const input = [token];
+
+    connection.query(query, input, (err, users) => {
+        const { Pass, ID, Email } = users[0]
+        const decryptedPass = bcrypt.compareSync(passwordToPostRequest, Pass)
+        console.log("decrypted pass true or false: ", decryptedPass)
+        console.log(ID)
+        // if input password does not match database
+        if (!decryptedPass) {
+            return res.send({
+                success: false,
+                message: 'Incorrect password'
+            });
+        }
+        if (err) {
+            console.log('err 2:', err);
+            return res.send({
+                success: false,
+                message: 'Error: server error'
+            });
+        }
+        if (users.length != 1) {
+            return res.send({
+                success: false,
+                message: 'Error: Invalid User'
+            });
+        }
+
+        // create session on database
+        const query2 = "DELETE FROM users WHERE ID = ?;";
+        const input2 = [token];
+        // const hashedEmail = bcrypt.hashSync(Email, saltRounds);
+        // const input2 = [JSON.stringify(hashedEmail)];
+
+        connection.query(query2, input2, (err, __) => {
+            if (err) {
+                console.log(err);
+                return res.send({
+                    success: false,
+                    message: 'Error: server error'
+                });
+            }
+            // store.remove('park_p2p')
+            return res.send({
+                success: true,
+                message: 'Valid deletion of user',
+                test: "test message",
+                token: input2
+            });
+        });
+    });
 });
 
 //functions for removing spaces for geolocation api
