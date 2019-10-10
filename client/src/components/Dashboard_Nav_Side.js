@@ -16,7 +16,7 @@ class DashboardNavSide extends Component {
                             <a className="nav-link text-dark font-weight-bold" href="/dashboard/driveways">Driveway</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link text-dark font-weight-bold" href="/dashboard/driveways">Subscription </a>
+                            <a className="nav-link text-dark font-weight-bold" href="/dashboard/account-subscription">Subscription </a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link text-dark font-weight-bold" href="/dashboard/account-cancel">Cancel Account</a>
