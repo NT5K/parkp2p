@@ -19,14 +19,25 @@ class Dashboard extends Component {
             displayWeekly: '',
             displayMonthly: '',
             displayOvernight: '',
-
+            hourlyToPostRequest: '',
             dailyToPostRequest: '',
-            displayDaily: ''
+            weeklyToPostRequest: '',
+            monthlyToPostRequest: '',
+            overnightToPostRequest: ''
+ 
 
         }
 
+        this.onTextboxChangeHourly = this.onTextboxChangeHourly.bind(this);
+        this.updateHourly = this.updateHourly.bind(this);
         this.onTextboxChangeDaily = this.onTextboxChangeDaily.bind(this);
         this.updateDaily = this.updateDaily.bind(this);
+        this.onTextboxChangeWeekly = this.onTextboxChangeWeekly.bind(this);
+        this.updateWeekly = this.updateWeekly.bind(this);
+        this.onTextboxChangeMonthly = this.onTextboxChangeMonthly.bind(this);
+        this.updateMonthly = this.updateMonthly.bind(this);
+        this.onTextboxChangeOvernight = this.onTextboxChangeOvernight.bind(this);
+        this.updateOvernight = this.updateOvernight.bind(this);
     }
 
 
@@ -58,6 +69,42 @@ class Dashboard extends Component {
     }
 
     // passes input values to state
+    onTextboxChangeHourly(event) {
+        this.setState({
+            hourlyToPostRequest: event.target.value
+        });
+    }
+
+    updateHourly(event) {
+        event.preventDefault()
+        // Grab state
+        const { hourlyToPostRequest, token } = this.state;
+        // post to backend
+        console.log(hourlyToPostRequest)
+        fetch('/api/account/update/rates/hourly', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                hourlyToPostRequest
+            })
+        })
+        .then(res => res.json())
+        .then(json => {
+                // set state for display
+                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
+                if (json.success) {
+                    this.setState({
+                        displayHourly: hourlyToPostRequest
+                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
+                    });
+                }
+            });
+    }
+
+    // passes input values to state
     onTextboxChangeDaily(event) {
         this.setState({
             dailyToPostRequest: event.target.value
@@ -80,8 +127,8 @@ class Dashboard extends Component {
                 dailyToPostRequest
             })
         })
-            .then(res => res.json())
-            .then(json => {
+        .then(res => res.json())
+        .then(json => {
                 // set state for display
                 // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
                 if (json.success) {
@@ -93,9 +140,118 @@ class Dashboard extends Component {
             });
     }
 
+    onTextboxChangeWeekly(event) {
+        this.setState({
+            weeklyToPostRequest: event.target.value
+        });
+    }
+
+    updateWeekly(event) {
+        event.preventDefault()
+        // Grab state
+        const { weeklyToPostRequest, token } = this.state;
+        // post to backend
+        console.log(weeklyToPostRequest)
+        fetch('/api/account/update/rates/weekly', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                weeklyToPostRequest
+            })
+        })
+        .then(res => res.json())
+        .then(json => {
+                // set state for display
+                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
+                if (json.success) {
+                    this.setState({
+                        displayWeekly: weeklyToPostRequest
+                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
+                    });
+                }
+            });
+    }
+
+    onTextboxChangeMonthly(event) {
+        this.setState({
+            monthlyToPostRequest: event.target.value
+        });
+    }
+
+    updateMonthly(event) {
+        event.preventDefault()
+        // Grab state
+        const { monthlyToPostRequest, token } = this.state;
+        // post to backend
+        console.log(monthlyToPostRequest)
+        fetch('/api/account/update/rates/monthly', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                monthlyToPostRequest
+            })
+        })
+        .then(res => res.json())
+        .then(json => {
+                // set state for display
+                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
+                if (json.success) {
+                    this.setState({
+                        displayMonthly: monthlyToPostRequest
+                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
+                    });
+                }
+            });
+    }
+
+    onTextboxChangeOvernight(event) {
+        this.setState({
+            overnightToPostRequest: event.target.value
+        });
+    }
+
+    updateOvernight(event) {
+        event.preventDefault()
+        // Grab state
+        const { overnightToPostRequest, token } = this.state;
+        // post to backend
+        console.log(overnightToPostRequest)
+        fetch('/api/account/update/rates/overnight', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                overnightToPostRequest
+            })
+        })
+        .then(res => res.json())
+        .then(json => {
+                // set state for display
+                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
+                if (json.success) {
+                    this.setState({
+                        displayOvernight: overnightToPostRequest
+                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
+                    });
+                }
+            });
+    }
+
     render() {
-        const { displayDaily, dailyToPostRequest } = this.state
-        const { onTextboxChangeDaily, updateDaily } = this
+        const { displayHourly, displayDaily, displayWeekly, displayMonthly, displayOvernight} = this.state
+        const { hourlyToPostRequest, dailyToPostRequest, weeklyToPostRequest, monthlyToPostRequest, overnightToPostRequest } = this.state
+        const { updateHourly, updateDaily, updateWeekly, updateMonthly, updateOvernight } = this
+        const { onTextboxChangeHourly, onTextboxChangeDaily, onTextboxChangeWeekly, onTextboxChangeMonthly, onTextboxChangeOvernight} = this
+        
+        console.log(displayDaily,"HERE!!!");
         return (
             <div>
                 {/* <Toolbar /> */}
@@ -108,10 +264,23 @@ class Dashboard extends Component {
                                 <h4>View / Edit Personal Information</h4>
                             </div>
                         </div>
-                        <h5 className="text-left pt-3 pb-2">Contact Information:</h5>
+                        <h5 className="text-left pt-3 pb-2">Set Driveway Rates</h5>
+                        <PersonalInfoRow
+                            header={"Hourly"}
+                            displayText={'$' + displayHourly}
+                            id={"update_Hourly"}
+                            action={"/api/account/update/rates/hourly"}
+                            type={"number"}
+                            inputId={"hourly"}
+                            value={hourlyToPostRequest}
+                            onChange={onTextboxChangeHourly}
+                            placeholder={"hourly"}
+                            onClick={updateHourly}
+                            buttonText={"submit"}
+                        />
                        <PersonalInfoRow
                             header={"Daily"}
-                            displayText={displayDaily}
+                            displayText={'$'+displayDaily}
                             id={"update_Daily"}
                             action={"/api/account/update/rates/daily"}
                             type={"number"}
@@ -120,6 +289,45 @@ class Dashboard extends Component {
                             onChange={onTextboxChangeDaily}
                             placeholder={"daily"}
                             onClick={updateDaily}
+                            buttonText={"submit"}
+                        />
+                        <PersonalInfoRow
+                            header={"Weekly"}
+                            displayText={'$'+displayWeekly}
+                            id={"update_Weekly"}
+                            action={"/api/account/update/rates/weekly"}
+                            type={"number"}
+                            inputId={"weekly"}
+                            value={weeklyToPostRequest}
+                            onChange={onTextboxChangeWeekly}
+                            placeholder={"weekly"}
+                            onClick={updateWeekly}
+                            buttonText={"submit"}
+                        />
+                        <PersonalInfoRow
+                            header={"Monthly"}
+                            displayText={'$'+displayMonthly}
+                            id={"update_Monthly"}
+                            action={"/api/account/update/rates/monthly"}
+                            type={"number"}
+                            inputId={"monthly"}
+                            value={monthlyToPostRequest}
+                            onChange={onTextboxChangeMonthly}
+                            placeholder={"monthly"}
+                            onClick={updateMonthly}
+                            buttonText={"submit"}
+                        />
+                        <PersonalInfoRow
+                            header={"Overnight"}
+                            displayText={'$'+displayOvernight}
+                            id={"update_Overnight"}
+                            action={"/api/account/update/rates/overnight"}
+                            type={"number"}
+                            inputId={"overnight"}
+                            value={overnightToPostRequest}
+                            onChange={onTextboxChangeOvernight}
+                            placeholder={"overnight"}
+                            onClick={updateOvernight}
                             buttonText={"submit"}
                         />
                     </div>

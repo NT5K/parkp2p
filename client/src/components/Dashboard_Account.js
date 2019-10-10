@@ -471,7 +471,7 @@ class Dashboard extends Component {
                         <h5 className="text-left pt-3 pb-2">Contact Information:</h5>
                         <PersonalInfoRow
                             header="Name"
-                            displayText={fullName}
+                            displayText={displayFullName}
                             id={"update_name"}
                             action={"/api/account/update/name"}
                             type={"text"}
