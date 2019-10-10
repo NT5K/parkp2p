@@ -1,4 +1,5 @@
 import React, { Component }  from "react";
+import { Link, NavLink } from 'react-router-dom'
 import { slide as Menu } from "react-burger-menu";
 import store from 'store'
 import { getFromStorage } from '../utils/storage'
@@ -20,17 +21,18 @@ class Sidebar extends Component {
 
     // if token in local storage, set token state to token value
     UNSAFE_componentWillMount() {
-        localStorage.getItem('park_p2p') && this.setState({
+        store.get('park_p2p') && this.setState({
             token: store.get('park_p2p').token
         })
     }
 
-    logout() {
+    logout(event) {
+        // event.preventDefault()
         this.setState({
             isLoading: true,
         });
         const obj = getFromStorage('park_p2p');
-        // console.log("~~~~~~~~~" , obj.token)
+        console.log("~~~~~~~~~" , obj.token)
         if (obj && obj.token) {
             const { token } = obj;
             console.log("TOKEN", token)
@@ -71,11 +73,12 @@ class Sidebar extends Component {
         return (
             <Menu>
                 <br />
-                <a className="nav-link  menu-item" href="/dash">Profits </a>
-                <a className="nav-link  menu-item" href="/dash">Account </a>
-                <a className="nav-link  menu-item" href="/dash/driveways">Driveway</a>
-                <a className="nav-link  menu-item" href="/dash/account-subscription">Subscription </a>
-                <a className="nav-link  menu-item" href="/dash/account-cancel">Cancel Account</a>
+                <h1>Menu</h1>
+                <Link className="nav-link  menu-item" to="/dash">Profits </Link>
+                <Link className="nav-link  menu-item" to="/dash">Account </Link>
+                <Link className="nav-link  menu-item" to="/dash/driveway">Driveway</Link>
+                <Link className="nav-link  menu-item" to="/dash/subscription">Subscription </Link>
+                <Link className="nav-link  menu-item" to="/dash/cancel">Cancel Account</Link>
                 <a className="nav-link  menu-item" href="/">Main Menu</a>
                 <a className="nav-link  menu-item" onClick={logout} href="/login">Logout</a>
             </Menu>

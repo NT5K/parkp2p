@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Redirect } from 'react-router-dom'
 import store from 'store'
 import 'whatwg-fetch';
-import DashboardNav from './Dashboard_Nav_Top'
-import SideBar from "./Sidebar";
 
 
 class Subscription extends Component {
@@ -44,13 +42,19 @@ class Subscription extends Component {
     }
 
     render() {
+        const { token } = this.state
+
+         if (!token) {
+            return (
+                <div>
+                    <Redirect to='/login' />
+                </div>
+            )
+        }
+
         return (
             <div>
-                {/* <Toolbar /> */}
-                <DashboardNav />
-                <SideBar />
                 <div className="container-flex">
-                    {/* <DashboardNavSide /> */}
                     
                         <div className="row pb-3 pt-3 border-bottom text-center">
                             <div className="col-xl-12">

@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from 'react-router-dom'
 import store from 'store'
 import 'whatwg-fetch';
-import DashboardNav from './Dashboard_Nav_Top'
 import PersonalInfoRow from './PersonalInfoRow'
-import SideBar from "./Sidebar";
 
 
 
@@ -20,8 +18,7 @@ class Dashboard extends Component {
             displayMonthly: '',
             displayOvernight: '',
 
-            dailyToPostRequest: '',
-            displayDaily: ''
+            dailyToPostRequest: ''
 
         }
 
@@ -94,12 +91,21 @@ class Dashboard extends Component {
     }
 
     render() {
-        const { displayDaily, dailyToPostRequest } = this.state
+        const { displayDaily, dailyToPostRequest, token } = this.state
         const { onTextboxChangeDaily, updateDaily } = this
+
+        if (!token) {
+            return (
+                <div>
+                    <Redirect to='/login' />
+                </div>
+            )
+        }
+
         return (
             <div>
-                <DashboardNav />
-                <SideBar />
+                {/* <DashboardNav />
+                <SideBar /> */}
                 <div className="container-flex">
                     <div className="row pb-3 pt-3 border-bottom text-center">
                         <div className="col-xl-12">

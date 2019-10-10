@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from 'react-router-dom'
 import store from 'store'
 import 'whatwg-fetch';
-import DashboardNav from './Dashboard_Nav_Top'
 import PersonalInfoRow from './PersonalInfoRow'
-import SideBar from "./Sidebar";
 
 class CancelAccount extends Component {
     constructor() {
@@ -95,8 +93,8 @@ class CancelAccount extends Component {
 
         return (
             <div>
-                <SideBar />
-                <DashboardNav />
+                {/* <SideBar />
+                <DashboardNav /> */}
                 <div className="container-flex">
                     <div className="row pb-3 pt-3 border-bottom text-center">
                         <div className="col-xl-12">

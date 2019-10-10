@@ -1,10 +1,8 @@
 import React, {Component} from "react";
 import { Redirect } from 'react-router-dom'
-import store from 'store'
+import store from 'store';
 import 'whatwg-fetch';
-import DashboardNav from './Dashboard_Nav_Top'
 import PersonalInfoRow from './PersonalInfoRow'
-import SideBar from "./Sidebar";
 
 class Dashboard extends Component {
     constructor() {
@@ -66,6 +64,7 @@ class Dashboard extends Component {
 
     // gets info based on token
     componentDidMount() {
+        console.log(this.state.token)
         fetch('/api/account/personal/' + this.state.token)
         .then(res => res.json())
         .then(user => {
@@ -220,7 +219,7 @@ class Dashboard extends Component {
         .then(json => {
             // set state for display
             if (json.success) {
-                const { displayCity, displayState, displayZipcode, displayAddress } = this.state
+                const { displayCity, displayState, displayZipcode } = this.state
                 this.setState({
                     displayAddress: addressToPostRequest,
                     displayFullAddress: addressToPostRequest + ", " + displayCity + ", " + displayState + " " + displayZipcode
@@ -248,7 +247,7 @@ class Dashboard extends Component {
         .then(json => {
             // set state for display
             if (json.success) {
-                const { displayCity, displayState, displayZipcode, displayAddress } = this.state
+                const { displayState, displayZipcode, displayAddress } = this.state
                 this.setState({
                     displayCity: cityToPostRequest,
                     displayFullAddress: displayAddress + ", " + cityToPostRequest + ", " + displayState + " " + displayZipcode
@@ -276,7 +275,7 @@ class Dashboard extends Component {
         .then(json => {
             // set state for display
             if (json.success) {
-                const { displayCity, displayState, displayZipcode, displayAddress } = this.state
+                const { displayCity, displayZipcode, displayAddress } = this.state
                 this.setState({
                     displayState: stateToPostRequest,
                     displayFullAddress: displayAddress + ", " + displayCity + ", " + stateToPostRequest + " " + displayZipcode
@@ -303,7 +302,7 @@ class Dashboard extends Component {
         .then(res => res.json())
         .then(json => {
             // set state for display
-            const { displayCity, displayState, displayZipcode, displayAddress } = this.state
+            const { displayCity, displayState, displayAddress } = this.state
             if (json.success) {
                 this.setState({
                     displayZipcode: zipcodeToPostRequest,
@@ -332,7 +331,7 @@ class Dashboard extends Component {
             emailToPostRequest, 
             displayPhoneNumber, 
             phone_numberToPostRequest,
-            displayFullAddress,
+            // displayFullAddress,
             addressToPostRequest,
             displayAddress,
             cityToPostRequest,
@@ -370,8 +369,8 @@ class Dashboard extends Component {
 
         return (
             <div>
-                <SideBar />
-                <DashboardNav />
+                {/* <SideBar />
+                <DashboardNav /> */}
                 <div className="container-flex">
                     <div className="row pb-3 pt-3 border-bottom text-center"> 
                         <div className="col-xl-12">
@@ -497,11 +496,11 @@ class Dashboard extends Component {
 
 export default Dashboard;
 
-{/* <div className="row mt-3 text-dark text-center">
+/* <div className="row mt-3 text-dark text-center">
     <div className="col-sm-2">
         <h6 className="border-right">Full Address</h6>
     </div>
     <div className="col-sm-4">
         <h6 className="text-center">{displayFullAddress}</h6>
     </div>
-</div> */}
+</div> */
