@@ -3,9 +3,9 @@ import { Redirect } from 'react-router-dom'
 import store from 'store'
 import 'whatwg-fetch';
 import DashboardNav from './Dashboard_Nav_Top'
-import DashboardNavSide from './Dashboard_Nav_Side'
 import PersonalInfoRow from './PersonalInfoRow'
-import Toolbar from './Toolbar/Toolbar'
+import SideBar from "./Sidebar";
+
 
 
 class Dashboard extends Component {
@@ -98,31 +98,32 @@ class Dashboard extends Component {
         const { onTextboxChangeDaily, updateDaily } = this
         return (
             <div>
-                {/* <Toolbar /> */}
                 <DashboardNav />
-                <div style={{ height: "100vh" }} className="row">
-                    <DashboardNavSide />
-                    <div className="col-xl-10 no-gutter text-center bg-white">
-                        <div className="row pb-3 pt-3 border-bottom">
-                            <div className="col-xl-12">
-                                <h4>View / Edit Personal Information</h4>
-                            </div>
+                <SideBar />
+                <div className="container-flex">
+                    <div className="row pb-3 pt-3 border-bottom text-center">
+                        <div className="col-xl-12">
+                            <h4>View / Edit Driveway Information</h4>
                         </div>
-                        <h5 className="text-left pt-3 pb-2">Contact Information:</h5>
-                       <PersonalInfoRow
-                            header={"Daily"}
-                            displayText={displayDaily}
-                            id={"update_Daily"}
-                            action={"/api/account/update/rates/daily"}
-                            type={"number"}
-                            inputId={"daily"}
-                            value={dailyToPostRequest}
-                            onChange={onTextboxChangeDaily}
-                            placeholder={"daily"}
-                            onClick={updateDaily}
-                            buttonText={"submit"}
-                        />
                     </div>
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Driveway Information:</b></u></h5>
+                        </div>
+                    </div>
+                    <PersonalInfoRow
+                        header={"Daily"}
+                        displayText={displayDaily}
+                        id={"update_Daily"}
+                        action={"/api/account/update/rates/daily"}
+                        type={"number"}
+                        inputId={"daily"}
+                        value={dailyToPostRequest}
+                        onChange={onTextboxChangeDaily}
+                        placeholder={"daily"}
+                        onClick={updateDaily}
+                        buttonText={"submit"}
+                    />
                 </div>
             </div>
         )

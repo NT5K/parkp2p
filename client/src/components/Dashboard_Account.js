@@ -3,9 +3,8 @@ import { Redirect } from 'react-router-dom'
 import store from 'store'
 import 'whatwg-fetch';
 import DashboardNav from './Dashboard_Nav_Top'
-import DashboardNavSide from './Dashboard_Nav_Side'
 import PersonalInfoRow from './PersonalInfoRow'
-import Toolbar from './Toolbar/Toolbar'
+import SideBar from "./Sidebar";
 
 class Dashboard extends Component {
     constructor() {
@@ -54,21 +53,8 @@ class Dashboard extends Component {
         this.updateState = this.updateState.bind(this);
         this.updateZipcode = this.updateZipcode.bind(this);
 
-        this.changeButtonToAddOrUpdateEmail = this.changeButtonToAddOrUpdateEmail.bind(this);
-        this.changeButtonToAddOrUpdateName = this.changeButtonToAddOrUpdateName.bind(this);
-        this.changeButtonToAddOrUpdatePhone_Number = this.changeButtonToAddOrUpdatePhone_Number.bind(this);
-        this.changeButtonToAddOrUpdateAddress = this.changeButtonToAddOrUpdateAddress.bind(this);
-        this.changeButtonToAddOrUpdateCity = this.changeButtonToAddOrUpdatePhone_Number.bind(this);
-        this.changeButtonToAddOrUpdateState = this.changeButtonToAddOrUpdatePhone_Number.bind(this);
-        this.changeButtonToAddOrUpdateZipcode = this.changeButtonToAddOrUpdatePhone_Number.bind(this);
-
-        this.checkIfEmailIsOnDatabase = this.checkIfEmailIsOnDatabase.bind(this);
-        this.checkIfNameIsOnDatabase = this.checkIfNameIsOnDatabase.bind(this);
-        this.checkIfPhone_NumberIsOnDatabase = this.checkIfPhone_NumberIsOnDatabase.bind(this);
-        this.checkIfAddressIsOnDatabase = this.checkIfAddressIsOnDatabase.bind(this);
-        this.checkIfCityIsOnDatabase = this.checkIfCityIsOnDatabase.bind(this);
-        this.checkIfStateIsOnDatabase = this.checkIfStateIsOnDatabase.bind(this);
-        this.checkIfZipcodeIsOnDatabase = this.checkIfPhone_NumberIsOnDatabase.bind(this);
+        // this.changeButtonToAddOrUpdateName = this.changeButtonToAddOrUpdateName.bind(this);
+        // this.checkIfNameIsOnDatabase = this.checkIfNameIsOnDatabase.bind(this);
     }
 
     // set token state to token value
@@ -214,6 +200,7 @@ class Dashboard extends Component {
             }
         });
     }
+
     updateAddress(event) {
         event.preventDefault()
         // Grab state
@@ -241,6 +228,7 @@ class Dashboard extends Component {
             }
         });
     }
+
     updateCity(event) {
         event.preventDefault()
         // Grab state
@@ -268,6 +256,7 @@ class Dashboard extends Component {
             }
         });
     }
+    
     updateState(event) {
         event.preventDefault()
         // Grab state
@@ -295,6 +284,7 @@ class Dashboard extends Component {
             }
         });
     }
+
     updateZipcode(event) {
         event.preventDefault()
         // Grab state
@@ -324,128 +314,50 @@ class Dashboard extends Component {
     }
 
     // decides placeholder and button text
-    checkIfNameIsOnDatabase() {
-        const { Name } = this.state.user
-        return (Name ? "Update name" : "Add name")
-    }
-    checkIfEmailIsOnDatabase() {
-        const { Email } = this.state.user
-        return (Email ? "Update email address" : "Add email")
-    }
-    checkIfPhone_NumberIsOnDatabase() {
-        const { Phone_Number } = this.state.user
-        return (Phone_Number ? "Update phone number" : "Add phone number")
-    }
-    checkIfAddressIsOnDatabase() {
-        const { Address } = this.state.user
-        return (Address ? "Update address" : "Add address")
-    }
-    checkIfCityIsOnDatabase() {
-        const { City } = this.state.user
-        return (City ? "Update city" : "Add city")
-    }
-    checkIfStateIsOnDatabase() {
-        const { State } = this.state.user
-        return (State ? "Update state" : "Add state")
-    }
-    checkIfZipcodeIsOnDatabase() {
-        const { Zipcode } = this.state.user
-        return (Zipcode ? "Update zipcode" : "Add zipcode")
-    }
-
-    changeButtonToAddOrUpdateName() {
-        const{ Name } = this.state.user
-        return (Name ? "Submit" : "Add")
-    }
-    changeButtonToAddOrUpdateEmail() {
-        const{ Email } = this.state.user
-        return (Email ? "Submit" : "Add")
-    }
-    changeButtonToAddOrUpdatePhone_Number() {
-        const{ Phone_Number } = this.state.user
-        return (Phone_Number ? "Submit" : "Add")
-    }
-    changeButtonToAddOrUpdateAddress() {
-        const{ Address } = this.state.user
-        return (Address ? "Submit" : "Add")
-    }
-    changeButtonToAddOrUpdateCity() {
-        const{ City } = this.state.user
-        return (City ? "Submit" : "Add")
-    }
-    changeButtonToAddOrUpdateState() {
-        const{ State } = this.state.user
-        return (State ? "Submit" : "Add")
-    }
-    changeButtonToAddOrUpdateZipcode() {
-        const{ Zipcode } = this.state.user
-        return (Zipcode ? "Submit" : "Add")
-    }
+    // checkIfNameIsOnDatabase() {
+    //     const { Name } = this.state.user
+    //     return (Name ? "Update name" : "Add name")
+    // }
+    // changeButtonToAddOrUpdateName() {
+    //     const{ Name } = this.state.user
+    //     return (Name ? "Submit" : "Add")
+    // }
 
     render() {
         const { 
+            token,
             fullName, 
             displayFullName, 
-            token,
-
             displayEmail, 
             emailToPostRequest, 
-
             displayPhoneNumber, 
             phone_numberToPostRequest,
-
             displayFullAddress,
-
             addressToPostRequest,
             displayAddress,
-
             cityToPostRequest,
             displayCity,
-
             stateToPostRequest,
             displayState,
-
             zipcodeToPostRequest,
             displayZipcode
         } = this.state
 
         const { 
             onTextboxChangeEmail, 
-            checkIfEmailIsOnDatabase,
-            changeButtonToAddOrUpdateEmail,
             updateEmail, 
-
             onTextboxChangeName,
-            checkIfNameIsOnDatabase,
-            changeButtonToAddOrUpdateName,
             updateName,
-
-            changeButtonToAddOrUpdatePhone_Number,
             onTextboxChangePhone_Number,
-            checkIfPhone_NumberIsOnDatabase,
             updatePhone,
-
-            changeButtonToAddOrUpdateAddress,
             onTextboxChangeAddress,
-            checkIfAddressIsOnDatabase,
             updateAddress,
-
-            changeButtonToAddOrUpdateCity,
             onTextboxChangeCity,
-            checkIfCityIsOnDatabase,
             updateCity,
-
-            changeButtonToAddOrUpdateState,
             onTextboxChangeState,
-            checkIfStateIsOnDatabase,
             updateState,
-
-            changeButtonToAddOrUpdateZipcode,
             onTextboxChangeZipcode,
-            checkIfZipcodeIsOnDatabase,
             updateZipcode,
-
-
         } = this
 
         if (!token) {
@@ -458,121 +370,125 @@ class Dashboard extends Component {
 
         return (
             <div>
-                {/* <Toolbar /> */}
+                <SideBar />
                 <DashboardNav />
-                <div style={{height: "100vh"}} className="row">
-                    <DashboardNavSide />     
-                    <div className="col-xl-10 no-gutter text-center bg-white">
-                        <div className="row pb-3 pt-3 border-bottom"> 
-                            <div className="col-xl-12">
-                                <h4>View / Edit Personal Information</h4>   
-                            </div>
-                        </div>
-                        <h5 className="text-left pt-3 pb-2">Contact Information:</h5>
-                        <PersonalInfoRow
-                            header="Name"
-                            displayText={fullName}
-                            id={"update_name"}
-                            action={"/api/account/update/name"}
-                            type={"text"}
-                            inputId={"fullName"}
-                            value={fullName}
-                            onChange={onTextboxChangeName}
-                            placeholder={checkIfNameIsOnDatabase()}
-                            onClick={updateName}
-                            buttonText={changeButtonToAddOrUpdateName()}
-                        />
-                        <PersonalInfoRow 
-                            header="Email"
-                            displayText={displayEmail}
-                            id={"update_email"}
-                            action={"/api/account/update/email"}
-                            type={"email"}
-                            inputId={"email"}
-                            value={emailToPostRequest}
-                            onChange={onTextboxChangeEmail}
-                            placeholder={checkIfEmailIsOnDatabase()}
-                            onClick={updateEmail}
-                            buttonText={changeButtonToAddOrUpdateEmail()}
-                        />
-                        <PersonalInfoRow 
-                            header="Phone Number"
-                            displayText={displayPhoneNumber}
-                            id={"update_phone"}
-                            action={"/api/account/update/phone"}
-                            type={"number"}
-                            inputId={"phone_number"}
-                            value={phone_numberToPostRequest}
-                            onChange={onTextboxChangePhone_Number}
-                            placeholder={checkIfPhone_NumberIsOnDatabase()}
-                            onClick={updatePhone}
-                            buttonText={changeButtonToAddOrUpdatePhone_Number()}
-                        />
-
-                        <h5 className="text-left pt-3 pb-2">Driveway Information:</h5>
-                        {/* <h6 className="text-left text-secondary">In order to utilize your driveway, address must first be verified*</h6> */}
-
-                        <PersonalInfoRow 
-                            header="Address"
-                            displayText={displayAddress}
-                            id={"update_address"}
-                            action={"/api/account/update/address"}
-                            type={"text"}
-                            inputId={"address"}
-                            value={addressToPostRequest}
-                            onChange={onTextboxChangeAddress}
-                            placeholder={checkIfAddressIsOnDatabase()}
-                            onClick={updateAddress}
-                            buttonText={changeButtonToAddOrUpdateAddress()}
-                        />
-                        <PersonalInfoRow 
-                            header="City"
-                            displayText={displayCity}
-                            id={"update_city"}
-                            action={"/api/account/update/city"}
-                            type={"text"}
-                            inputId={"city"}
-                            value={cityToPostRequest}
-                            onChange={onTextboxChangeCity}
-                            placeholder={checkIfCityIsOnDatabase()}
-                            onClick={updateCity}
-                            buttonText={changeButtonToAddOrUpdateCity()}
-                        />
-                        <PersonalInfoRow 
-                            header="State"
-                            displayText={displayState}
-                            id={"update_state"}
-                            action={"/api/account/update/state"}
-                            type={"text"}
-                            inputId={"state"}
-                            value={stateToPostRequest}
-                            onChange={onTextboxChangeState}
-                            placeholder={checkIfStateIsOnDatabase()}
-                            onClick={updateState}
-                            buttonText={changeButtonToAddOrUpdateState()}
-                        />
-                        <PersonalInfoRow 
-                            header="Zipcode"
-                            displayText={displayZipcode}
-                            id={"update_zipcode"}
-                            action={"/api/account/update/zipcode"}
-                            type={"text"}
-                            inputId={"zipcode"}
-                            value={zipcodeToPostRequest}
-                            onChange={onTextboxChangeZipcode}
-                            placeholder={checkIfZipcodeIsOnDatabase()}
-                            onClick={updateZipcode}
-                            buttonText={changeButtonToAddOrUpdateZipcode()}
-                        />
-                        <div className="row mt-3 text-dark text-center">
-                            <div className="col-sm-3">
-                                <h6 className="border-right">Full Address</h6>
-                            </div>
-                            <div className="col-sm-4">
-                                <h6 className="text-center">{displayFullAddress}</h6>
-                            </div>
+                <div className="container-flex">
+                    <div className="row pb-3 pt-3 border-bottom text-center"> 
+                        <div className="col-xl-12">
+                            <h4>View / Edit Personal Information</h4>   
                         </div>
                     </div>
+
+                    <br />
+                    
+                
+                <div className="row mt-3 text-dark text-center">
+                    <div className="col-sm-12">
+                        <h5 className="text-center"><u><b>Contact Information</b></u></h5>
+                    </div>
+                </div>
+                
+                    <PersonalInfoRow
+                        header="Name"
+                        displayText={displayFullName}
+                        id={"update_name"}
+                        action={"/api/account/update/name"}
+                        type={"text"}
+                        inputId={"fullName"}
+                        value={fullName}
+                        onChange={onTextboxChangeName}
+                        placeholder={"Name Input"}
+                        onClick={updateName}
+                        buttonText={"Submit"}
+                    />
+                    <PersonalInfoRow 
+                        header="Email"
+                        displayText={displayEmail}
+                        id={"update_email"}
+                        action={"/api/account/update/email"}
+                        type={"email"}
+                        inputId={"email"}
+                        value={emailToPostRequest}
+                        onChange={onTextboxChangeEmail}
+                        placeholder={"Email Input"}
+                        onClick={updateEmail}
+                        buttonText={"Submit"}
+                    />
+                    <PersonalInfoRow 
+                        header="Phone Number"
+                        displayText={displayPhoneNumber}
+                        id={"update_phone"}
+                        action={"/api/account/update/phone"}
+                        type={"number"}
+                        inputId={"phone_number"}
+                        value={phone_numberToPostRequest}
+                        onChange={onTextboxChangePhone_Number}
+                        placeholder={"Phone Number Input"}
+                        onClick={updatePhone}
+                        buttonText={"Submit"}
+                    />
+
+                    <br />
+                    <div className="row mt-3 text-center">
+                        <div className="col-sm-12">
+                        <h5 className="text-center"><u><b>Driveway Information</b></u></h5>
+                        </div>
+                    </div>
+                    
+                    <PersonalInfoRow 
+                        header="Address"
+                        displayText={displayAddress}
+                        id={"update_address"}
+                        action={"/api/account/update/address"}
+                        type={"text"}
+                        inputId={"address"}
+                        value={addressToPostRequest}
+                        onChange={onTextboxChangeAddress}
+                        placeholder={"Address Input"}
+                        onClick={updateAddress}
+                        buttonText={"Submit"}
+                    />
+                    <PersonalInfoRow 
+                        header="City"
+                        displayText={displayCity}
+                        id={"update_city"}
+                        action={"/api/account/update/city"}
+                        type={"text"}
+                        inputId={"city"}
+                        value={cityToPostRequest}
+                        onChange={onTextboxChangeCity}
+                        placeholder={"City Input"}
+                        onClick={updateCity}
+                        buttonText={"Submit"}
+                    />
+                    <PersonalInfoRow 
+                        header="State"
+                        displayText={displayState}
+                        id={"update_state"}
+                        action={"/api/account/update/state"}
+                        type={"text"}
+                        inputId={"state"}
+                        value={stateToPostRequest}
+                        onChange={onTextboxChangeState}
+                        placeholder={"State Input"}
+                        onClick={updateState}
+                        buttonText={"Submit"}
+                    />
+                    <PersonalInfoRow 
+                        header="Zipcode"
+                        displayText={displayZipcode}
+                        id={"update_zipcode"}
+                        action={"/api/account/update/zipcode"}
+                        type={"text"}
+                        inputId={"zipcode"}
+                        value={zipcodeToPostRequest}
+                        onChange={onTextboxChangeZipcode}
+                        placeholder={"Zipcode Input"}
+                        onClick={updateZipcode}
+                        buttonText={"Submit"}
+                    />
+
+                                            
                 </div>
             </div>
         );
@@ -580,3 +496,12 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
+
+{/* <div className="row mt-3 text-dark text-center">
+    <div className="col-sm-2">
+        <h6 className="border-right">Full Address</h6>
+    </div>
+    <div className="col-sm-4">
+        <h6 className="text-center">{displayFullAddress}</h6>
+    </div>
+</div> */}

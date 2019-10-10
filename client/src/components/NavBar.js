@@ -111,13 +111,13 @@ class NavBar extends Component {
                             <a className="nav-link text-primary" href="http://localhost:3000/">Share your driveway! <span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item border-right">
-                            <a className="nav-link" href="http://localhost:3000/dashboard">Dashboard</a>
+                            <a className="nav-link" href="/dash">Dashboard</a>
                         </li>
                         <li className="nav-item border-right">
                             <a className="nav-link" href="http://localhost:3000/">Help</a>
                         </li>
                         <li className="nav-item border-right">
-                            <p onClick={this.logout} >Logout</p>
+                            <a className="nav-link" href="http://localhost:3000/login" onClick={this.logout}>Logout</a>
                             {/* <button onClick={this.logout}><a href="/login">Logout</a></button> */}
                             {/* <button onClick={this.logout}>Logout</button> */}
                         </li>

@@ -3,8 +3,8 @@ import { Redirect } from 'react-router-dom'
 import store from 'store'
 import 'whatwg-fetch';
 import DashboardNav from './Dashboard_Nav_Top'
-import DashboardNavSide from './Dashboard_Nav_Side'
 import PersonalInfoRow from './PersonalInfoRow'
+import SideBar from "./Sidebar";
 
 class CancelAccount extends Component {
     constructor() {
@@ -95,16 +95,22 @@ class CancelAccount extends Component {
 
         return (
             <div>
+                <SideBar />
                 <DashboardNav />
-                <div style={{ height: "100vh" }} className="row">
-                    <DashboardNavSide />
-                    <div className="col-xl-10 no-gutter text-center bg-white">
-                        <div className="row pb-3 pt-3 border-bottom">
-                            <div className="col-xl-12">
-                                <h4>Cancel Account</h4>
-                            </div>
+                <div className="container-flex">
+                    <div className="row pb-3 pt-3 border-bottom text-center">
+                        <div className="col-xl-12">
+                            <h4>Cancel Account</h4>
                         </div>
-                        <h5 className="text-left pt-3 pb-2">To cancel, please provide correct password for this account:</h5>
+                    </div>
+
+                    <br />
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>To cancel, please provide correct password for this account:</b></u></h5>
+                        </div>
+                    </div>
+                    
 
                         <PersonalInfoRow
                             header="Account"
@@ -121,7 +127,7 @@ class CancelAccount extends Component {
                         />
                     </div>
                 </div>
-            </div>
+            
         );
     }
 }
