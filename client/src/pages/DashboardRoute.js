@@ -1,96 +1,27 @@
-import React, { Component } from 'react'
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Account from "./../components/Dashboard_Account"
+import Driveway from './../components/Dashboard_Driveway'
+import Subscription from './../components/Dashboard_Subscription'
+import Account_Cancel from "./../components/Dashboard_Account_Cancel"
+import "./styles.css";
+import SideBar from "../components/Sidebar";
+import Navbar from './../components/Dashboard_Nav_Top'
 
-import Toolbar from './../components/Toolbar/Toolbar'
-import SideDrawer from './../components/SideDrawer/SideDrawer'
-import Backdrop from './../components/Backdrop/Backdrop'
-
-class App extends Component {
-    state = {
-        sideDrawerOpen: false,
-    }
-
-    drawerToggleClickHandler = () => {
-        this.setState(prevState => {
-            return { sideDrawerOpen: !prevState.sideDrawerOpen }
-        })
-    }
-
-    backdropClickHandler = () => {
-        this.setState({ sideDrawerOpen: false })
-    }
-
-    render() {
-        let backdrop
-        let sideDrawer
-
-        if (this.state.sideDrawerOpen) {
-            backdrop = <Backdrop click={this.backdropClickHandler} />
-            sideDrawer = <SideDrawer />
-        }
-        return (
-            <div style={{ height: '100%' }}>
-                <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-                {sideDrawer}
-                {backdrop}
-                <main style={{ marginTop: '64px' }}>
-                    <p>This is the page content!</p>
-                </main>
+function Sidebar() {
+    return (
+        <BrowserRouter>
+            <div>
+            <SideBar />
+            <Navbar />
+                <Route exact path="/dash" component={Account} />
+                <Route exact path="/dash/driveway" component={Driveway} />
+                <Route exact path="/dash/subscription" component={Subscription} />
+                <Route exact path="/dash/cancel" component={Account_Cancel} />
+                <Route exact path="/dash/profits" component={Account} />
             </div>
-        )
-    }
+        </BrowserRouter>
+    );
 }
 
-export default App
-
-// import React, { Component } from 'react';
-
-// import Dashboard_Nav_Top from '../components/Dashboard_Nav_Top'
-// import Dashboard_Nav_Side from '../components/Dashboard_Nav_Side'
-
-// import Profits from '../components/Dashboard/Dashboard'
-// import Account from "./../components/Dashboard_Account"
-// import Toolbar from './../components/Toolbar/Toolbar'
-// import SideDrawer from './../components/SideDrawer/SideDrawer'
-// import Backdrop from './../components/Backdrop/Backdrop'
-// import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// import sideDrawer from './../components/SideDrawer/SideDrawer';
-
-// class Dashboard extends Component {
-//     state = {
-//         sideDrawerOpen: false,
-
-//     }
-//     drawerToggleClickHandler = (prevState) => {
-//         this.setState(() => {
-//             return {sideDrawerOpen: !prevState.sideDrawerOpen}
-//         })
-//     }
-
-//     backdropClickHandler = () => {
-//         this.setState({
-//             sideDrawerOpen: false
-//         })
-//     }
-
-//     render() {
-//         let sideDrawer;
-//         let backdrop
-//         if (this.state.sideDrawerOpen) {
-//             sideDrawer = <SideDrawer />
-//             backdrop = <Backdrop click = {this.backdropClickHandler} /> 
-//         }
-//         return (
-//             <div style={{height: '100vh'}}>
-//                <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-//                {sideDrawer}
-//                {backdrop}
-//                <main style={{marginTop: '64px'}}>
-//                 <p>this is the page content</p>
-//                </main>
-//            </div>
-            
-//         );
-//     }
-// }
-
-// export default Dashboard;
+export default Sidebar
