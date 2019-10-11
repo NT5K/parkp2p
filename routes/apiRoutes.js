@@ -250,6 +250,28 @@ router.post('/api/account/update/zipcode/', (req, res) => {
 //===========================================================================
   // update daily rate in dashboard
 //===========================================================================
+router.post('/api/account/update/rates/hourly', (req, res) => {
+  const { token, hourlyToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("first name change", hourlyToPostRequest)
+  
+  const query = "UPDATE users SET Hourly = ? WHERE ID = ?;";
+  const input = [hourlyToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update daily rate")
+    } else {
+      return res.send({
+        success: true,
+        new_hourly_rate: hourlyToPostRequest
+      });
+    };
+  });
+});
+
 router.post('/api/account/update/rates/daily', (req, res) => {
   const { token, dailyToPostRequest } = req.body;
   
@@ -272,4 +294,69 @@ router.post('/api/account/update/rates/daily', (req, res) => {
   });
 });
 
+router.post('/api/account/update/rates/weekly', (req, res) => {
+  const { token, weeklyToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("first name change", weeklyToPostRequest)
+  
+  const query = "UPDATE users SET Weekly = ? WHERE ID = ?;";
+  const input = [weeklyToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update daily rate")
+    } else {
+      return res.send({
+        success: true,
+        new_weekly_rate: weeklyToPostRequest
+      });
+    };
+  });
+});
+
+router.post('/api/account/update/rates/monthly', (req, res) => {
+  const { token, monthlyToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("first name change", monthlyToPostRequest)
+  
+  const query = "UPDATE users SET Monthly = ? WHERE ID = ?;";
+  const input = [monthlyToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update daily rate")
+    } else {
+      return res.send({
+        success: true,
+        new_monthly_rate: monthlyToPostRequest
+      });
+    };
+  });
+});
+
+router.post('/api/account/update/rates/overnight', (req, res) => {
+  const { token, overnightToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("first name change", overnightToPostRequest)
+  
+  const query = "UPDATE users SET Overnight = ? WHERE ID = ?;";
+  const input = [overnightToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update daily rate")
+    } else {
+      return res.send({
+        success: true,
+        new_overnight_rate: overnightToPostRequest
+      });
+    };
+  });
+});
 //============================================================================
