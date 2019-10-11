@@ -7,7 +7,7 @@ import Account from "./components/Dashboard_Account"
 import Driveway from './components/Dashboard_Driveway'
 import Subscription from './components/Dashboard_Subscription'
 import Account_Cancel from "./components/Dashboard_Account_Cancel"
-import addDriveway from "./pages/DashboardAddDriveway"
+// import addDriveway from "./pages/DashboardAddDriveway"
 import DashboardRoute from './pages/DashboardRoute'
 import SideBar from "./components/Sidebar";
 import Navbar from './components/Dashboard_Nav_Top'
@@ -22,9 +22,9 @@ class App extends Component {
             <Route exact path="/" component={Main} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
-            <Route exact path="/dashboard/account" component={Account} />
-            <Route exact path="/dashboard/add-driveway" component={addDriveway} />
-            <Route exact path="/dash" component={DashboardRoute} />
+            {/* <Route exact path="/dashboard/account" component={Account} /> */}
+            {/* <Route exact path="/dashboard/add-driveway" component={addDriveway} /> */}
+            <Route path="/dash" component={DashboardRoute} />
             {/* <Router>
               <div>
                 <SideBar />

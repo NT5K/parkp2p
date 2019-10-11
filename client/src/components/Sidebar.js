@@ -27,7 +27,7 @@ class Sidebar extends Component {
     }
 
     logout(event) {
-        // event.preventDefault()
+        event.preventDefault()
         this.setState({
             isLoading: true,
         });
@@ -75,7 +75,7 @@ class Sidebar extends Component {
                 <br />
                 <h1>Menu</h1>
                 <Link className="nav-link  menu-item" to="/dash">Profits </Link>
-                <Link className="nav-link  menu-item" to="/dash">Account </Link>
+                <Link className="nav-link  menu-item" to="/dash/account">Account </Link>
                 <Link className="nav-link  menu-item" to="/dash/driveway">Driveway</Link>
                 <Link className="nav-link  menu-item" to="/dash/subscription">Subscription </Link>
                 <Link className="nav-link  menu-item" to="/dash/cancel">Cancel Account</Link>
