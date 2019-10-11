@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { slide as Menu } from "react-burger-menu";
 import store from 'store'
 import { getFromStorage } from '../utils/storage'
@@ -26,18 +26,18 @@ class Sidebar extends Component {
         })
     }
 
-    logout(event) {
-        event.preventDefault()
+    logout() {
+        // event.preventDefault()
         this.setState({
             isLoading: true,
         });
         const obj = getFromStorage('park_p2p');
-        console.log("~~~~~~~~~" , obj.token)
+        // console.log("~~~~~~~~~" , obj.token)
         if (obj && obj.token) {
             const { token } = obj;
             console.log("TOKEN", token)
             this.setState({ error: "good1" })
-
+            store.remove('park_p2p')
             // Delete token from database, clear local storage
             fetch('/api/account/logout/' + token, {
                 method: 'DELETE',
@@ -46,7 +46,7 @@ class Sidebar extends Component {
                 .then(res => res.json())
                 .then(json => {
                     if (json.success) {
-                        store.remove('park_p2p')
+                        
                         this.setState({
                             token: '',
                             isLoading: false,
@@ -80,7 +80,7 @@ class Sidebar extends Component {
                 <Link className="nav-link  menu-item" to="/dash/subscription">Subscription </Link>
                 <Link className="nav-link  menu-item" to="/dash/cancel">Cancel Account</Link>
                 <a className="nav-link  menu-item" href="/">Main Menu</a>
-                <a className="nav-link  menu-item" onClick={logout} href="/login">Logout</a>
+                <a className="nav-link menu-item" href="/" onClick={logout}>Logout</a>
             </Menu>
         );
     }

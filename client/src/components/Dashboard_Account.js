@@ -362,7 +362,7 @@ class Dashboard extends Component {
         if (!token) {
             return (
                 <div>
-                    <Redirect to='/login' />
+                    <Redirect to='/' />
                 </div>
             )
         }
