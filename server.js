@@ -1,3 +1,4 @@
+
 const express = require('express');
 const app = express();
 
@@ -36,4 +37,4 @@ require('./routes/signin');
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(proces.env.PORT || 5000, () => `Server running on port ${PORT}`);
+app.listen(process.env.PORT || 5000, () => `Server running on port ${PORT}`);
