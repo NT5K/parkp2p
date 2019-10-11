@@ -36,4 +36,4 @@ require('./routes/signin');
 
 const PORT = 5000;
 
-app.listen(proces.env.PORT, () => `Server running on port ${PORT}`);
+app.listen(proces.env.PORT || 5000, () => `Server running on port ${PORT}`);
