@@ -34,6 +34,6 @@ require('./routes/htmlRoutes');
 require('./routes/apiRoutes');
 require('./routes/signin');
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(proces.env.PORT || 5000, () => `Server running on port ${PORT}`);
