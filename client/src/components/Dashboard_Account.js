@@ -64,8 +64,8 @@ class Dashboard extends Component {
 
     // gets info based on token
     componentDidMount() {
-        console.log(this.state.token)
-        fetch('/api/account/personal/' + this.state.token)
+        const { token, user } = this.state
+        fetch('/api/account/personal/' + token)
         .then(res => res.json())
         .then(user => {
             const { Name, Email, Phone_Number , Address, City, Zipcode, State} = user[0] 
@@ -80,7 +80,7 @@ class Dashboard extends Component {
                 displayState: State, 
                 displayZipcode: Zipcode
             })
-        }, () => console.log("user array", this.state.user, "this users token", this.state.token))
+        }, () => console.log("user array", user, "this users token", token))
     }
 
     // passes input values to state
@@ -369,9 +369,8 @@ class Dashboard extends Component {
 
         return (
             <div>
-                {/* <SideBar />
-                <DashboardNav /> */}
                 <div className="container-flex">
+
                     <div className="row pb-3 pt-3 border-bottom text-center"> 
                         <div className="col-xl-12">
                             <h4>View / Edit Personal Information</h4>   
@@ -380,12 +379,11 @@ class Dashboard extends Component {
 
                     <br />
                     
-                
-                <div className="row mt-3 text-dark text-center">
-                    <div className="col-sm-12">
-                        <h5 className="text-center"><u><b>Contact Information</b></u></h5>
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Contact Information</b></u></h5>
+                        </div>
                     </div>
-                </div>
                 
                     <PersonalInfoRow
                         header="Name"
@@ -485,9 +483,7 @@ class Dashboard extends Component {
                         placeholder={"Zipcode Input"}
                         onClick={updateZipcode}
                         buttonText={"Submit"}
-                    />
-
-                                            
+                    />                   
                 </div>
             </div>
         );
@@ -495,12 +491,3 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
-
-/* <div className="row mt-3 text-dark text-center">
-    <div className="col-sm-2">
-        <h6 className="border-right">Full Address</h6>
-    </div>
-    <div className="col-sm-4">
-        <h6 className="text-center">{displayFullAddress}</h6>
-    </div>
-</div> */

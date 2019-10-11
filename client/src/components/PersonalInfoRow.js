@@ -4,7 +4,6 @@ class PersonalInfoRow extends Component {
     render() {
         // console.log(this.props)
         return (
-        
             <div className="row mt-2 text-dark text-center justify-content-center">
                 <div className="col-sm-2 col-xs-6">
                     <h6 className="border-right">{this.props.header}</h6>
