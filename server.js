@@ -1,4 +1,3 @@
-
 const express = require('express');
 const app = express();
 
@@ -35,6 +34,6 @@ require('./routes/htmlRoutes');
 require('./routes/apiRoutes');
 require('./routes/signin');
 
-const port = process.env.PORT || 5000;
+const port = 5000;
 
-app.listen(process.env.PORT, '0.0.0.0')
+app.listen(port, () => `Server running on port ${port}`);
