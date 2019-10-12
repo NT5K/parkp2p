@@ -12,6 +12,7 @@ import PlacesAutocomplete, {
 
 const styles = {
 
+    
     shadow: {
         boxShadow: "1px 1px 1px black"
     },
@@ -130,13 +131,13 @@ class NavBar extends Component {
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
-            <input
+            <input className="form-control mr-sm-2" type="search" placeholder='Spots in "Cleveland, Oh"' aria-label="Search" style={styles.shadow}
               {...getInputProps({
                 placeholder: 'Search Places ...',
                 className: 'location-search-input',
               })}
             />
-            <div className="autocomplete-dropdown-container">
+            <div className="autocomplete-dropdown-container" style={styles.zIndex}>
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
