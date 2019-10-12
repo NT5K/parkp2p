@@ -55,26 +55,23 @@ class MapContainer extends Component {
             <div>
              <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
              
-         <Map
+         <Map       
+                    centerAroundCurrentLocation={true}
                     google={this.props.google}
                     zoom={12}
                     style={this.state.mapStyles}
-                    mapCenter={{
-                        lat: marker.Latitude,
-                        lng: marker.Longitude
+                    initialCenter={{
+                        lat: 41.4993, 
+                        lng: 81.6944
                     }}
-                    // initialCenter={{
-                    //     lat: this.props.Coords.lat1, 
-                    //     lng: this.props.Coords.Lng1
-                    // }}
                     center={{
                         lat: this.props.Coords.lat1, 
                         lng: this.props.Coords.Lng1
                     }}
                     centerAroundCurrentLocation={false}
-                    fullscreenControl={true}
+                    fullscreenControl={false}
                     streetViewControl={false}
-                    mapTypeControl={true}
+                    mapTypeControl={false}
                     styles={styles}
                     >
     <Marker 
@@ -97,7 +94,6 @@ class MapContainer extends Component {
                             weekly={marker.Weekly}
                             monthly={marker.Monthly}
                             animation={1}
-                            center={{ lat: marker.Latitude, lng: marker.Longitude }}
                             position={{ lat: marker.Latitude, lng: marker.Longitude }}
                             icon={{
                                 url: "http://maps.google.com/mapfiles/ms/icons/green.png"
