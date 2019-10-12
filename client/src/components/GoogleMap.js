@@ -50,7 +50,7 @@ class MapContainer extends Component {
       };
 
     render() {
-        const { marker, lat1, Lng1 } = this.state
+        const { marker} = this.state
         return (
             <div>
              <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
@@ -62,7 +62,7 @@ class MapContainer extends Component {
                     // initialCenter={{
                     //     lat: 41.50416, lng: -81.60845
                     // }}
-                    center={{lat: lat1, lng: Lng1}}
+                    center={{lat: this.props.Coords.lat1, lng: this.props.Coords.Lng1}}
                     centerAroundCurrentLocation={true}
                     fullscreenControl={false}
                     streetViewControl={false}

@@ -7,6 +7,7 @@ import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
   } from 'react-places-autocomplete';
+import GoogleMap from './GoogleMap';
 
 // const key = store.get('park_p2p')
 
@@ -111,6 +112,10 @@ class NavBar extends Component {
         // const { token } = this.state
         // const { redirect } = this
         const { loggedOut } = this.state
+        const Coords = {
+          lat1: this.state.lat1, 
+          Lng1: this.state.Lng1
+        }
 
         if (loggedOut) {
             return (
@@ -120,6 +125,7 @@ class NavBar extends Component {
             )
         }
         return (
+          <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark pt-1 pb-2" style={styles.zIndex}>
                 <a className="navbar-brand mr-5" href="/">PARK P2P</a>
 
@@ -138,7 +144,7 @@ class NavBar extends Component {
           <div>
             <input className="form-control mr-sm-2" type="search" placeholder='Spots in "Cleveland, Oh"' aria-label="Search" style={styles.shadow}
               {...getInputProps({
-                placeholder: 'Search Places ...',
+                placeholder: 'Spots in "Cleveland, Oh"',
                 className: 'location-search-input',
               })}
             />
@@ -150,8 +156,8 @@ class NavBar extends Component {
                   : 'suggestion-item';
                 // inline style for demonstration purpose
                 const style = suggestion.active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                  ? { backgroundColor: '#fafafa', cursor: 'pointer', width: '45vw' }
+                  : { backgroundColor: '#ffffff', cursor: 'pointer', width: '45vw' };
                 return (
                   <div
                     {...getSuggestionItemProps(suggestion, {
@@ -184,8 +190,14 @@ class NavBar extends Component {
                             {/* <button onClick={this.logout}>Logout</button> */}
                         </li>
                     </ul>
+            
                 </div>
             </nav>
+            <div>
+              <GoogleMap Coords={Coords} />
+            </div>
+            </div>
+           
         )
     }
 }
