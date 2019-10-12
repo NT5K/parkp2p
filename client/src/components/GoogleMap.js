@@ -59,10 +59,10 @@ class MapContainer extends Component {
                     google={this.props.google}
                     zoom={12}
                     style={this.state.mapStyles}
-                    // initialCenter={{
-                    //     lat: 41.50416, lng: -81.60845
-                    // }}
-                    center={{lat: this.props.Coords.lat1, lng: this.props.Coords.Lng1}}
+                    center={{
+                        lat: this.props.Coords.lat1, 
+                        lng: this.props.Coords.Lng1
+                    }}
                     centerAroundCurrentLocation={true}
                     fullscreenControl={false}
                     streetViewControl={false}
@@ -72,9 +72,11 @@ class MapContainer extends Component {
     <Marker 
     onClick={this.onMarkerClick} 
     address={'You are Here'}
+    label={"X"}
     icon={{
-        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-    }} />
+        url: "http://maps.google.com/mapfiles/ms/icons/red.png"
+    }}
+     />
                     {marker.map(marker =>
                         <Marker
                             onClick={this.onMarkerClick}
@@ -85,9 +87,10 @@ class MapContainer extends Component {
                             daily={marker.Daily}
                             weekly={marker.Weekly}
                             monthly={marker.Monthly}
+                            label={"P"}
                             position={{ lat: marker.Latitude, lng: marker.Longitude }}
                             icon={{
-                                url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                                url: "http://maps.google.com/mapfiles/ms/icons/green.png"
                             }}
                         />
 
