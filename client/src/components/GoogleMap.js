@@ -12,7 +12,7 @@ class MapContainer extends Component {
         this.state = {
             mapStyles: {
                 width: "100%",
-                height: "93%"
+                height: "100%"
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click

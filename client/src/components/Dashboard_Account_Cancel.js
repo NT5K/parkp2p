@@ -93,39 +93,33 @@ class CancelAccount extends Component {
 
         return (
             <div>
-                {/* <SideBar />
-                <DashboardNav /> */}
                 <div className="container-flex">
                     <div className="row pb-3 pt-3 border-bottom text-center">
                         <div className="col-xl-12">
                             <h4>Cancel Account</h4>
                         </div>
                     </div>
-
                     <br />
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>To cancel, please provide correct password for this account:</b></u></h5>
                         </div>
                     </div>
-                    
-
-                        <PersonalInfoRow
-                            header="Account"
-                            displayText={displayEmail}
-                            id={"delete_user"}
-                            action={"/api/account/delete/"}
-                            type={"text"}
-                            inputId={"delete_user"}
-                            value={passwordToPostRequest}
-                            onChange={onTextboxChangePassword}
-                            placeholder={"password goes here"}
-                            onClick={deleteUser}
-                            buttonText={"Delete Account"}
-                        />
-                    </div>
+                    <PersonalInfoRow
+                        header="Account"
+                        displayText={displayEmail}
+                        id={"delete_user"}
+                        action={"/api/account/delete/"}
+                        type={"text"}
+                        inputId={"delete_user"}
+                        value={passwordToPostRequest}
+                        onChange={onTextboxChangePassword}
+                        placeholder={"password goes here"}
+                        onClick={deleteUser}
+                        buttonText={"Delete Account"}
+                    />
                 </div>
-            
+            </div>
         );
     }
 }

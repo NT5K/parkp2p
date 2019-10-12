@@ -17,12 +17,16 @@ const styles = {
         boxShadow: "1px 1px 1px black"
     },
     zIndex: {
-        zIndex: 1
+        zIndex: 999,
+        position: "absolute",
+        overflow: "visible",
+        width: "100%"
     },
     zIndexCollapse: {
         zIndex: 2
     }
 }
+// style = "z-index: 999; position: relative; overflow: visible;"
 
 class NavBar extends Component {
     constructor(props) {
@@ -48,12 +52,13 @@ class NavBar extends Component {
         })
     }
 
-    logout() {
+    logout(event) {
+        event.preventDefault()
         this.setState({
             isLoading: true,
         });
         const obj = getFromStorage('park_p2p');
-        // console.log("~~~~~~~~~" , obj.token)
+        console.log("~~~~~~~~~" , obj.token)
         if (obj && obj.token) {
             const { token } = obj;
             console.log("TOKEN", token)
@@ -115,7 +120,7 @@ class NavBar extends Component {
             )
         }
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark pt-1 pb-2" style={ styles.zIndex }>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark pt-1 pb-2" style={styles.zIndex}>
                 <a className="navbar-brand mr-5" href="/">PARK P2P</a>
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -165,16 +170,16 @@ class NavBar extends Component {
                     </form>
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <a className="nav-link text-primary" href="http://localhost:3000/">Share your driveway! <span className="sr-only">(current)</span></a>
+                            <a className="nav-link text-primary" href="/">Share your driveway! <span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/dash">Dashboard</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="http://localhost:3000/">Help</a>
+                            <a className="nav-link" href="/">Help</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="http://localhost:3000/login" onClick={this.logout}>Logout</a>
+                            <a className="nav-link" href="/login" onClick={this.logout}>Logout</a>
                             {/* <button onClick={this.logout}><a href="/login">Logout</a></button> */}
                             {/* <button onClick={this.logout}>Logout</button> */}
                         </li>

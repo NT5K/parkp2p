@@ -74,15 +74,15 @@ router.post('/api/account/update/name/', (req, res) => {
   console.log("local token", token)
   console.log("first name change", fullName)
   
-  const query = "UPDATE users SET Name = ? WHERE ID = ?;";
-  const input = [fullName, token ]
-
   if (!fullName) { 
     return res.send({
       success: false,
       error: "name input cannot be blank"
     })
   }
+
+  const query = "UPDATE users SET Name = ? WHERE ID = ?;";
+  const input = [fullName, token ]
 
   connection.query(query, input, (err, result) => {
     if(err) {
@@ -104,7 +104,14 @@ router.post('/api/account/update/email/', (req, res) => {
   const { token, emailToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", emailToPostRequest)
+  console.log("email change", emailToPostRequest)
+
+  if (!emailToPostRequest) {
+    return res.send({
+      success: false,
+      error: "email input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET Email = ? WHERE ID = ?;";
   const input = [emailToPostRequest, token ]
@@ -129,7 +136,14 @@ router.post('/api/account/update/phone/', (req, res) => {
   const { token, phone_numberToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", phone_numberToPostRequest)
+  console.log("phone number change", phone_numberToPostRequest)
+
+  if (!phone_numberToPostRequest) {
+    return res.send({
+      success: false,
+      error: "phone number input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET Phone_Number = ? WHERE ID = ?;";
   const input = [phone_numberToPostRequest, token ]
@@ -154,7 +168,14 @@ router.post('/api/account/update/address/', (req, res) => {
   const { token, addressToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", addressToPostRequest)
+  console.log("address change", addressToPostRequest)
+
+  if (!addressToPostRequest) {
+    return res.send({
+      success: false,
+      error: "address input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET Address = ? WHERE ID = ?;";
   const input = [addressToPostRequest, token ]
@@ -179,7 +200,14 @@ router.post('/api/account/update/city/', (req, res) => {
   const { token, cityToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", cityToPostRequest)
+  console.log("city change", cityToPostRequest)
+
+  if (!cityToPostRequest) {
+    return res.send({
+      success: false,
+      error: "city input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET City = ? WHERE ID = ?;";
   const input = [cityToPostRequest, token ]
@@ -204,7 +232,14 @@ router.post('/api/account/update/state/', (req, res) => {
   const { token, stateToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", stateToPostRequest)
+  console.log("state change", stateToPostRequest)
+
+  if (!stateToPostRequest) {
+    return res.send({
+      success: false,
+      error: "state input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET State = ? WHERE ID = ?;";
   const input = [stateToPostRequest, token ]
@@ -229,7 +264,14 @@ router.post('/api/account/update/zipcode/', (req, res) => {
   const { token, zipcodeToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", zipcodeToPostRequest)
+  console.log("zipcode change", zipcodeToPostRequest)
+
+  if (!zipcodeToPostRequest) {
+    return res.send({
+      success: false,
+      error: "zip input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET Zipcode = ? WHERE ID = ?;";
   const input = [zipcodeToPostRequest, token ]
@@ -248,13 +290,20 @@ router.post('/api/account/update/zipcode/', (req, res) => {
 });
 
 //===========================================================================
-  // update daily rate in dashboard
+  // update hourly rate in dashboard
 //===========================================================================
 router.post('/api/account/update/rates/hourly', (req, res) => {
   const { token, hourlyToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", hourlyToPostRequest)
+  console.log("hourly change", hourlyToPostRequest)
+
+  if (!hourlyToPostRequest) {
+    return res.send({
+      success: false,
+      error: "hourly input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET Hourly = ? WHERE ID = ?;";
   const input = [hourlyToPostRequest, token ]
@@ -262,7 +311,7 @@ router.post('/api/account/update/rates/hourly', (req, res) => {
   connection.query(query, input, (err, result) => {
     if(err) {
       console.log(err);
-      return res.status(500).send("failed to update daily rate")
+      return res.status(500).send("failed to update hourly rate")
     } else {
       return res.send({
         success: true,
@@ -272,11 +321,22 @@ router.post('/api/account/update/rates/hourly', (req, res) => {
   });
 });
 
+//===========================================================================
+  // update daily rate in dashboard
+//===========================================================================
+
 router.post('/api/account/update/rates/daily', (req, res) => {
   const { token, dailyToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", dailyToPostRequest)
+  console.log("daily change", dailyToPostRequest)
+
+  if (!dailyToPostRequest) {
+    return res.send({
+      success: false,
+      error: "daily input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET Daily = ? WHERE ID = ?;";
   const input = [dailyToPostRequest, token ]
@@ -294,11 +354,22 @@ router.post('/api/account/update/rates/daily', (req, res) => {
   });
 });
 
+//===========================================================================
+  // update weekly rate in dashboard
+//===========================================================================
+
 router.post('/api/account/update/rates/weekly', (req, res) => {
   const { token, weeklyToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", weeklyToPostRequest)
+  console.log("weekly change", weeklyToPostRequest)
+
+  if (!weeklyToPostRequest) {
+    return res.send({
+      success: false,
+      error: "weekly input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET Weekly = ? WHERE ID = ?;";
   const input = [weeklyToPostRequest, token ]
@@ -306,7 +377,7 @@ router.post('/api/account/update/rates/weekly', (req, res) => {
   connection.query(query, input, (err, result) => {
     if(err) {
       console.log(err);
-      return res.status(500).send("failed to update daily rate")
+      return res.status(500).send("failed to update weekly rate")
     } else {
       return res.send({
         success: true,
@@ -316,11 +387,22 @@ router.post('/api/account/update/rates/weekly', (req, res) => {
   });
 });
 
+//===========================================================================
+  // update monthly rate in dashboard
+//===========================================================================
+
 router.post('/api/account/update/rates/monthly', (req, res) => {
   const { token, monthlyToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", monthlyToPostRequest)
+  console.log("monthly change", monthlyToPostRequest)
+
+  if (!monthlyToPostRequest) {
+    return res.send({
+      success: false,
+      error: "monthly input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET Monthly = ? WHERE ID = ?;";
   const input = [monthlyToPostRequest, token ]
@@ -328,7 +410,7 @@ router.post('/api/account/update/rates/monthly', (req, res) => {
   connection.query(query, input, (err, result) => {
     if(err) {
       console.log(err);
-      return res.status(500).send("failed to update daily rate")
+      return res.status(500).send("failed to update monthly rate")
     } else {
       return res.send({
         success: true,
@@ -338,11 +420,22 @@ router.post('/api/account/update/rates/monthly', (req, res) => {
   });
 });
 
+//===========================================================================
+  // update overnight rate in dashboard
+//===========================================================================
+
 router.post('/api/account/update/rates/overnight', (req, res) => {
   const { token, overnightToPostRequest } = req.body;
   
   console.log("local token", token)
-  console.log("first name change", overnightToPostRequest)
+  console.log("overnight change", overnightToPostRequest)
+
+  if (!overnightToPostRequest) {
+    return res.send({
+      success: false,
+      error: "overnight input cannot be blank"
+    })
+  }
   
   const query = "UPDATE users SET Overnight = ? WHERE ID = ?;";
   const input = [overnightToPostRequest, token ]
@@ -350,7 +443,7 @@ router.post('/api/account/update/rates/overnight', (req, res) => {
   connection.query(query, input, (err, result) => {
     if(err) {
       console.log(err);
-      return res.status(500).send("failed to update daily rate")
+      return res.status(500).send("failed to update overnight rate")
     } else {
       return res.send({
         success: true,
@@ -359,4 +452,5 @@ router.post('/api/account/update/rates/overnight', (req, res) => {
     };
   });
 });
+
 //============================================================================
