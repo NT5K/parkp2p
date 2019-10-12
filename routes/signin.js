@@ -209,7 +209,7 @@ router.delete('/api/account/logout/:token', (req, res, next) => {
         return res.send({
             success: true,
             message: 'Session Deleted',
-            console: token
+            token: token
         });
     })
 });
