@@ -5,6 +5,7 @@ import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
   } from 'react-places-autocomplete';
+import './GoogleMap.css'
 require('dotenv').config()
 
 const styles = require('./GoogleMapStyles.json')
@@ -15,7 +16,7 @@ class MapContainer extends Component {
         this.state = {
             mapStyles: {
                 width: "100%",
-                height: "100%"
+                height: "93%"
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
