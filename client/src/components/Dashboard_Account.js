@@ -1,8 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { Redirect } from 'react-router-dom'
 import store from 'store';
 import 'whatwg-fetch';
 import PersonalInfoRow from './PersonalInfoRow'
+const geocoder = require('google-geocoder');
 
 class Dashboard extends Component {
     constructor() {
@@ -50,6 +51,7 @@ class Dashboard extends Component {
         this.updateCity = this.updateCity.bind(this);
         this.updateState = this.updateState.bind(this);
         this.updateZipcode = this.updateZipcode.bind(this);
+        this.verifyAddress = this.verifyAddress.bind(this);
 
         // this.changeButtonToAddOrUpdateName = this.changeButtonToAddOrUpdateName.bind(this);
         // this.checkIfNameIsOnDatabase = this.checkIfNameIsOnDatabase.bind(this);
@@ -312,6 +314,31 @@ class Dashboard extends Component {
         });
     }
 
+    verifyAddress(event) {
+        event.preventDefault()
+        // Grab state
+        const { displayFullAddress, token } = this.state;
+        // post to backend
+        fetch('/api/account/verify/address', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                displayFullAddress
+            })
+        })
+            .then(res => res.json())
+            .then(json => {
+                // set state for display
+                const { displayCity, displayState, displayAddress } = this.state
+                if (json.success) {
+               
+                }
+            });
+    }
+
     // decides placeholder and button text
     // checkIfNameIsOnDatabase() {
     //     const { Name } = this.state.user
@@ -331,7 +358,7 @@ class Dashboard extends Component {
             emailToPostRequest, 
             displayPhoneNumber, 
             phone_numberToPostRequest,
-            // displayFullAddress,
+            displayFullAddress,
             addressToPostRequest,
             displayAddress,
             cityToPostRequest,
@@ -357,6 +384,8 @@ class Dashboard extends Component {
             updateState,
             onTextboxChangeZipcode,
             updateZipcode,
+
+            verifyAddress
         } = this
 
         if (!token) {
@@ -483,7 +512,23 @@ class Dashboard extends Component {
                         placeholder={"Zipcode Input"}
                         onClick={updateZipcode}
                         buttonText={"Submit"}
-                    />                   
+                    />       
+                    {/* verify address, sends to geocoder to get long lat and store it on the database */}
+                    <div className="row mt-2 text-dark text-center justify-content-center">
+                        <div className="col-sm-2 col-xs-6">
+                            <h6 className="border-right">Address Verify</h6>
+                        </div>
+                        <div className="col-sm-4 col-xs-6">
+                            {displayFullAddress}
+                        </div>
+                        <div className="col-sm-3 col-xs-6">
+                        </div>
+                        <div className="col-sm-1 col-xs-6 flex">
+                            <button className="btn btn-sm btn-primary " type="submit" onClick={verifyAddress}>
+                                Verify
+                            </button>
+                        </div>
+                    </div>            
                 </div>
             </div>
         );
