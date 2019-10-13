@@ -61,37 +61,37 @@ class NavBar extends Component {
         const obj = getFromStorage('park_p2p');
         console.log("~~~~~~~~~" , obj.token)
         if (obj && obj.token) {
-            const { token } = obj;
-            console.log("TOKEN", token)
-            this.setState({ error: "good1" })
+          const { token } = obj;
+          console.log("TOKEN", token)
+          this.setState({ error: "good1" })
 
-            // Delete token from database, clear local storage
-            fetch('/api/account/logout/' + token, {
-                method: 'DELETE',
-                body: JSON.stringify(token)
-            })
-                .then(res => res.json())
-                .then(json => {
-                    if (json.success) {
-                        store.remove('park_p2p')
-                        this.setState({
-                            token: '',
-                            isLoading: false,
-                            error: "successful logout",
-                            loggedOut: true
-                        });
+          // Delete token from database, clear local storage
+          fetch('/api/account/logout/' + token, {
+              method: 'DELETE',
+              body: JSON.stringify(token)
+          })
+            .then(res => res.json())
+            .then(json => {
+                if (json.success) {
+                    store.remove('park_p2p')
+                    this.setState({
+                        token: '',
+                        isLoading: false,
+                        error: "successful logout",
+                        loggedOut: true
+                    });
 
-                    } else {
-                        this.setState({
-                            isLoading: false,
-                            error: "failed to logout"
-                        });
-                    }
-                });
+                } else {
+                    this.setState({
+                        isLoading: false,
+                        error: "failed to logout"
+                    });
+                }
+              });
         } else {
-            this.setState({
-                isLoading: false,
-            });
+          this.setState({
+              isLoading: false,
+          });
         }
     }
 
@@ -99,19 +99,19 @@ class NavBar extends Component {
         this.setState({ address });
       };
      
-      handleSelect = address => {
-        geocodeByAddress(address)
-          .then(results => getLatLng(results[0]))
-          .then(results => this.setState({lat1: results.lat, Lng1: results.lng}))
-        // .then(() => console.log(this.state.lat1))
-          .catch(error => console.error('Error', error));
-          
-      };
+    handleSelect = address => {
+      geocodeByAddress(address)
+        .then(results => getLatLng(results[0]))
+        .then(results => this.setState({lat1: results.lat, Lng1: results.lng}))
+      // .then(() => console.log(this.state.lat1))
+        .catch(error => console.error('Error', error));
+    };
 
     render() {
         // const { token } = this.state
         // const { redirect } = this
-        const { loggedOut } = this.state
+        const { loggedOut, address } = this.state
+        const { handleChange, handleSelect } =  this
         const Coords = {
           lat1: this.state.lat1, 
           Lng1: this.state.Lng1
@@ -127,71 +127,82 @@ class NavBar extends Component {
         return (
           <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark pt-1 pb-2" style={styles.zIndex}>
-                <a className="navbar-brand mr-5" href="/">PARK P2P</a>
+              <a className="navbar-brand mr-5" href="/">PARK P2P</a>
 
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+              <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span className="navbar-toggler-icon"></span>
+              </button>
 
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <form className="form-inline my-2 my-lg-0">
-                    <PlacesAutocomplete
-        value={this.state.address}
-        onChange={this.handleChange}
-        onSelect={this.handleSelect}
-      >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div>
-            <input className="form-control mr-sm-2" type="search" placeholder='Spots in "Cleveland, Oh"' aria-label="Search" style={styles.shadow}
-              {...getInputProps({
-                placeholder: 'Spots in "Cleveland, Oh"',
-                className: 'location-search-input',
-              })}
-            />
-            <div className="autocomplete-dropdown-container" style={styles.zIndex}>
-              {loading && <div>Loading...</div>}
-              {suggestions.map(suggestion => {
-                const className = suggestion.active
-                  ? 'suggestion-item--active'
-                  : 'suggestion-item';
-                // inline style for demonstration purpose
-                const style = suggestion.active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer', width: '45vw' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer', width: '45vw' };
-                return (
-                  <div
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                      style,
-                    })}
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <form className="form-inline my-2 my-lg-0">
+                  <PlacesAutocomplete
+                    value={address}
+                    onChange={handleChange}
+                    onSelect={handleSelect}
                   >
-                    <span>{suggestion.description}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </PlacesAutocomplete>
-                    </form>
-                    <ul className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <a className="nav-link text-primary" href="/">Share your driveway! <span className="sr-only">(current)</span></a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/dash">Dashboard</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/">Help</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/login" onClick={this.logout}>Logout</a>
-                            {/* <button onClick={this.logout}><a href="/login">Logout</a></button> */}
-                            {/* <button onClick={this.logout}>Logout</button> */}
-                        </li>
-                    </ul>
-            
-                </div>
+                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                      <div>
+                        <input 
+                          className="form-control mr-sm-2" 
+                          type="search" 
+                          placeholder='Spots in "Cleveland, Oh"' 
+                          aria-label="Search" 
+                          style={styles.shadow}
+                          {...getInputProps({
+                            placeholder: 'Spots in "Cleveland, Oh"',
+                            className: 'location-search-input',
+                          })}
+                        />
+
+                        <div className="autocomplete-dropdown-container" style={styles.zIndex}>
+
+                          {loading && <div>Loading...</div>}
+                          
+                          {/* map through suggestions, if selected add style else no style */}
+                          {suggestions.map(suggestion => {
+                            const className = suggestion.active
+                            ? 'suggestion-item--active'
+                            : 'suggestion-item';
+
+                            // inline style for demonstration purpose
+                            const style = suggestion.active
+                              ? { backgroundColor: '#fafafa', cursor: 'pointer', width: '45vw' }
+                              : { backgroundColor: '#ffffff', cursor: 'pointer', width: '45vw' };
+
+                              return (
+                                <div
+                                  {...getSuggestionItemProps(suggestion, {
+                                    className,
+                                    style,
+                                  })}
+                                >
+                                  <span>{suggestion.description}</span>
+                                </div>
+                              );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </PlacesAutocomplete>
+                </form>
+
+                <ul className="navbar-nav ml-auto">
+                  <li className="nav-item">
+                      <a className="nav-link text-primary" href="/">Share your driveway! <span className="sr-only">(current)</span></a>
+                  </li>
+                  <li className="nav-item">
+                      <a className="nav-link" href="/dash">Dashboard</a>
+                  </li>
+                  <li className="nav-item">
+                      <a className="nav-link" href="/">Help</a>
+                  </li>
+                  <li className="nav-item">
+                      <a className="nav-link" href="/login" onClick={this.logout}>Logout</a>
+                      {/* <button onClick={this.logout}><a href="/login">Logout</a></button> */}
+                      {/* <button onClick={this.logout}>Logout</button> */}
+                  </li>
+                </ul>
+              </div>
             </nav>
             <div>
               <GoogleMap Coords={Coords} />

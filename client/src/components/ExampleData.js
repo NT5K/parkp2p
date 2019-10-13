@@ -5,9 +5,8 @@ import { Redirect } from 'react-router-dom'
 
 
 const styles = {
-  // overflow: "auto",
-  height: "30vh",
-  width: "99%"
+  overflow: "auto",
+  height: "50vh"
 }
 
 class Customers extends Component {
