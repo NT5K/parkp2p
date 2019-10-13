@@ -53,7 +53,7 @@ class MapContainer extends Component {
         const { marker} = this.state
         return (
             <div>
-                <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
+                <div style={{ position: "relative", width: "100vw", height: "70vh" }} className="">
              
                     <Map       
                         centerAroundCurrentLocation={true}
