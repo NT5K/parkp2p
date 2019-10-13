@@ -21,7 +21,7 @@ const styles = {
         zIndex: 999,
         position: "absolute",
         overflow: "visible",
-        width: "100%"
+        width: "100vw"
     },
     zIndexCollapse: {
         zIndex: 2

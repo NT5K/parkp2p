@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 
 
 const styles = {
-  // overflow: "auto",
+  overflow: "auto",
   height: "50vh"
 }
 
@@ -55,9 +55,9 @@ class Customers extends Component {
       // <div className="bg-dark text-light h-100">
       <div className="bg-dark text-white" style={styles}>
         <div className="row">
-          <div className="col-6 border-right">
+          <div className="col-6 border-right bg-dark">
             <div className="row">
-              <div className="col-6">
+              <div className="col-6 bg-dark">
                 <h4>Address:</h4>
                 <h4>Description:</h4>
                 <h4>Hourly Rate:</h4>
@@ -66,7 +66,7 @@ class Customers extends Component {
                 <h4>Monthly Rate:</h4>
                 <button type="button" className="btn btn-success">Reserve This Spot!</button>
               </div>
-              <div className="col-6">
+              <div className="col-6 bg-dark">
                 <h4>-{this.props.location.address}</h4>
                 <h4>-{this.props.location.description}</h4>
                 <h4>${this.props.location.hourly}</h4>
@@ -78,7 +78,7 @@ class Customers extends Component {
             </div>
           </div>
           
-          <div className="col-6">
+          <div className="col-6 bg-dark">
             <p><u>Example Data</u></p>
             {/* <p>Local Storage Token: {this.state.token}</p> */}
             <p><strong>Current users on database:</strong></p>
