@@ -53,7 +53,7 @@ class MapContainer extends Component {
         const { marker} = this.state
         return (
             <div>
-                <div style={{ position: "relative", width: "100vw", height: "70vh" }} className="">
+                <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
              
                     <Map       
                         centerAroundCurrentLocation={true}
@@ -78,7 +78,7 @@ class MapContainer extends Component {
                             onClick={this.onMarkerClick} 
                             address={'You are Here'}
                             label={"X"}
-                            animation={2}
+                            // animation={2}
                             icon={{
                             url: "http://maps.google.com/mapfiles/ms/icons/red.png"
                             }}
@@ -93,7 +93,7 @@ class MapContainer extends Component {
                                 daily={marker.Daily}
                                 weekly={marker.Weekly}
                                 monthly={marker.Monthly}
-                                animation={1}
+                                // animation={1}
                                 position={{ lat: marker.Latitude, lng: marker.Longitude }}
                                 icon={{
                                     url: "http://maps.google.com/mapfiles/ms/icons/green.png"
