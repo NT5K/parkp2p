@@ -1,8 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { Redirect } from 'react-router-dom'
 import store from 'store';
 import 'whatwg-fetch';
 import PersonalInfoRow from './PersonalInfoRow'
+const geocoder = require('google-geocoder');
 
 class Dashboard extends Component {
     constructor() {
@@ -32,7 +33,11 @@ class Dashboard extends Component {
             displayState: '',
 
             zipcodeToPostRequest: '',
-            displayZipcode: ''
+            displayZipcode: '',
+
+            displayLongitude: '',
+            displayLatitude: ''
+
         };
 
         this.onTextboxChangeName = this.onTextboxChangeName.bind(this);
@@ -50,6 +55,7 @@ class Dashboard extends Component {
         this.updateCity = this.updateCity.bind(this);
         this.updateState = this.updateState.bind(this);
         this.updateZipcode = this.updateZipcode.bind(this);
+        this.verifyAddress = this.verifyAddress.bind(this);
 
         // this.changeButtonToAddOrUpdateName = this.changeButtonToAddOrUpdateName.bind(this);
         // this.checkIfNameIsOnDatabase = this.checkIfNameIsOnDatabase.bind(this);
@@ -68,7 +74,7 @@ class Dashboard extends Component {
         fetch('/api/account/personal/' + token)
         .then(res => res.json())
         .then(user => {
-            const { Name, Email, Phone_Number , Address, City, Zipcode, State} = user[0] 
+            const { Name, Email, Phone_Number , Address, City, Zipcode, State, Longitude, Latitude} = user[0] 
             this.setState({
                 user: user[0], 
                 displayFullName: Name,
@@ -78,7 +84,9 @@ class Dashboard extends Component {
                 displayAddress: Address,
                 displayCity: City,
                 displayState: State, 
-                displayZipcode: Zipcode
+                displayZipcode: Zipcode,
+                displayLongitude: Longitude,
+                displayLatitude: Latitude
             })
         }, () => console.log("user array", user, "this users token", token))
     }
@@ -312,6 +320,31 @@ class Dashboard extends Component {
         });
     }
 
+    verifyAddress(event) {
+        event.preventDefault()
+        // Grab state
+        const { displayFullAddress, token } = this.state;
+        // post to backend
+        fetch('/api/account/verify/address', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                displayFullAddress
+            })
+        })
+            .then(res => res.json())
+            .then(json => {
+                // set state for display
+                const { displayCity, displayState, displayAddress } = this.state
+                if (json.success) {
+               
+                }
+            });
+    }
+
     // decides placeholder and button text
     // checkIfNameIsOnDatabase() {
     //     const { Name } = this.state.user
@@ -331,7 +364,7 @@ class Dashboard extends Component {
             emailToPostRequest, 
             displayPhoneNumber, 
             phone_numberToPostRequest,
-            // displayFullAddress,
+            displayFullAddress,
             addressToPostRequest,
             displayAddress,
             cityToPostRequest,
@@ -339,7 +372,9 @@ class Dashboard extends Component {
             stateToPostRequest,
             displayState,
             zipcodeToPostRequest,
-            displayZipcode
+            displayZipcode,
+            displayLongitude,
+            displayLatitude
         } = this.state
 
         const { 
@@ -357,6 +392,8 @@ class Dashboard extends Component {
             updateState,
             onTextboxChangeZipcode,
             updateZipcode,
+
+            verifyAddress
         } = this
 
         if (!token) {
@@ -382,6 +419,7 @@ class Dashboard extends Component {
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>Contact Information</b></u></h5>
+                            <p>(personal information only you can see)</p>
                         </div>
                     </div>
                 
@@ -429,6 +467,7 @@ class Dashboard extends Component {
                     <div className="row mt-3 text-center">
                         <div className="col-sm-12">
                         <h5 className="text-center"><u><b>Driveway Information</b></u></h5>
+                        <p>(used to locate your driveway when active)</p>
                         </div>
                     </div>
                     
@@ -483,7 +522,42 @@ class Dashboard extends Component {
                         placeholder={"Zipcode Input"}
                         onClick={updateZipcode}
                         buttonText={"Submit"}
-                    />                   
+                    />       
+                    {/* verify address, sends to geocoder to get long lat and store it on the database */}
+
+                    <div className="row mt-3 text-dark text-center pt-2">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Address Verification</b></u></h5>
+                            <p>(once verified, your address is setup to display)</p>
+                        </div>
+                    </div>
+
+                    <div className="row mt-2 text-dark text-center justify-content-center pb-2">
+                        <div className="col-sm-2 col-xs-6">
+                            <h6 className="border-right">Full Address</h6>
+                        </div>
+                        <div className="col-sm-4 col-xs-6 border-right">
+                            {displayFullAddress}
+                        </div>
+                        
+                        <div className="col-sm-1 col-xs-6 flex">
+                            <button className="btn btn-sm btn-primary " type="submit" onClick={verifyAddress}>
+                                Verify
+                            </button>
+                        </div>
+                    </div>            
+                    {/* <div className="row mt-2 text-dark text-center justify-content-center pb-5">
+                        <div className="col-sm-2 col-xs-6">
+                            <h6 className="border-right">Coordinates</h6>
+                        </div>
+                        <div className="col-sm-4 col-xs-6">
+                            Longitude: {displayLongitude}   Latitude: {displayLatitude}
+                        </div>
+                        
+                        <div className="col-sm-1 col-xs-6 flex">
+                     
+                        </div>
+                    </div>             */}
                 </div>
             </div>
         );

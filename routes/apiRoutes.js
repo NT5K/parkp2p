@@ -2,6 +2,10 @@
 const connection = require("./connection");
 const express = require('express');
 const router = express.Router();
+const geocoder = require('google-geocoder');
+const geo = geocoder({
+  key: 'AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g'
+});
 
 module.exports = router;
 
@@ -33,7 +37,7 @@ router.get('/api/public/searchbar', (req, res) => {
 // get personal info from token
 //===========================================================================
 router.get('/api/account/personal/:token', (req, res) => {
-  const query = "Select Email, Name, Phone_Number, Address, City, Zipcode, State FROM users WHERE ID = ?;";
+  const query = "Select Email, Name, Phone_Number, Address, City, Zipcode, State, Longitude, Latitude FROM users WHERE ID = ?;";
   const { token } = req.params
   const input = [token]
   connection.query(query, input, (err, result) => {
@@ -452,5 +456,53 @@ router.post('/api/account/update/rates/overnight', (req, res) => {
     };
   });
 });
+//===========================================================================
+  // verify address for long lat on database
+//===========================================================================
+
+router.post('/api/account/verify/address', (req, res) => {
+  const { token, displayFullAddress } = req.body;
+  
+  console.log("local token", token)
+  console.log("address to geolocate ", displayFullAddress)
+
+  geo.find(displayFullAddress, function (err, res) {
+
+    const { lat, lng } = res[0].location
+    console.log("latitude ",lat, " longitude", lng)
+
+    const query = "UPDATE users SET Latitude = ?, Longitude = ? WHERE ID = ?;";
+    const input = [lat, lng, token]
+
+    connection.query(query, input, (err, __) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("failed to set lat lng")
+      }
+    });
+  });
+
+  return res.send({
+    success: true
+  });
+});
+
+
+  
+  // const query = "UPDATE users SET Overnight = ? WHERE ID = ?;";
+  // const input = [overnightToPostRequest, token ]
+
+  // connection.query(query, input, (err, result) => {
+  //   if(err) {
+  //     console.log(err);
+  //     return res.status(500).send("failed to update overnight rate")
+  //   } else {
+  //     return res.send({
+  //       success: true,
+  //       new_overnight_rate: overnightToPostRequest
+  //     });
+  //   };
+  // });
+
 
 //============================================================================
