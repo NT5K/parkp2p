@@ -55,15 +55,20 @@ class MapContainer extends Component {
             <div>
              <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
              
-         <Map
+         <Map       
+                    centerAroundCurrentLocation={true}
                     google={this.props.google}
                     zoom={12}
                     style={this.state.mapStyles}
-                    // initialCenter={{
-                    //     lat: 41.50416, lng: -81.60845
-                    // }}
-                    center={{lat: this.props.Coords.lat1, lng: this.props.Coords.Lng1}}
-                    centerAroundCurrentLocation={true}
+                    initialCenter={{
+                        lat: 41.4993, 
+                        lng: 81.6944
+                    }}
+                    center={{
+                        lat: this.props.Coords.lat1, 
+                        lng: this.props.Coords.Lng1
+                    }}
+                    centerAroundCurrentLocation={false}
                     fullscreenControl={false}
                     streetViewControl={false}
                     mapTypeControl={false}
@@ -72,9 +77,12 @@ class MapContainer extends Component {
     <Marker 
     onClick={this.onMarkerClick} 
     address={'You are Here'}
+    label={"X"}
+    animation={2}
     icon={{
-        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-    }} />
+        url: "http://maps.google.com/mapfiles/ms/icons/red.png"
+    }}
+     />
                     {marker.map(marker =>
                         <Marker
                             onClick={this.onMarkerClick}
@@ -85,9 +93,10 @@ class MapContainer extends Component {
                             daily={marker.Daily}
                             weekly={marker.Weekly}
                             monthly={marker.Monthly}
+                            animation={1}
                             position={{ lat: marker.Latitude, lng: marker.Longitude }}
                             icon={{
-                                url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                                url: "http://maps.google.com/mapfiles/ms/icons/green.png"
                             }}
                         />
 
