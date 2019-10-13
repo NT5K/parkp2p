@@ -532,7 +532,7 @@ class Dashboard extends Component {
                         </div>
                     </div>
 
-                    {/* <div className="row mt-2 text-dark text-center justify-content-center pb-2 mb-3"> */}
+                    <div className="row mt-2 text-dark text-center justify-content-center pb-2 mb-3">
                         <div className="col-sm-2 col-xs-6">
                             <h6 className="border-right">Full Address</h6>
                         </div>
