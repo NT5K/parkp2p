@@ -3,6 +3,12 @@ import store from 'store'
 import 'whatwg-fetch';
 import { Redirect } from 'react-router-dom'
 
+
+const styles = {
+  // overflow: "auto",
+  height: "100vh"
+}
+
 class Customers extends Component {
 
   constructor() {
@@ -47,7 +53,7 @@ class Customers extends Component {
 
     return (
       // <div className="bg-dark text-light h-100">
-      <div className="bg-dark text-white">
+      <div className="bg-dark text-white" style={styles}>
         <div className="row">
           <div className="col-6 border-right">
             <div className="row">

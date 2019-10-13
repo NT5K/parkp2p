@@ -3,7 +3,8 @@ import NavBar from './../components/NavBar';
 
 
 const styles = {
-    overflow: "auto"
+    overflow: "auto",
+    // height: "100vh"
 }
 
 class Main extends Component {
