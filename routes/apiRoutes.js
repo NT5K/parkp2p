@@ -37,7 +37,7 @@ router.get('/api/public/searchbar', (req, res) => {
 // get personal info from token
 //===========================================================================
 router.get('/api/account/personal/:token', (req, res) => {
-  const query = "Select Email, Name, Phone_Number, Address, City, Zipcode, State FROM users WHERE ID = ?;";
+  const query = "Select Email, Name, Phone_Number, Address, City, Zipcode, State, Longitude, Latitude FROM users WHERE ID = ?;";
   const { token } = req.params
   const input = [token]
   connection.query(query, input, (err, result) => {

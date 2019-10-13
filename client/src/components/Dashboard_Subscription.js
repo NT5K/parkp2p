@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom'
+import SubscriptionPlanCard from './SubscriptionPlanCard'
 import store from 'store'
 import 'whatwg-fetch';
 
@@ -55,64 +56,39 @@ class Subscription extends Component {
         return (
             <div>
                 <div className="container-flex">
-                    
-                        <div className="row pb-3 pt-3 border-bottom text-center">
-                            <div className="col-xl-12">
-                                <h4>Subscription Plans</h4>
-                            </div>
+                    <div className="row pb-3 pt-3 border-bottom text-center">
+                        <div className="col-xl-12">
+                            <h4>Subscription Plans</h4>
                         </div>
-                        <div className="container pl-3 pt-5">
-                            <div className="card-deck mb-3 text-center">
-                                <div className="card mb-4 shadow-sm">
-                                    <div className="card-header">
-                                        <h4 className="my-0 font-weight-normal">Basic</h4>
-                                    </div>
-                                    <div className="card-body">
-                                        <h1 className="card-title pricing-card-title">$30 <small className="text-muted">/ mo</small></h1>
-                                        <ul className="list-unstyled mt-3 mb-4">
-                                            <li>No parking fee</li>
-                                            <li>Early Bird Reservations</li>
-                                            <br />
-                                        </ul>
-                                        <button type="button" className="btn btn-lg btn-block btn-primary">Get started</button>
-                                    </div>
-                                </div>
-                                <div className="card mb-4 shadow-sm">
-                                    <div className="card-header">
-                                        <h4 className="my-0 font-weight-normal">Discount</h4>
-                                    </div>
-                                    <div className="card-body">
-                                        <h1 className="card-title pricing-card-title">$50 <small className="text-muted">/ mo</small></h1>
-                                        <ul className="list-unstyled mt-3 mb-4">
-                                            <li>No parking fee</li>
-                                            <li>15% off spot price</li>
-                                            <li>Early Bird Reservations</li>
-                                        </ul>
-                                        <button type="button" className="btn btn-lg btn-block btn-primary">Get started</button>
-                                    </div>
-                                </div>
-                                <div className="card mb-4 shadow-sm">
-                                    <div className="card-header">
-                                        <h4 className="my-0 font-weight-normal">All Inclusive</h4>
-                                    </div>
-                                    <div className="card-body">
-                                        <h1 className="card-title pricing-card-title">$100 <small className="text-muted">/ mo</small></h1>
-                                        <ul className="list-unstyled mt-3 mb-4">
-                                            <li>No parking fee</li>
-                                            <li>No charge for spots</li>
-                                            <li>Early Bird Reservations</li>
-                                        </ul>
-                                        <button type="button" className="btn btn-lg btn-block btn-primary">Contact us</button>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <div className="container pl-3 pt-5">
+                        <div className="card-deck mb-3 text-center">
+                            <SubscriptionPlanCard
+                                header={"Basic"}
+                                price={"30"}
+                                info1={"No parking fee"}
+                                info2={"Early Bird Reservations"}
+                                info3={<br />}
+                            />
+                            <SubscriptionPlanCard
+                                header={"Discount"}
+                                price={"50"}
+                                info1={"No parking fee"}
+                                info2={"15% off spot price"}
+                                info3={"Early Bird Reservations"}
+                            />
+                            <SubscriptionPlanCard
+                                header={"All Inclusive"}
+                                price={"100"}
+                                info1={"No parking fee"}
+                                info2={"No charge for spots"}
+                                info3={"Early Bird Reservations"}
+                            />
                         </div>
                     </div>
                 </div>
-           
+            </div>
         )
-
-
     }
 }
 

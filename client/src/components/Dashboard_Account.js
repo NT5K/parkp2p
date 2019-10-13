@@ -33,7 +33,11 @@ class Dashboard extends Component {
             displayState: '',
 
             zipcodeToPostRequest: '',
-            displayZipcode: ''
+            displayZipcode: '',
+
+            displayLongitude: '',
+            displayLatitude: ''
+
         };
 
         this.onTextboxChangeName = this.onTextboxChangeName.bind(this);
@@ -70,7 +74,7 @@ class Dashboard extends Component {
         fetch('/api/account/personal/' + token)
         .then(res => res.json())
         .then(user => {
-            const { Name, Email, Phone_Number , Address, City, Zipcode, State} = user[0] 
+            const { Name, Email, Phone_Number , Address, City, Zipcode, State, Longitude, Latitude} = user[0] 
             this.setState({
                 user: user[0], 
                 displayFullName: Name,
@@ -80,7 +84,9 @@ class Dashboard extends Component {
                 displayAddress: Address,
                 displayCity: City,
                 displayState: State, 
-                displayZipcode: Zipcode
+                displayZipcode: Zipcode,
+                displayLongitude: Longitude,
+                displayLatitude: Latitude
             })
         }, () => console.log("user array", user, "this users token", token))
     }
@@ -366,7 +372,9 @@ class Dashboard extends Component {
             stateToPostRequest,
             displayState,
             zipcodeToPostRequest,
-            displayZipcode
+            displayZipcode,
+            displayLongitude,
+            displayLatitude
         } = this.state
 
         const { 
@@ -411,6 +419,7 @@ class Dashboard extends Component {
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>Contact Information</b></u></h5>
+                            <p>(personal information only you can see)</p>
                         </div>
                     </div>
                 
@@ -458,6 +467,7 @@ class Dashboard extends Component {
                     <div className="row mt-3 text-center">
                         <div className="col-sm-12">
                         <h5 className="text-center"><u><b>Driveway Information</b></u></h5>
+                        <p>(used to locate your driveway when active)</p>
                         </div>
                     </div>
                     
@@ -514,21 +524,40 @@ class Dashboard extends Component {
                         buttonText={"Submit"}
                     />       
                     {/* verify address, sends to geocoder to get long lat and store it on the database */}
-                    <div className="row mt-2 text-dark text-center justify-content-center">
-                        <div className="col-sm-2 col-xs-6">
-                            <h6 className="border-right">Address Verify</h6>
+
+                    <div className="row mt-3 text-dark text-center pt-2">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Address Verification</b></u></h5>
+                            <p>(once verified, your address is setup to display)</p>
                         </div>
-                        <div className="col-sm-4 col-xs-6">
+                    </div>
+
+                    <div className="row mt-2 text-dark text-center justify-content-center pb-2">
+                        <div className="col-sm-2 col-xs-6">
+                            <h6 className="border-right">Full Address</h6>
+                        </div>
+                        <div className="col-sm-4 col-xs-6 border-right">
                             {displayFullAddress}
                         </div>
-                        <div className="col-sm-3 col-xs-6">
-                        </div>
+                        
                         <div className="col-sm-1 col-xs-6 flex">
                             <button className="btn btn-sm btn-primary " type="submit" onClick={verifyAddress}>
                                 Verify
                             </button>
                         </div>
                     </div>            
+                    {/* <div className="row mt-2 text-dark text-center justify-content-center pb-5">
+                        <div className="col-sm-2 col-xs-6">
+                            <h6 className="border-right">Coordinates</h6>
+                        </div>
+                        <div className="col-sm-4 col-xs-6">
+                            Longitude: {displayLongitude}   Latitude: {displayLatitude}
+                        </div>
+                        
+                        <div className="col-sm-1 col-xs-6 flex">
+                     
+                        </div>
+                    </div>             */}
                 </div>
             </div>
         );

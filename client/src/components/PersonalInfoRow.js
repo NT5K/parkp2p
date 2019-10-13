@@ -8,7 +8,7 @@ class PersonalInfoRow extends Component {
                 <div className="col-sm-2 col-xs-6">
                     <h6 className="border-right">{this.props.header}</h6>
                 </div>
-                <div className="col-sm-4 col-xs-6">
+                <div className="col-sm-3 col-xs-6">
                     {this.props.displayText}
                 </div>
                 <div className="col-sm-3 col-xs-6">
