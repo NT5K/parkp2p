@@ -58,7 +58,7 @@ class Customers extends Component {
                 <h4>Daily Rate:</h4>
                 <h4>Weekly Rate:</h4>
                 <h4>Monthly Rate:</h4>
-                <button type="button" class="btn btn-success">Reserve This Spot!</button>
+                <button type="button" className="btn btn-success">Reserve This Spot!</button>
               </div>
               <div className="col-6">
                 <h4>-{this.props.location.address}</h4>
