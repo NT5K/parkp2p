@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, /*InfoWindow,*/ Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
-import './GoogleMap.css'
+import './GoogleMap.css';
+import StreetView from './StreetView';
 require('dotenv').config()
 
 const styles = require('./GoogleMapStyles.json')
@@ -12,7 +13,8 @@ class MapContainer extends Component {
         this.state = {
             mapStyles: {
                 width: "100%",
-                height: "100%"
+                height: "100%",
+                float: "left"
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
@@ -60,8 +62,9 @@ class MapContainer extends Component {
         let { marker} = this.state
         return (
             <div>
-                <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
-
+                <div style={{ position: "relative", width: "100%", height: "50vh" }} className="row">
+                <div style={{ position: "relative", height: "50vh", float:"left" }} className="col-9 bg-dark">
+            
                     <Map
                         centerAroundCurrentLocation={true}
                         google={this.props.google}
@@ -113,6 +116,12 @@ class MapContainer extends Component {
                         >
                         </InfoWindow> */}
                     </Map>
+</div>
+                    <div style={{ position: "relative", height: "50vh", float: "left" }} className="col-3 bg-dark">
+                     <StreetView
+                    location={this.state.selectedPlace}
+                    />
+                    </div>
                 </div>
                 <div>
                     <ExampleData 

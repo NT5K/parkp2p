@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 
 
 const styles = {
-  overflow: "auto",
+  overflow: "hidden",
   height: "50vh"
 }
 
@@ -55,8 +55,6 @@ class Customers extends Component {
       // <div className="bg-dark text-light h-100">
       <div className="bg-dark text-white" style={styles}>
         <div className="row">
-          <div className="col-6 border-right bg-dark">
-            <div className="row">
               <div className="col-6 bg-dark">
                 <h4>Address:</h4>
                 <h4>Description:</h4>
@@ -66,7 +64,7 @@ class Customers extends Component {
                 <h4>Monthly Rate:</h4>
                 <button type="button" className="btn btn-success">Reserve This Spot!</button>
               </div>
-              <div className="col-6 bg-dark">
+              <div className="col-6 bg-dark" style={{borderRight: "10px, white, solid"}}>
                 <h4>-{this.props.location.address}</h4>
                 <h4>-{this.props.location.description}</h4>
                 <h4>${this.props.location.hourly}</h4>
@@ -75,16 +73,7 @@ class Customers extends Component {
                 <h4>${this.props.location.monthly}</h4>
                 
                 
-              </div>
-            </div>
-          </div>
-
-          <div className="col-6 bg-dark">
-            <p><u>Street View!</u></p>
-        {this.props.location.position != undefined &&
-<img src={"https://maps.googleapis.com/maps/api/streetview?size=250x200&location=" + this.props.location.position.lat + "," + this.props.location.position.lng +
-"&fov=80&heading=70&pitch=0&key=AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g"} />
-                }
+              
           </div>
         </div>
       </div>
