@@ -61,8 +61,8 @@ class Sidebar extends Component {
             <Menu>
                 <br />
                 <h1>Menu</h1>
-                <Link className="nav-link  menu-item" to="/dash">Profits</Link>
-                <Link className="nav-link  menu-item" to="/dash/account">Account</Link>
+                <Link className="nav-link  menu-item" to="/dash/profits">Profits</Link>
+                <Link className="nav-link  menu-item" to="/dash/">Account</Link>
                 <Link className="nav-link  menu-item" to="/dash/driveway">My Driveway</Link>
                 <Link className="nav-link  menu-item" to="/dash/car">My Car</Link>
                 <Link className="nav-link  menu-item" to="/dash/reservation">Reservations</Link>
