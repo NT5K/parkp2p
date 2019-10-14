@@ -4,7 +4,6 @@ import ExampleData from './ExampleData';
 import './GoogleMap.css'
 require('dotenv').config()
 
-
 const styles = require('./GoogleMapStyles.json')
 class MapContainer extends Component {
     constructor(props) {
@@ -27,14 +26,21 @@ class MapContainer extends Component {
         this.onMarkerClick = this.onMarkerClick.bind(this);
     }
 
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
         fetch('/api/public/driveways')
-    .then(res => res.json())
-    .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
-    .catch(err => console.log(err));
+            .then(res => res.json())
+            .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
+            .catch(err => console.log(err));
     }
 
-    onMarkerClick(locationString){
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.Coords != this.props.Coords) {
+            let latLng = { lat: nextProps.Coords.lat1, lng: nextProps.Coords.Lng1 }
+            this.setState({ selectedPlace: latLng })
+        }
+    }
+
+    onMarkerClick(locationString) {
         console.log(locationString)
         this.setState({
             selectedPlace: locationString
@@ -44,55 +50,45 @@ class MapContainer extends Component {
     onClose = props => {
         if (this.state.showingInfoWindow) {
             this.setState({
-            showingInfoWindow: false,
-            activeMarker: null
+                showingInfoWindow: false,
+                activeMarker: null
             });
         }
     };
 
     render() {
-        const { marker, lat, lng} = this.state
-
+        const { marker } = this.state
         return (
             <div>
                 <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
-             
-                    <Map       
+
+                    <Map
                         centerAroundCurrentLocation={true}
                         google={this.props.google}
                         zoom={12}
                         style={this.state.mapStyles}
-                        
-                        initialCenter={{
-                            lat: this.props.Coords.lat1, 
-                            lng: this.props.Coords.Lng1
-                        }}
-                        // center={{
-                        //     lat, 
-                        //     lng
+                        // initialCenter={{
+                        //     lat: 41.4993, 
+                        //     lng: -81.6944
                         // }}
-                        // centerAroundCurrentLocation={false}
+                        center={this.state.selectedPlace}
+                        centerAroundCurrentLocation={true}
                         fullscreenControl={false}
                         streetViewControl={false}
                         mapTypeControl={false}
                         styles={styles}
-                     
                     >
-                          {/* 
-                          lat: this.props.Coords.lat1, 
-                          lng: this.props.Coords.Lng1 
-                          */}
-
-                        {/* <Marker 
-                            onClick={this.onMarkerClick} 
+                        <Marker
+                            onClick={this.onMarkerClick}
                             address={'You are Here'}
                             label={"X"}
                             // animation={2}
                             icon={{
-                            url: "http://maps.google.com/mapfiles/ms/icons/red.png"
+                                url: "http://maps.google.com/mapfiles/ms/icons/red.png"
                             }}
-                        /> */}
+                        />
                         {marker.map(marker =>
+
                             <Marker
                                 onClick={this.onMarkerClick}
                                 key={marker.ID}
@@ -108,7 +104,8 @@ class MapContainer extends Component {
                                     url: "http://maps.google.com/mapfiles/ms/icons/green.png"
                                 }}
                             />
-                        )}                        
+
+                        )}
                         {/* <InfoWindow
                             marker={this.state.activeMarker}
                             visible={this.state.showingInfoWindow}
@@ -118,8 +115,8 @@ class MapContainer extends Component {
                     </Map>
                 </div>
                 <div>
-                    <ExampleData 
-                        location={this.state.selectedPlace} 
+                    <ExampleData
+                        location={this.state.selectedPlace}
                     />
                 </div>
             </div>

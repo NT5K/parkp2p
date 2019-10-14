@@ -73,11 +73,13 @@ class Customers extends Component {
                 <h4>${this.props.location.daily}</h4>
                 <h4>${this.props.location.weekly}</h4>
                 <h4>${this.props.location.monthly}</h4>
-                
+                {/* <img src={"https://maps.googleapis.com/maps/api/streetview?size=400x400&location=" + this.props.location.position +
+"&fov=80&heading=70&pitch=0&key=AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g"} />
+                 */}
               </div>
             </div>
           </div>
-          
+
           <div className="col-6 bg-dark">
             <p><u>Example Data</u></p>
             {/* <p>Local Storage Token: {this.state.token}</p> */}
