@@ -126,7 +126,7 @@ class NavBar extends Component {
     }
     return (
       <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark pt-1 pb-2" style={styles.zIndex}>
+        <nav className="navbar navbar-expand-md navbar-dark bg-dark pt-1 pb-2" style={styles.zIndex}>
           <a className="navbar-brand mr-5" href="/">PARK P2P</a>
 
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
