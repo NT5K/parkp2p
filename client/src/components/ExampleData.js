@@ -78,7 +78,7 @@ class Customers extends Component {
               </div>
             </div>
           </div>
-          
+
           <div className="col-6 bg-dark">
             <p><u>Street View!</u></p>
         {this.props.location.position != undefined &&

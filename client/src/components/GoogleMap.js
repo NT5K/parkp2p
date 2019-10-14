@@ -28,19 +28,19 @@ class MapContainer extends Component {
 
     componentDidMount() {
         fetch('/api/public/driveways')
-    .then(res => res.json())
-    .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
-    .catch(err => console.log(err));
+            .then(res => res.json())
+            .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
+            .catch(err => console.log(err));
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.Coords != this.props.Coords) {
-            let latLng =  {lat: nextProps.Coords.lat1, lng: nextProps.Coords.Lng1}
-            this.setState({selectedPlace: latLng})
+            let latLng = { lat: nextProps.Coords.lat1, lng: nextProps.Coords.Lng1 }
+            this.setState({ selectedPlace: latLng })
         }
     }
 
-    onMarkerClick(locationString){
+    onMarkerClick(locationString) {
         console.log(locationString)
         this.setState({
             selectedPlace: locationString
@@ -50,8 +50,8 @@ class MapContainer extends Component {
     onClose = props => {
         if (this.state.showingInfoWindow) {
             this.setState({
-            showingInfoWindow: false,
-            activeMarker: null
+                showingInfoWindow: false,
+                activeMarker: null
             });
         }
     };
@@ -61,15 +61,15 @@ class MapContainer extends Component {
         return (
             <div>
                 <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
-             
-                    <Map       
+
+                    <Map
                         centerAroundCurrentLocation={true}
                         google={this.props.google}
                         zoom={12}
                         style={this.state.mapStyles}
                         // initialCenter={{
                         //     lat: 41.4993, 
-                        //     lng: 81.6944
+                        //     lng: -81.6944
                         // }}
                         center={this.state.selectedPlace}
                         centerAroundCurrentLocation={true}
@@ -78,18 +78,18 @@ class MapContainer extends Component {
                         mapTypeControl={false}
                         styles={styles}
                     >
-                        <Marker 
-                            onClick={this.onMarkerClick} 
+                        <Marker
+                            onClick={this.onMarkerClick}
                             address={'You are Here'}
                             label={"X"}
                             // animation={2}
                             icon={{
-                            url: "http://maps.google.com/mapfiles/ms/icons/red.png"
+                                url: "http://maps.google.com/mapfiles/ms/icons/red.png"
                             }}
                         />
                         {marker.map(marker =>
-                            
-                                 <Marker
+
+                            <Marker
                                 onClick={this.onMarkerClick}
                                 key={marker.ID}
                                 address={marker.Address}
@@ -104,8 +104,8 @@ class MapContainer extends Component {
                                     url: "http://maps.google.com/mapfiles/ms/icons/green.png"
                                 }}
                             />
-                            
-                        )}                        
+
+                        )}
                         {/* <InfoWindow
                             marker={this.state.activeMarker}
                             visible={this.state.showingInfoWindow}

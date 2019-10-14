@@ -124,7 +124,7 @@ router.post('/api/account/signin', (req, res, next) => {
         }
 
         // create session on database
-        const query2 = "INSERT INTO UserSessions(_id) VALUES (?);";
+        const query2 = "INSERT INTO usersessions(_id) VALUES (?);";
         const input2 = [ID];
         // const hashedEmail = bcrypt.hashSync(Email, saltRounds);
         // const input2 = [JSON.stringify(hashedEmail)];
@@ -157,7 +157,7 @@ router.get('/api/account/verify', (req, res, next) => {
     const { token } = query;
 
     // Verify the token is one of a kind and it's not deleted.
-    const query3 = "SELECT _id FROM UserSessions WHERE !idDeleted and _id = ?;";
+    const query3 = "SELECT _id FROM usersessions WHERE !idDeleted and _id = ?;";
     const input3 = [token];
 
     connection.query(query3, input3, (err, sessions) => {

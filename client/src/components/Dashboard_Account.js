@@ -36,7 +36,9 @@ class Dashboard extends Component {
             displayZipcode: '',
 
             displayLongitude: '',
-            displayLatitude: ''
+            displayLatitude: '',
+
+            verifyMessage: ''
 
         };
 
@@ -340,6 +342,10 @@ class Dashboard extends Component {
                 // set state for display
                 const { displayCity, displayState, displayAddress } = this.state
                 if (json.success) {
+                    this.setState({
+                        verifyMessage: json.message
+                    })
+
                
                 }
             });
@@ -373,8 +379,9 @@ class Dashboard extends Component {
             displayState,
             zipcodeToPostRequest,
             displayZipcode,
-            displayLongitude,
-            displayLatitude
+            // displayLongitude,
+            // displayLatitude,
+            verifyMessage
         } = this.state
 
         const { 
@@ -536,14 +543,17 @@ class Dashboard extends Component {
                         <div className="col-sm-2 col-xs-6">
                             <h6 className="border-right">Full Address</h6>
                         </div>
-                        <div className="col-sm-4 col-xs-6 border-right">
+                        <div className="col-sm-3 col-xs-6 border-right">
                             {displayFullAddress}
                         </div>
-                        
-                        <div className="col-sm-1 col-xs-6 flex">
+                        <div className="col-sm-2 col-xs-6 flex">
                             <button className="btn btn-sm btn-primary " type="submit" onClick={verifyAddress}>
                                 Verify
                             </button>
+                        </div>
+                        
+                        <div className="col-sm-2 col-xs-6">
+                            {verifyMessage}
                         </div>
                     </div>            
                     {/* <div className="row mt-2 text-dark text-center justify-content-center pb-5">
