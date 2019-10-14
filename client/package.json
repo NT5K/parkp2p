@@ -15,12 +15,14 @@
     "react": "^16.9.0",
     "react-burger-menu": "^2.6.11",
     "react-dom": "^16.9.0",
+    "react-google-maps": "^9.4.5",
     "react-places-autocomplete": "^7.2.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.2",
     "react-sidebar": "^3.0.2",
     "react-sidenav": "^4.0.3",
-    "react-simple-sidenav": "^1.0.1"
+    "react-simple-sidenav": "^1.0.1",
+    "recompose": "^0.30.0"
   },
   "scripts": {
     "start": "react-scripts start",
