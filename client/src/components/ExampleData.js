@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom'
 
 const styles = {
   overflow: "hidden",
-  height: "50vh"
+  height: "100%"
 }
 
 class Customers extends Component {
@@ -55,27 +55,50 @@ class Customers extends Component {
       // <div className="bg-dark text-light h-100">
       <div className="bg-dark text-white" style={styles}>
         <div className="row">
-              <div className="col-6 bg-dark">
+              <div className="col-lg-6 col-md-12 bg-dark">
                 <h4>Address:</h4>
-                <h4>Description:</h4>
-                <h4>Hourly Rate:</h4>
-                <h4>Daily Rate:</h4>
-                <h4>Weekly Rate:</h4>
-                <h4>Monthly Rate:</h4>
-                <button type="button" className="btn btn-success">Reserve This Spot!</button>
-              </div>
-              <div className="col-6 bg-dark" style={{borderRight: "10px, white, solid"}}>
                 <h4>-{this.props.location.address}</h4>
+            < br />< br />
+                <h4>Description:</h4>
                 <h4>-{this.props.location.description}</h4>
-                <h4>${this.props.location.hourly}</h4>
-                <h4>${this.props.location.daily}</h4>
-                <h4>${this.props.location.weekly}</h4>
-                <h4>${this.props.location.monthly}</h4>
-                
-                
-              
-          </div>
+                < br />
+                <h4>Available Spots:</h4>
+                    2
+            < br />
+              </div>
+              <div className="col-lg-6 col-md-12 bg-dark">
+                <div className="row justify-content-left">
+                  <div className="col-5">
+                    
+                    <h5>Hourly Rate: ${this.props.location.hourly}</h5>
+                      < br />
+                    <h5>Daily Rate: ${this.props.location.daily}</h5>
+                      < br />
+                    <h5>Weekly Rate: ${this.props.location.weekly}</h5>
+                      < br />
+                    <h5>Monthly Rate: ${this.props.location.monthly}</h5>
+                    
+                  </div>
+                  <div className="col-1">
+                    <h5><input type="text" /></h5>
+                          < br />
+                    <h5><input type="text" /></h5>
+                          < br />
+                    <h5><input type="text" /></h5>
+                          < br />
+                    <h5><input type="text" /></h5>
+                  </div>
+                </div>
+              <div className="row justify-content-left">
+                <div className="col-4">
+                  <button type="button" className="btn btn-success">Reserve Now</button>
+                </div>
+                <div className="col-4">
+                  <button type="button" className="btn btn-success">Future Reservation</button>
+                </div>
+              </div>
         </div>
+      </div>
       </div>
     );
   }
