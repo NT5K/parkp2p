@@ -1,20 +1,12 @@
 @media only screen and (max-width: 480px) { 
     .StreetView {
-        width: 100px;
-        height: 250px;
+      display: none;
     }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (min-width: 481px) and (max-width:768px) {
     .StreetView {
-    width: 100px;
-    height: 250px;
-    }
-}
-
-@media only screen and (max-width: 1200px) {
-    .StreetView {
-    width: 360px;
-    height: 420px;
+        height: 350px;
+        width: 190px;
     }
 }
