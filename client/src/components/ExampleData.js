@@ -82,7 +82,7 @@ class Customers extends Component {
           <div className="col-6 bg-dark">
             <p><u>Street View!</u></p>
         {this.props.location.position != undefined &&
-<img src={"https://maps.googleapis.com/maps/api/streetview?size=400x400&location=" + this.props.location.position.lat + "," + this.props.location.position.lng +
+<img src={"https://maps.googleapis.com/maps/api/streetview?size=250x200&location=" + this.props.location.position.lat + "," + this.props.location.position.lng +
 "&fov=80&heading=70&pitch=0&key=AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g"} />
                 }
           </div>
