@@ -16,7 +16,7 @@ function Sidebar() {
             <SideBar />
             <Navbar />
                 {/* <Route exact path="/dash/profits" component={component goes here} /> */}
-                <Route exact path="/dash/account" component={Account} />
+                <Route exact path="/dash/" component={Account} />
                 <Route exact path="/dash/driveway" component={Driveway} />
                 <Route exact path="/dash/subscription" component={Subscription} />
                 <Route exact path="/dash/cancel" component={Account_Cancel} />

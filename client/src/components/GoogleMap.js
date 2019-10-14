@@ -57,7 +57,7 @@ class MapContainer extends Component {
     };
 
     render() {
-        const { marker } = this.state
+        let { marker} = this.state
         return (
             <div>
                 <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
@@ -115,7 +115,7 @@ class MapContainer extends Component {
                     </Map>
                 </div>
                 <div>
-                    <ExampleData
+                    <ExampleData 
                         location={this.state.selectedPlace}
                     />
                 </div>

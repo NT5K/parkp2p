@@ -28,7 +28,7 @@ router.get('/api/public/driveways', (req, res) => {
 
 //searchbar code===============================================================
 router.get('/api/account/personal/car/:token', (req, res) => {
-  const query = "Select Car_Year, Car_Make, Car_Model FROM users WHERE ID = ?;";
+  const query = "Select Car_Year, Car_Make, Car_Model, Car_Color FROM users WHERE ID = ?;";
   const { token } = req.params
   const input = [token]
   connection.query(query, input, (err, result) => {
@@ -465,6 +465,7 @@ router.post('/api/account/update/rates/overnight', (req, res) => {
     };
   });
 });
+
 //===========================================================================
   // update car make in dashboard
 //===========================================================================
@@ -497,6 +498,7 @@ router.post('/api/account/update/car/make', (req, res) => {
     };
   });
 });
+
 //===========================================================================
   // update car model in dashboard
 //===========================================================================
@@ -529,6 +531,40 @@ router.post('/api/account/update/car/model', (req, res) => {
     };
   });
 });
+
+//===========================================================================
+  // update car color in dashboard
+//===========================================================================
+
+router.post('/api/account/update/car/color', (req, res) => {
+  const { token, carColorToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("overnight change", carColorToPostRequest)
+
+  if (!carColorToPostRequest) {
+    return res.send({
+      success: false,
+      error: "car Color input cannot be blank"
+    })
+  }
+  
+  const query = "UPDATE users SET Car_Color = ? WHERE ID = ?;";
+  const input = [carColorToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update car Color")
+    } else {
+      return res.send({
+        success: true,
+        new_car_Color: carColorToPostRequest
+      });
+    };
+  });
+});
+
 //===========================================================================
   // verify address for long lat on database
 //===========================================================================
