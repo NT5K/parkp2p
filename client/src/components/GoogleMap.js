@@ -26,11 +26,18 @@ class MapContainer extends Component {
         this.onMarkerClick = this.onMarkerClick.bind(this);
     }
 
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
         fetch('/api/public/driveways')
     .then(res => res.json())
     .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
     .catch(err => console.log(err));
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.Coords != this.props.Coords) {
+            let latLng =  {lat: nextProps.Coords.lat1, lng: nextProps.Coords.Lng1}
+            this.setState({selectedPlace: latLng})
+        }
     }
 
     onMarkerClick(locationString){
@@ -60,15 +67,12 @@ class MapContainer extends Component {
                         google={this.props.google}
                         zoom={12}
                         style={this.state.mapStyles}
-                        initialCenter={{
-                            lat: 41.4993, 
-                            lng: 81.6944
-                        }}
-                        center={{
-                            lat: this.props.Coords.lat1, 
-                            lng: this.props.Coords.Lng1
-                        }}
-                        centerAroundCurrentLocation={false}
+                        // initialCenter={{
+                        //     lat: 41.4993, 
+                        //     lng: 81.6944
+                        // }}
+                        center={this.state.selectedPlace}
+                        centerAroundCurrentLocation={true}
                         fullscreenControl={false}
                         streetViewControl={false}
                         mapTypeControl={false}
@@ -84,7 +88,8 @@ class MapContainer extends Component {
                             }}
                         />
                         {marker.map(marker =>
-                            <Marker
+                            
+                                 <Marker
                                 onClick={this.onMarkerClick}
                                 key={marker.ID}
                                 address={marker.Address}
@@ -99,6 +104,7 @@ class MapContainer extends Component {
                                     url: "http://maps.google.com/mapfiles/ms/icons/green.png"
                                 }}
                             />
+                            
                         )}                        
                         {/* <InfoWindow
                             marker={this.state.activeMarker}
