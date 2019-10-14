@@ -27,10 +27,19 @@ router.get('/api/public/driveways', (req, res) => {
 });
 
 //searchbar code===============================================================
-router.get('/api/public/searchbar', (req, res) => {
-  const { searchInput } = req.body
-
-  
+router.get('/api/account/personal/car/:token', (req, res) => {
+  const query = "Select Car_Year, Car_Make, Car_Model FROM users WHERE ID = ?;";
+  const { token } = req.params
+  const input = [token]
+  connection.query(query, input, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Failed to get car make model')
+    } else {
+      // console.log(result)
+      return res.json(result);
+    };
+  });
 })
 
 //===========================================================================
@@ -483,7 +492,8 @@ router.post('/api/account/verify/address', (req, res) => {
   });
 
   return res.send({
-    success: true
+    success: true,
+    message: "Verified"
   });
 });
 

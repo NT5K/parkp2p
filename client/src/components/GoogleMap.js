@@ -4,6 +4,7 @@ import ExampleData from './ExampleData';
 import './GoogleMap.css'
 require('dotenv').config()
 
+
 const styles = require('./GoogleMapStyles.json')
 class MapContainer extends Component {
     constructor(props) {
@@ -50,7 +51,8 @@ class MapContainer extends Component {
     };
 
     render() {
-        const { marker} = this.state
+        const { marker, lat, lng} = this.state
+
         return (
             <div>
                 <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
@@ -60,21 +62,28 @@ class MapContainer extends Component {
                         google={this.props.google}
                         zoom={12}
                         style={this.state.mapStyles}
+                        
                         initialCenter={{
-                            lat: 41.4993, 
-                            lng: 81.6944
-                        }}
-                        center={{
                             lat: this.props.Coords.lat1, 
                             lng: this.props.Coords.Lng1
                         }}
-                        centerAroundCurrentLocation={false}
+                        // center={{
+                        //     lat, 
+                        //     lng
+                        // }}
+                        // centerAroundCurrentLocation={false}
                         fullscreenControl={false}
                         streetViewControl={false}
                         mapTypeControl={false}
                         styles={styles}
+                     
                     >
-                        <Marker 
+                          {/* 
+                          lat: this.props.Coords.lat1, 
+                          lng: this.props.Coords.Lng1 
+                          */}
+
+                        {/* <Marker 
                             onClick={this.onMarkerClick} 
                             address={'You are Here'}
                             label={"X"}
@@ -82,7 +91,7 @@ class MapContainer extends Component {
                             icon={{
                             url: "http://maps.google.com/mapfiles/ms/icons/red.png"
                             }}
-                        />
+                        /> */}
                         {marker.map(marker =>
                             <Marker
                                 onClick={this.onMarkerClick}

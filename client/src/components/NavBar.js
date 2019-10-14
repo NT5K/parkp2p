@@ -169,16 +169,16 @@ class NavBar extends Component {
                               ? { backgroundColor: '#fafafa', cursor: 'pointer', width: '45vw' }
                               : { backgroundColor: '#ffffff', cursor: 'pointer', width: '45vw' };
 
-                              return (
-                                <div
-                                  {...getSuggestionItemProps(suggestion, {
-                                    className,
-                                    style,
-                                  })}
-                                >
-                                  <span>{suggestion.description}</span>
-                                </div>
-                              );
+                            return (
+                              <div
+                                {...getSuggestionItemProps(suggestion, {
+                                  className,
+                                  style,
+                                })}
+                              >
+                                <span>{suggestion.description}</span>
+                              </div>
+                            );
                           })}
                         </div>
                       </div>
@@ -207,7 +207,7 @@ class NavBar extends Component {
             <div>
               <GoogleMap Coords={Coords} />
             </div>
-            </div>
+          </div>
            
         )
     }
