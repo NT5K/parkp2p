@@ -62,7 +62,7 @@ class MapContainer extends Component {
         let { marker} = this.state
         return (
             <div>
-                <div style={{ position: "relative",height: "50vh" }} className="row"id="map">
+                <div style={{ position: "relative",height: "50vh"}} className="row"id="map">
                 <div style={{ position: "relative", height: "50vh", float:"left" }} className="col-9 bg-dark">
             
                     <Map
