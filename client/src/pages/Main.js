@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import GoogleMap from '../components/GoogleMap';
 import NavBar from './../components/NavBar';
 
 
 const styles = {
-    overflow: "auto"
+    overflow: "hidden",
+    // height: "100vh"
 }
 
 class Main extends Component {
@@ -12,7 +12,6 @@ class Main extends Component {
         return (
             <div style={styles}>
                 <NavBar />
-                <GoogleMap />
             </div>
         );
     }

@@ -3,6 +3,15 @@ import store from 'store'
 import 'whatwg-fetch';
 import { Redirect } from 'react-router-dom'
 
+
+const styles = {
+  overflow: "hidden",
+  height: "50vh",
+  // paddingTop: "50px",
+  paddingLeft: "20px",
+  border: "5px grey solid"
+}
+
 class Customers extends Component {
 
   constructor() {
@@ -47,40 +56,52 @@ class Customers extends Component {
 
     return (
       // <div className="bg-dark text-light h-100">
-      <div className="bg-dark text-white">
+      <div className="bg-dark text-white pt-2" style={styles}>
         <div className="row">
-          <div className="col-6 border-right">
-            <div className="row">
-              <div className="col-6">
+              <div className="col-lg-6 col-md-12">
                 <h4>Address:</h4>
-                <h4>Description:</h4>
-                <h4>Hourly Rate:</h4>
-                <h4>Daily Rate:</h4>
-                <h4>Weekly Rate:</h4>
-                <h4>Monthly Rate:</h4>
-                <button type="button" class="btn btn-success">Reserve This Spot!</button>
-              </div>
-              <div className="col-6">
                 <h4>-{this.props.location.address}</h4>
+            < br />< br />
+                <h4>Description:</h4>
                 <h4>-{this.props.location.description}</h4>
-                <h4>${this.props.location.hourly}</h4>
-                <h4>${this.props.location.daily}</h4>
-                <h4>${this.props.location.weekly}</h4>
-                <h4>${this.props.location.monthly}</h4>
-                
+                < br />
+                <h4>Available Spots:</h4>
+                    2
+            < br />
               </div>
-            </div>
-          </div>
-          
-          <div className="col-6">
-            <p><u>Example Data</u></p>
-            {/* <p>Local Storage Token: {this.state.token}</p> */}
-            <p><strong>Current users on database:</strong></p>
-            {this.state.customers.map(customer =>
-              <p key={customer.ID}>{customer.Email} {customer.Password}</p>
-            )}
-          </div>
+              <div className="col-lg-6 col-md-12">
+                <div className="row justify-content-left">
+                  <div className="col-5">
+                    
+                    <h5>Hourly Rate: ${this.props.location.hourly}</h5>
+                      < br />
+                    <h5>Daily Rate: ${this.props.location.daily}</h5>
+                      < br />
+                    <h5>Weekly Rate: ${this.props.location.weekly}</h5>
+                      < br />
+                    <h5>Monthly Rate: ${this.props.location.monthly}</h5>
+                    
+                  </div>
+                  <div className="col-1">
+                <h5><input type="datetime-local" /></h5>
+                          < br />
+                    <h5><input type="text" /></h5>
+                          < br />
+                    <h5><input type="text" /></h5>
+                          < br />
+                    <h5><input type="text" /></h5>
+                  </div>
+                </div>
+              <div className="row justify-content-left">
+                <div className="col-4">
+                  <button type="button" className="btn btn-success">Reserve Now</button>
+                </div>
+                <div className="col-4">
+                  <button type="button" className="btn btn-success">Future Reservation</button>
+                </div>
+              </div>
         </div>
+      </div>
       </div>
     );
   }

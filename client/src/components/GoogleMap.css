@@ -1,0 +1,9 @@
+.location-search-input {
+    width: 30vw;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 480px) { 
+    #map {
+      width: 137%;
+    }
+}

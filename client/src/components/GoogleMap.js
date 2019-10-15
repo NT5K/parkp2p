@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, /*InfoWindow,*/ Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
+import './GoogleMap.css';
+import StreetView from './StreetView';
 require('dotenv').config()
 
 const styles = require('./GoogleMapStyles.json')
@@ -11,29 +13,36 @@ class MapContainer extends Component {
         this.state = {
             mapStyles: {
                 width: "100%",
-                height: "100%"
+                height: "100%",
+                float: "left"
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
             selectedPlace: {},
             Address: '',
+            address: '',
             lat: 0,
             lng: 0,
             marker: []
         };
-        
         this.onMarkerClick = this.onMarkerClick.bind(this);
-        
     }
 
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
         fetch('/api/public/driveways')
-    .then(res => res.json())
-    .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
-    .catch(err => console.log(err));
+            .then(res => res.json())
+            .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
+            .catch(err => console.log(err));
     }
 
-    onMarkerClick(locationString){
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.Coords != this.props.Coords) {
+            let latLng = { lat: nextProps.Coords.lat1, lng: nextProps.Coords.Lng1 }
+            this.setState({ selectedPlace: latLng })
+        }
+    }
+
+    onMarkerClick(locationString) {
         console.log(locationString)
         this.setState({
             selectedPlace: locationString
@@ -42,70 +51,84 @@ class MapContainer extends Component {
 
     onClose = props => {
         if (this.state.showingInfoWindow) {
-          this.setState({
-            showingInfoWindow: false,
-            activeMarker: null
-          });
+            this.setState({
+                showingInfoWindow: false,
+                activeMarker: null
+            });
         }
-      };
+    };
 
     render() {
-        const { marker } = this.state
+        let { marker} = this.state
         return (
             <div>
-             <div style={{ position: "relative", width: "100vw", height: "50vh" }} className="">
-         <Map
-                    google={this.props.google}
-                    zoom={12}
-                    style={this.state.mapStyles}
-                    // initialCenter={{
-                    //     lat: 41.50416, lng: -81.60845
-                    // }}
-                    centerAroundCurrentLocation={true}
-                    fullscreenControl={false}
-                    streetViewControl={false}
-                    mapTypeControl={false}
-                    styles={styles}
+                <div style={{ position: "relative",height: "50vh"}} className="row"id="map">
+                <div style={{ position: "relative", height: "50vh", float:"left" }} className="col-9 bg-dark">
+            
+                    <Map
+                        centerAroundCurrentLocation={true}
+                        google={this.props.google}
+                        zoom={12}
+                        style={this.state.mapStyles}
+                        // initialCenter={{
+                        //     lat: 41.4993, 
+                        //     lng: -81.6944
+                        // }}
+                        center={this.state.selectedPlace}
+                        centerAroundCurrentLocation={true}
+                        fullscreenControl={false}
+                        streetViewControl={false}
+                        mapTypeControl={false}
+                        styles={styles}
                     >
-    <Marker 
-    onClick={this.onMarkerClick} 
-    address={'You are Here'}
-    icon={{
-        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-    }} />
-                    {marker.map(marker =>
                         <Marker
                             onClick={this.onMarkerClick}
-                            key={marker.ID}
-                            address={marker.Address}
-                            description={marker.Description}
-                            hourly={marker.Hourly}
-                            daily={marker.Daily}
-                            weekly={marker.Weekly}
-                            monthly={marker.Monthly}
-                            position={{ lat: marker.Latitude, lng: marker.Longitude }}
+                            address={'You are Here'}
+                            label={"X"}
+                            // animation={2}
                             icon={{
-                                url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                                url: "http://maps.google.com/mapfiles/ms/icons/red.png"
                             }}
                         />
+                        {marker.map(marker =>
 
-                        // <Marker key={marker.Address} name={marker.Address} lat={marker.Latitude} lng={marker.Longitude}/>
-                    )}                        
-                    {/* <InfoWindow
-                        marker={this.state.activeMarker}
-                        visible={this.state.showingInfoWindow}
-                        onClose={this.onClose}
-                    >
-                    </InfoWindow> */}
-                </Map>
-            </div>
-                <div>
-                <ExampleData 
-                location={this.state.selectedPlace} 
+                            <Marker
+                                onClick={this.onMarkerClick}
+                                key={marker.ID}
+                                address={marker.Address}
+                                description={marker.Description}
+                                hourly={marker.Hourly}
+                                daily={marker.Daily}
+                                weekly={marker.Weekly}
+                                monthly={marker.Monthly}
+                                // animation={1}
+                                position={{ lat: marker.Latitude, lng: marker.Longitude }}
+                                icon={{
+                                    url: "http://maps.google.com/mapfiles/ms/icons/green.png"
+                                }}
+                            />
 
-                />
-                </div>
+                        )}
+                        {/* <InfoWindow
+                            marker={this.state.activeMarker}
+                            visible={this.state.showingInfoWindow}
+                            onClose={this.onClose}
+                        >
+                        </InfoWindow> */}
+                    </Map>
 </div>
+                    <div style={{ position: "relative", height: "50vh", float: "left" }} className="col-3 bg-dark" id="StreetView">
+                     <StreetView
+                    location={this.state.selectedPlace}
+                    />
+                    </div>
+                </div>
+                <div>
+                    <ExampleData 
+                        location={this.state.selectedPlace}
+                    />
+                </div>
+            </div>
         );
     }
 }

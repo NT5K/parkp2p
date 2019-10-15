@@ -1,6 +1,7 @@
 html,
 body {
   margin: 0;
+  background-color: white;
 }
 
 #App {
@@ -37,7 +38,7 @@ body {
 
 /* Position and sizing of burger button */
 .bm-burger-button {
-  position: fixed;
+  position: absolute;
   width: 36px;
   height: 30px;
   left: 36px;
@@ -46,7 +47,7 @@ body {
 
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
-  background: #373a47;
+  background: rgb(189, 189, 189);
 }
 
 /* Position and sizing of clickable cross button */
