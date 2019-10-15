@@ -45,7 +45,7 @@ router.post('/api/account/signup', (req, res, next) => {
     const hashedPass = bcrypt.hashSync(inputPassword, saltRounds);
 
     // query's for database
-    const query = "INSERT INTO users (Email, Pass, Name, Phone_Number, Address, City, State, Zipcode, Longitude, Latitude, Car_Make, Car_Model, Spots, Active_State, Hourly, Daily, Weekly, Monthly, Overnight, Balance, Description) VALUES (?, ?, null, null, null, null, null, null, null, null, null, null, null, false, null, null, null, null, null, null, null);";
+    const query = "INSERT INTO users (Email, Pass, Name, Phone_Number, Address, City, State, Zipcode, Longitude, Latitude, Car_Year, Car_Make, Car_Model, Car_Color, Spots, Active_State, Hourly, Daily, Weekly, Monthly, Overnight, Balance, Subscription, Description) VALUES (?, ?, 'John Smith', '9871234321', 'no address', 'no city', 'no state', 'no zipcode', null, null, 2021, 'no car make', 'no car model', 'no car color', 0, false, 0, 0, 0, 0, 0, 0, 0, 'no description');";
     const input = [inputEmail, hashedPass];
 
     connection.query(query, input, (err, result) => {
@@ -96,7 +96,7 @@ router.post('/api/account/signin', (req, res, next) => {
         const decryptedPass = bcrypt.compareSync(inputPassword, Pass)
         console.log("decrypted pass true or false: ", decryptedPass)
         console.log(ID)
-        // if (inputEmail === Email) {
+        // if (inputEmail !== Email) {
         //     return res.send({
         //         success: false,
         //         message: 'Incorrect email'
