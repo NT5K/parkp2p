@@ -77,7 +77,7 @@ class MapContainer extends Component {
                         center={this.state.selectedPlace}
                         centerAroundCurrentLocation={true}
                         fullscreenControl={false}
-                        streetViewControl={false}
+                        // streetViewControl={false}
                         mapTypeControl={false}
                         styles={styles}
                     >

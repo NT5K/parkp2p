@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom'
 
 const styles = {
   overflow: "hidden",
-  height: "50vh",
+  height: "100%",
   // paddingTop: "50px",
   paddingLeft: "20px",
   border: "5px grey solid"
