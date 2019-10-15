@@ -51,7 +51,7 @@ router.get('/api/account/personal/:token', (req, res) => {
 // get rates info info from token
 //===========================================================================
 router.get('/api/account/rates/:token', (req, res) => {
-  const query = "Select Address, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Active_State FROM users WHERE ID = ?;";
+  const query = "Select Address, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Description, Active_State FROM users WHERE ID = ?;";
   const { token } = req.params
   const input = [token]
   connection.query(query, input, (err, result) => {
@@ -355,6 +355,28 @@ router.post('/api/account/update/rates/overnight', (req, res) => {
       return res.send({
         success: true,
         new_overnight_rate: overnightToPostRequest
+      });
+    };
+  });
+});
+
+router.post('/api/account/update/description', (req, res) => {
+  const { token, descriptionToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("first name change", descriptionToPostRequest)
+  
+  const query = "UPDATE users SET Description = ? WHERE ID = ?;";
+  const input = [descriptionToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update daily rate")
+    } else {
+      return res.send({
+        success: true,
+        new_description_rate: descriptionToPostRequest
       });
     };
   });

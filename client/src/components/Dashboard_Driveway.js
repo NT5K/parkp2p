@@ -6,6 +6,7 @@ import PersonalInfoRow from './PersonalInfoRow'
 
 
 
+
 class Dashboard extends Component {
     constructor() {
         super();
@@ -17,11 +18,13 @@ class Dashboard extends Component {
             displayWeekly: '',
             displayMonthly: '',
             displayOvernight: '',
+            displayDescription: '',
             hourlyToPostRequest: '',
             dailyToPostRequest: '',
             weeklyToPostRequest: '',
             monthlyToPostRequest: '',
-            overnightToPostRequest: ''
+            overnightToPostRequest: '',
+            descriptionToPostRequest: ''
  
         }
 
@@ -35,6 +38,8 @@ class Dashboard extends Component {
         this.updateMonthly = this.updateMonthly.bind(this);
         this.onTextboxChangeOvernight = this.onTextboxChangeOvernight.bind(this);
         this.updateOvernight = this.updateOvernight.bind(this);
+        this.onTextboxChangeDescription = this.onTextboxChangeDescription.bind(this);
+        this.updateDescription = this.updateDescription.bind(this);
     }
 
 
@@ -50,7 +55,7 @@ class Dashboard extends Component {
         fetch('/api/account/rates/' + this.state.token)
             .then(res => res.json())
             .then(user => {
-                const { Daily, Weekly, Hourly, Monthly, Overnight } = user[0]
+                const { Daily, Weekly, Hourly, Monthly, Overnight, Description } = user[0]
                 console.log(this.state.token)
                 console.log(user[0].Daily)
                 console.log(this.state.user)
@@ -61,6 +66,7 @@ class Dashboard extends Component {
                     displayWeekly: Weekly,
                     displayMonthly: Monthly,
                     displayOvernight: Overnight,
+                    displayDescription: Description
                 })
             }, () => console.log("user array", this.state.user, "this users token", this.state.token))
     }
@@ -242,11 +248,46 @@ class Dashboard extends Component {
             });
     }
 
+    onTextboxChangeDescription(event) {
+        this.setState({
+            descriptionToPostRequest: event.target.value
+        });
+    }
+
+    updateDescription(event) {
+        event.preventDefault()
+        // Grab state
+        const { descriptionToPostRequest, token } = this.state;
+        // post to backend
+        console.log(descriptionToPostRequest)
+        fetch('/api/account/update/description', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                descriptionToPostRequest
+            })
+        })
+        .then(res => res.json())
+        .then(json => {
+                // set state for display
+                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
+                if (json.success) {
+                    this.setState({
+                        displayDescription: descriptionToPostRequest
+                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
+                    });
+                }
+            });
+    }
+
     render() {
-        const { displayHourly, displayDaily, displayWeekly, displayMonthly, displayOvernight, token} = this.state
-        const { hourlyToPostRequest, dailyToPostRequest, weeklyToPostRequest, monthlyToPostRequest, overnightToPostRequest } = this.state
-        const { updateHourly, updateDaily, updateWeekly, updateMonthly, updateOvernight } = this
-        const { onTextboxChangeHourly, onTextboxChangeDaily, onTextboxChangeWeekly, onTextboxChangeMonthly, onTextboxChangeOvernight} = this
+        const { displayHourly, displayDaily, displayWeekly, displayMonthly, displayOvernight,displayDescription, token} = this.state
+        const { hourlyToPostRequest, dailyToPostRequest, weeklyToPostRequest, monthlyToPostRequest, overnightToPostRequest, descriptionToPostRequest } = this.state
+        const { updateHourly, updateDaily, updateWeekly, updateMonthly, updateOvernight, updateDescription } = this
+        const { onTextboxChangeHourly, onTextboxChangeDaily, onTextboxChangeWeekly, onTextboxChangeMonthly, onTextboxChangeOvernight, onTextboxChangeDescription} = this
         
         console.log(displayDaily,"HERE!!!");
 
@@ -333,6 +374,19 @@ class Dashboard extends Component {
                             onChange={onTextboxChangeOvernight}
                             placeholder={"overnight"}
                             onClick={updateOvernight}
+                            buttonText={"submit"}
+                        />
+                        <PersonalInfoRow
+                            header={"Description"}
+                            displayText={displayDescription}
+                            id={"update_Description"}
+                            action={"/api/account/update/description"}
+                            type={"text"}
+                            inputId={"description"}
+                            value={descriptionToPostRequest}
+                            onChange={onTextboxChangeDescription}
+                            placeholder={"description"}
+                            onClick={updateDescription}
                             buttonText={"submit"}
                         />
                 </div>
