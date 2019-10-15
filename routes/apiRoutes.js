@@ -79,6 +79,24 @@ router.get('/api/account/rates/:token', (req, res) => {
 });
 
 //===========================================================================
+// get subscription info info from token
+//===========================================================================
+router.get('/api/account/subscription/plan/:token', (req, res) => {
+  const query = "Select Subscription FROM users WHERE ID = ?;";
+  const { token } = req.params
+  const input = [token]
+  connection.query(query, input, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Failed to get info')
+    } else {
+      // console.log(result)
+      return res.json(result);
+    };
+  });
+});
+
+//===========================================================================
   // update name in dashboard
 //===========================================================================
 router.post('/api/account/update/name/', (req, res) => {
@@ -560,6 +578,39 @@ router.post('/api/account/update/car/color', (req, res) => {
       return res.send({
         success: true,
         new_car_Color: carColorToPostRequest
+      });
+    };
+  });
+});
+
+//===========================================================================
+  // update subscription plan in dashboard
+//===========================================================================
+
+router.post('/api/account/subscription/plan/update', (req, res) => {
+  const { token, inputSubscription } = req.body;
+  
+  console.log("local token", token)
+  console.log("overnight change", inputSubscription)
+
+  if (!inputSubscription) {
+    return res.send({
+      success: false,
+      error: "invalid"
+    })
+  }
+  
+  const query = "UPDATE users SET Subscription = ? WHERE ID = ?;";
+  const input = [inputSubscription, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update")
+    } else {
+      return res.send({
+        success: true,
+        subscription: inputSubscription
       });
     };
   });

@@ -15,7 +15,15 @@ class SubscriptionPlanCard extends Component {
                         <li>{this.props.info2}</li>
                         <li>{this.props.info3}</li>
                     </ul>
-                    <button type="button" className="btn btn-lg btn-block btn-primary">Sign Up!</button>
+                    <button 
+                        type="button" 
+                        className="btn btn-lg btn-block btn-primary"  
+                        value={this.props.value} 
+                        onClick={this.props.onClick}
+                        // onChange={this.props.onChange}
+                    >
+                        Sign Up!
+                    </button>
                 </div>
             </div>
         )

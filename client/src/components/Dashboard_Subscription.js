@@ -3,7 +3,11 @@ import { Redirect } from 'react-router-dom'
 import SubscriptionPlanCard from './SubscriptionPlanCard'
 import store from 'store'
 import 'whatwg-fetch';
+const displayInfo = [{
+    "1": {
 
+    }
+}]
 
 class Subscription extends Component {
     constructor() {
@@ -11,9 +15,19 @@ class Subscription extends Component {
         this.state = {
             user: [],
             token: '',
-        }
-    }
+            displaySubscription: '',
+            subscriptionNumberToPostRequest: '',
 
+            displayInfoRow1: '',
+            displayInfoRow2: '',
+            displayInfoRow3: '',
+            displayInfoRow4: ''
+        }
+
+        this.updateSubscription = this.updateSubscription.bind(this);
+        // this.onClickSetNumberForPostRequest = this.onClickSetNumberForPostRequest.bind(this);
+
+    }
 
     // set token state to token value
     UNSAFE_componentWillMount() {
@@ -24,26 +38,117 @@ class Subscription extends Component {
 
     // gets info based on token
     componentDidMount() {
-        fetch('/api/account/rates/' + this.state.token)
+        fetch('/api/account/subscription/plan/' + this.state.token)
             .then(res => res.json())
             .then(user => {
-                const { Daily, Weekly, Hourly, Monthly, Overnight } = user[0]
+                const { Subscription } = user[0]
                 console.log(this.state.token)
-                console.log(user[0].Daily)
                 console.log(this.state.user)
-                this.setState({
-                    user: user[0],
-                    displayDaily: Daily,
-                    displayHourly: Hourly,
-                    displayWeekly: Weekly,
-                    displayMonthly: Monthly,
-                    displayOvernight: Overnight,
-                })
+                if (Subscription == 1) {
+                    this.setState({
+                        user: user[0],
+                        displaySubscription: Subscription,
+                        displayInfoRow1: "Price: $30/mo",
+                        displayInfoRow2: "No parking fees",
+                        displayInfoRow3: "Early Bird Reservations"
+                    })
+                }
+                else if (Subscription == 2) {
+                    this.setState({
+                        user: user[0],
+                        displaySubscription: Subscription,
+                        displayInfoRow1: "Price: $50/mo",
+                        displayInfoRow2: "No parking fees",
+                        displayInfoRow3: "15% off spot price",
+                        displayInfoRow4: "Early Bird Reservations"
+                    })
+                }
+                else if (Subscription == 3) {
+                    this.setState({
+                        user: user[0],
+                        displaySubscription: Subscription,
+                        displayInfoRow1: "Price: $100/mo",
+                        displayInfoRow2: "15% off spot price",
+                        displayInfoRow3: "No charge for spots",
+                        displayInfoRow4: "Early Bird Reservations"
+                    })
+                } 
+                else if (Subscription == 0) {
+                    this.setState({
+                        user: user[0], 
+                        displaySubscription: Subscription,
+                        displayInfoRow1: "No Subscription",
+                        
+                    })
+                }
             }, () => console.log("user array", this.state.user, "this users token", this.state.token))
     }
 
+    onClickSetNumberForPostRequest(event) {
+        this.setState({
+            subscriptionNumberToPostRequest: event.target.value
+        });
+    }
+
+    updateSubscription(event) {
+        event.preventDefault()
+        const inputSubscription= event.target.value
+        // Grab state
+        const { token } = this.state;
+        // post to backend
+        fetch('/api/account/subscription/plan/update', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                inputSubscription
+            })
+        })
+            .then(res => res.json())
+            .then(json => {
+                // set state for display
+                if (json.success && json.subscription == 1) {
+                    this.setState({
+                        displaySubscription: inputSubscription,
+                        displayInfoRow1: "Price: $30/mo",
+                        displayInfoRow2: "No parking fees",
+                        displayInfoRow3: "Early Bird Reservations"
+                    });
+                }
+                if (json.success && json.subscription == 2) {
+                    this.setState({
+                        displaySubscription: inputSubscription,
+                        displayInfoRow1: "Price: $50/mo",
+                        displayInfoRow2: "No parking fees",
+                        displayInfoRow3: "15% off spot price",
+                        displayInfoRow4: "Early Bird Reservations"
+                    });
+                }
+                if (json.success && json.subscription == 3) {
+                    this.setState({
+                        displaySubscription: inputSubscription,
+                        displayInfoRow1: "Price: $100/mo",
+                        displayInfoRow2: "15% off spot price",
+                        displayInfoRow3: "No charge for spots",
+                        displayInfoRow4: "Early Bird Reservations"
+                    });
+                }
+            });
+    }
+
     render() {
-        const { token } = this.state
+        const { 
+            token, 
+            displaySubscription, 
+            displayInfo, 
+            displayInfoRow1,
+            displayInfoRow2,
+            displayInfoRow3, 
+            displayInfoRow4 
+        } = this.state
+        const { updateSubscription /*onClickSetNumberForPostRequest*/ } = this
 
          if (!token) {
             return (
@@ -61,29 +166,54 @@ class Subscription extends Component {
                             <h4>Subscription Plans</h4>
                         </div>
                     </div>
-                    <div className="container pl-3 pt-5">
+                    <div className="container pl-3 pt-3">
                         <div className="card-deck mb-3 text-center">
                             <SubscriptionPlanCard
                                 header={"Basic"}
                                 price={"30"}
-                                info1={"No parking fee"}
+                                info1={"No parking fees"}
                                 info2={"Early Bird Reservations"}
                                 info3={<br />}
+                                value={1}
+                                onClick={updateSubscription}
+                                // onChange={onClickSetNumberForPostRequest}
                             />
                             <SubscriptionPlanCard
                                 header={"Discount"}
                                 price={"50"}
-                                info1={"No parking fee"}
+                                info1={"No parking fees"}
                                 info2={"15% off spot price"}
                                 info3={"Early Bird Reservations"}
+                                value={2}
+                                onClick={updateSubscription}
+                                // onChange={onClickSetNumberForPostRequest}
                             />
                             <SubscriptionPlanCard
                                 header={"All Inclusive"}
                                 price={"100"}
-                                info1={"No parking fee"}
+                                info1={"No parking fees"}
                                 info2={"No charge for spots"}
                                 info3={"Early Bird Reservations"}
+                                value={3}
+                                onClick={updateSubscription}
+                                // onChange={onClickSetNumberForPostRequest}
                             />
+                        </div>
+                    </div>
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>My Current Plan</b></u></h5>
+                            {/* <p>(personal information only you can see)</p> */}
+                            {/* {displaySubscription} */}
+                            {/* <br /> */}
+                            {displayInfoRow1}
+                            <br />
+                            {displayInfoRow2}
+                            <br />
+                            {displayInfoRow3}
+                            <br />
+                            {displayInfoRow4}
+                            
                         </div>
                     </div>
                 </div>

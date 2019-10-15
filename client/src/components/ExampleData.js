@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom'
 const styles = {
   overflow: "hidden",
   height: "50vh",
-  paddingTop: "50px",
+  // paddingTop: "50px",
   paddingLeft: "20px",
   border: "5px grey solid"
 }
@@ -56,9 +56,9 @@ class Customers extends Component {
 
     return (
       // <div className="bg-dark text-light h-100">
-      <div className="bg-dark text-white" style={styles}>
+      <div className="bg-dark text-white pt-2" style={styles}>
         <div className="row">
-              <div className="col-lg-6 col-md-12 bg-dark">
+              <div className="col-lg-6 col-md-12">
                 <h4>Address:</h4>
                 <h4>-{this.props.location.address}</h4>
             < br />< br />
@@ -69,7 +69,7 @@ class Customers extends Component {
                     2
             < br />
               </div>
-              <div className="col-lg-6 col-md-12 bg-dark">
+              <div className="col-lg-6 col-md-12">
                 <div className="row justify-content-left">
                   <div className="col-5">
                     
@@ -83,7 +83,7 @@ class Customers extends Component {
                     
                   </div>
                   <div className="col-1">
-                    <h5><input type="text" /></h5>
+                <h5><input type="datetime-local" /></h5>
                           < br />
                     <h5><input type="text" /></h5>
                           < br />
