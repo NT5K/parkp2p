@@ -2,10 +2,11 @@
 const express = require('express');
 const app = express();
 
-// const carRoutes = require('./routes/carRoutes')
-const nameAddressRoutes = require('./routes/nameAddressRoutes');
-const ratesRoutes = require('./routes/ratesRoutes');
 const apiRoutes = require('./routes/apiRoutes');
+const accountRoutes = require('./routes/accountRoutes');
+const ratesRoutes = require('./routes/ratesRoutes');
+const subscriptionRoutes = require('./routes/subscriptionRoutes');
+const carRoutes = require('./routes/carRoutes');
 const signin = require('./routes/signin');
 
 const expressValidator = require('express-validator');
@@ -29,18 +30,21 @@ app.use(express.text());
 app.use(express.json({ type: 'application/*+json' }));
 
 //routes
-app.use(nameAddressRoutes)
-// app.use(carRoutes)
-app.use(ratesRoutes);
+
 app.use(apiRoutes);
+app.use(accountRoutes);
+app.use(subscriptionRoutes);
+app.use(ratesRoutes);
+app.use(carRoutes);
 app.use(signin);
 
 
 // use html and api files instead of putting them here
-require('./routes/nameAddressRoutes');
-// require('./routes/carRoutes');
-require('./routes/ratesRoutes');
 require('./routes/apiRoutes');
+require('./routes/accountRoutes');
+require('./routes/subscriptionRoutes');
+require('./routes/ratesRoutes');
+require('./routes/carRoutes');
 require('./routes/signin');
 
 

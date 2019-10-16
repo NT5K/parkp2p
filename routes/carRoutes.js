@@ -1,102 +1,122 @@
-// const connection = require("./connection");
-// const express = require('express');
-// const router = express.Router();
+const connection = require("./connection");
+const express = require('express');
+const router = express.Router();
 
-// //===========================================================================
-// // update car make in dashboard
-// //===========================================================================
+module.exports = router;
 
-// router.post('/api/account/update/car/make', (req, res) => {
-//     const { token, carMakeToPostRequest } = req.body;
+//===========================================================================
+// get car information from token
+//===========================================================================
+router.get('/api/account/personal/car/:token', (req, res) => {
+    const query = "Select Car_Year, Car_Make, Car_Model, Car_Color FROM users WHERE ID = ?;";
+    const { token } = req.params
+    const input = [token]
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Failed to get car make model')
+        } else {
+            // console.log(result)
+            return res.json(result);
+        };
+    });
+})
 
-//     console.log("local token", token)
-//     console.log("overnight change", carMakeToPostRequest)
+//===========================================================================
+// update car make in dashboard
+//===========================================================================
 
-//     if (!carMakeToPostRequest) {
-//         return res.send({
-//             success: false,
-//             error: "car make input cannot be blank"
-//         })
-//     }
+router.post('/api/account/update/car/make', (req, res) => {
+    const { token, carMakeToPostRequest } = req.body;
 
-//     const query = "UPDATE users SET Car_Make = ? WHERE ID = ?;";
-//     const input = [carMakeToPostRequest, token]
+    console.log("local token", token)
+    console.log("overnight change", carMakeToPostRequest)
 
-//     connection.query(query, input, (err, result) => {
-//         if (err) {
-//             console.log(err);
-//             return res.status(500).send("failed to update car make")
-//         } else {
-//             return res.send({
-//                 success: true,
-//                 new_car_make: carMakeToPostRequest
-//             });
-//         };
-//     });
-// });
+    if (!carMakeToPostRequest) {
+        return res.send({
+            success: false,
+            error: "car make input cannot be blank"
+        })
+    }
 
-// //===========================================================================
-// // update car model in dashboard
-// //===========================================================================
+    const query = "UPDATE users SET Car_Make = ? WHERE ID = ?;";
+    const input = [carMakeToPostRequest, token]
 
-// router.post('/api/account/update/car/model', (req, res) => {
-//     const { token, carModelToPostRequest } = req.body;
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("failed to update car make")
+        } else {
+            return res.send({
+                success: true,
+                new_car_make: carMakeToPostRequest
+            });
+        };
+    });
+});
 
-//     console.log("local token", token)
-//     console.log("overnight change", carModelToPostRequest)
+//===========================================================================
+// update car model in dashboard
+//===========================================================================
 
-//     if (!carModelToPostRequest) {
-//         return res.send({
-//             success: false,
-//             error: "car Model input cannot be blank"
-//         })
-//     }
+router.post('/api/account/update/car/model', (req, res) => {
+    const { token, carModelToPostRequest } = req.body;
 
-//     const query = "UPDATE users SET Car_Model = ? WHERE ID = ?;";
-//     const input = [carModelToPostRequest, token]
+    console.log("local token", token)
+    console.log("overnight change", carModelToPostRequest)
 
-//     connection.query(query, input, (err, result) => {
-//         if (err) {
-//             console.log(err);
-//             return res.status(500).send("failed to update car Model")
-//         } else {
-//             return res.send({
-//                 success: true,
-//                 new_car_Model: carModelToPostRequest
-//             });
-//         };
-//     });
-// });
+    if (!carModelToPostRequest) {
+        return res.send({
+            success: false,
+            error: "car Model input cannot be blank"
+        })
+    }
 
-// //===========================================================================
-// // update car color in dashboard
-// //===========================================================================
+    const query = "UPDATE users SET Car_Model = ? WHERE ID = ?;";
+    const input = [carModelToPostRequest, token]
 
-// router.post('/api/account/update/car/color', (req, res) => {
-//     const { token, carColorToPostRequest } = req.body;
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("failed to update car Model")
+        } else {
+            return res.send({
+                success: true,
+                new_car_Model: carModelToPostRequest
+            });
+        };
+    });
+});
 
-//     console.log("local token", token)
-//     console.log("overnight change", carColorToPostRequest)
+//===========================================================================
+// update car color in dashboard
+//===========================================================================
 
-//     if (!carColorToPostRequest) {
-//         return res.send({
-//             success: false,
-//             error: "car Color input cannot be blank"
-//         })
-//     }
+router.post('/api/account/update/car/color', (req, res) => {
+    const { token, carColorToPostRequest } = req.body;
 
-//     const query = "UPDATE users SET Car_Color = ? WHERE ID = ?;";
-//     const input = [carColorToPostRequest, token]
+    console.log("local token", token)
+    console.log("overnight change", carColorToPostRequest)
 
-//     connection.query(query, input, (err, result) => {
-//         if (err) {
-//             console.log(err);
-//             return res.status(500).send("failed to update car Color")
-//         } else {
-//             return res.send({
-//                 success: true,
-//                 new_car_Color: carColorToPostRequest
-//             });
-//         };
-//     });
-// });
+    if (!carColorToPostRequest) {
+        return res.send({
+            success: false,
+            error: "car Color input cannot be blank"
+        })
+    }
+
+    const query = "UPDATE users SET Car_Color = ? WHERE ID = ?;";
+    const input = [carColorToPostRequest, token]
+
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("failed to update car Color")
+        } else {
+            return res.send({
+                success: true,
+                new_car_Color: carColorToPostRequest
+            });
+        };
+    });
+});

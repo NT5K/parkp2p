@@ -1,17 +1,14 @@
-
 const connection = require("./connection");
 const express = require('express');
 const router = express.Router();
 
 module.exports = router;
 
-
-
 //===========================================================================
 // get rates info info from token
 //===========================================================================
 router.get('/api/account/rates/:token', (req, res) => {
-    const query = "Select Address, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Active_State FROM users WHERE ID = ?;";
+    const query = "Select Address, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Active_State, Description FROM users WHERE ID = ?;";
     const { token } = req.params
     const input = [token]
     connection.query(query, input, (err, result) => {
@@ -23,6 +20,58 @@ router.get('/api/account/rates/:token', (req, res) => {
             return res.json(result);
         };
     });
+});
+
+//===========================================================================
+  // update active state in dashboard
+//===========================================================================
+
+router.post('/api/account/update/active', (req, res) => {
+  const { token, inputState } = req.body;
+  
+  console.log("local token", token)
+  console.log("active state change", inputState)
+  
+  const query = "UPDATE users SET Active_State = ? WHERE ID = ?;";
+  const input = [inputState, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update active state")
+    } else {
+      return res.send({
+        success: true,
+        new_active_state: inputState
+      });
+    };
+  });
+});
+
+//===========================================================================
+  // update description in dashboard
+//===========================================================================
+
+router.post('/api/account/update/description', (req, res) => {
+  const { token, descriptionToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("description change", descriptionToPostRequest)
+  
+  const query = "UPDATE users SET Description = ? WHERE ID = ?;";
+  const input = [descriptionToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update description")
+    } else {
+      return res.send({
+        success: true,
+        new_description: descriptionToPostRequest
+      });
+    };
+  });
 });
 
 //===========================================================================

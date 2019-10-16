@@ -1,7 +1,10 @@
-
 const connection = require("./connection");
 const express = require('express');
 const router = express.Router();
+const geocoder = require('google-geocoder');
+const geo = geocoder({
+    key: 'AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g'
+});
 
 module.exports = router;
 
@@ -20,6 +23,38 @@ router.get('/api/account/personal/:token', (req, res) => {
             // console.log(result)
             return res.json(result);
         };
+    });
+});
+
+//===========================================================================
+// verify address for long lat on database
+//===========================================================================
+
+router.post('/api/account/verify/address', (req, res) => {
+    const { token, displayFullAddress } = req.body;
+
+    console.log("local token", token)
+    console.log("address to geolocate ", displayFullAddress)
+
+    geo.find(displayFullAddress, function (err, res) {
+
+        const { lat, lng } = res[0].location
+        console.log("latitude ", lat, " longitude", lng)
+
+        const query = "UPDATE users SET Latitude = ?, Longitude = ? WHERE ID = ?;";
+        const input = [lat, lng, token]
+
+        connection.query(query, input, (err, __) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send("failed to set lat lng")
+            }
+        });
+    });
+
+    return res.send({
+        success: true,
+        message: "Verified"
     });
 });
 
