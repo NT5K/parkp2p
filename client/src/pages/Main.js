@@ -10,7 +10,7 @@ const styles = {
 class Main extends Component {
     render() {
         return (
-            <div style={styles}>
+            <div >
                 <NavBar />
             </div>
         );
