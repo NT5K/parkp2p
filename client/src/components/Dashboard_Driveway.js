@@ -67,6 +67,13 @@ class Dashboard extends Component {
                 console.log(this.state.token)
                 console.log(user[0].Daily)
                 console.log(this.state.user)
+                let ActiveState = ''
+                if (Active_State === 0) {
+                    ActiveState = "De-activated"
+                } 
+                if (Active_State === 1) {
+                    ActiveState = "Activated"
+                }
                 this.setState({
                     user: user[0],
                     displayDaily: Daily,
@@ -75,7 +82,7 @@ class Dashboard extends Component {
                     displayMonthly: Monthly,
                     displayOvernight: Overnight,
                     displayDescription: Description,
-                    displayState: Active_State
+                    displayState: ActiveState
                     
                 })
             }, () => console.log("user array", this.state.user, "this users token", this.state.token))
@@ -107,11 +114,9 @@ class Dashboard extends Component {
         .then(res => res.json())
         .then(json => {
                 // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
                 if (json.success) {
                     this.setState({
                         displayHourly: hourlyToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
                     });
                 }
             });
@@ -143,11 +148,9 @@ class Dashboard extends Component {
         .then(res => res.json())
         .then(json => {
                 // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
                 if (json.success) {
                     this.setState({
                         displayDaily: dailyToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
                     });
                 }
             });
@@ -178,11 +181,9 @@ class Dashboard extends Component {
         .then(res => res.json())
         .then(json => {
                 // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
                 if (json.success) {
                     this.setState({
                         displayWeekly: weeklyToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
                     });
                 }
             });
@@ -213,11 +214,9 @@ class Dashboard extends Component {
         .then(res => res.json())
         .then(json => {
                 // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
                 if (json.success) {
                     this.setState({
                         displayMonthly: monthlyToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
                     });
                 }
             });
@@ -248,11 +247,9 @@ class Dashboard extends Component {
         .then(res => res.json())
         .then(json => {
                 // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
                 if (json.success) {
                     this.setState({
                         displayOvernight: overnightToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
                     });
                 }
             });
@@ -283,11 +280,9 @@ class Dashboard extends Component {
         .then(res => res.json())
         .then(json => {
                 // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
                 if (json.success) {
                     this.setState({
                         displayDescription: descriptionToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
                     });
                 }
             });
@@ -347,15 +342,20 @@ class Dashboard extends Component {
                 inputState
             })
         })
-            .then(res => res.json())
-            .then(json => {
-                // set state for display
-                if (json.success) {
-                    this.setState({
-                        displayState: inputState
-                    });
-                }
-            });
+        .then(res => res.json())
+        .then(json => {
+            // set state for display
+            if (json.success && json.new_active_state == 1) {
+                this.setState({
+                    displayState: "Activated"
+                });
+            }
+            if (json.success && json.new_active_state == 0) {
+                this.setState({
+                    displayState: "De-activated"
+                });
+            }
+        });
     }
 
     render() {
@@ -368,7 +368,7 @@ class Dashboard extends Component {
             displayDescription,
             displayState, 
             token, 
-            complete
+            // complete
         } = this.state
         const { 
             hourlyToPostRequest, 
@@ -377,7 +377,7 @@ class Dashboard extends Component {
             monthlyToPostRequest, 
             overnightToPostRequest, 
             descriptionToPostRequest,
-            stateToPostRequest 
+            // stateToPostRequest 
         } = this.state
         const { 
             updateHourly, 
@@ -386,9 +386,9 @@ class Dashboard extends Component {
             updateMonthly, 
             updateOvernight, 
             updateDescription, 
-            updateState, 
+            // updateState, 
             updateStateTrueOrFalse, 
-            onTextboxChangeStateTrueOrFalse 
+            // onTextboxChangeStateTrueOrFalse 
         } = this
         const { 
             onTextboxChangeHourly, 
@@ -397,10 +397,8 @@ class Dashboard extends Component {
             onTextboxChangeMonthly, 
             onTextboxChangeOvernight, 
             onTextboxChangeDescription, 
-            onTextboxChangeState
+            // onTextboxChangeState
         } = this
-        
-        //console.log(stateToPostRequest,"HERE!!!");
 
         if (!token) {
             return (
@@ -415,7 +413,57 @@ class Dashboard extends Component {
                 <div className="container-flex">
                     <div className="row pb-3 pt-3 border-bottom text-center">
                         <div className="col-xl-12">
-                            <h4>Set Driveway Rates</h4>
+                            <h4>Edit Driveway Information</h4>
+                        </div>
+                    </div>
+
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Driveway Active State</b></u></h5>
+                            <p>(when set to active, your driveway will be available to the public)</p>
+                        </div>
+                    </div>
+
+                    {/* active state of driveway, active or de-active buttons */}
+                    <div className="row mt-2 text-dark text-center justify-content-center">
+                        <div className="col-sm-2 col-xs-6">
+                            <h6 className="border-right">Driveway State</h6>
+                        </div>
+                        <div className="col-sm-3 col-xs-6">
+                            {displayState}
+                        </div>
+
+                        <form id="state_change" method="POST" action='/api/account/update/active'></form>
+
+                        <div className="col-sm-2 col-xs-2">
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-block btn-primary"
+                                value="1"
+                                form="state_change"
+                                onClick={updateStateTrueOrFalse}
+                            >
+                                Activate
+                            </button>
+                        </div>
+                        <div className="col-sm-2 col-xs-2">
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-block btn-primary"
+                                value="0"
+                                form="state_change"
+                                onClick={updateStateTrueOrFalse}
+                            >
+                                De-activate
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Driveway Rates</b></u></h5>
+                            <p>(set rates based on time, additional fees can be found <a href="#">here</a>)</p>
                         </div>
                     </div>
 
@@ -484,6 +532,21 @@ class Dashboard extends Component {
                         onClick={updateOvernight}
                         buttonText={"submit"}
                     />
+
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Driveway Description</b></u></h5>
+                                example:<br /> 
+                                <div className="row pl-5 pr-5">
+                                    <div className="col-sm-12">
+                                            "Our driveway is right next to the local high school. Street parking is 
+                                            virtually nonexistent for friday night football games. A 2 minute walk to work
+                                             in the local downtown area. Great daily rates!"
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+
                     <PersonalInfoRow
                         header={"Description"}
                         displayText={displayDescription}
@@ -497,48 +560,6 @@ class Dashboard extends Component {
                         onClick={updateDescription}
                         buttonText={"submit"}
                     />
-
-                    {/* active state of driveway, active or de-active buttons */}
-                    <div className="row mt-2 text-dark text-center justify-content-center">
-                        <div className="col-sm-2 col-xs-6">
-                            <h6 className="border-right">Driveway State</h6>
-                        </div>
-                        <div className="col-sm-3 col-xs-6">
-                            {displayState}
-                        </div>
-                        <form id="state_change" method="POST" action='/api/account/update/active'></form>
-                        <div className="col-sm-2 col-xs-6">
-                            <button
-                                type="button"
-                                className="btn btn-sm btn-block btn-primary"
-                                value="1"
-                                form="state_change"
-                                onClick={updateStateTrueOrFalse}
-                            >
-                                Activate
-                            </button>
-                        </div>
-                            <div className="col-sm-2 col-xs-6">
-                            <button
-                                type="button"
-                                className="btn btn-sm btn-block btn-primary"
-                                value="0"
-                                form="state_change"
-                                onClick={updateStateTrueOrFalse}
-                            >
-                                De-activate
-                            </button>
-                        </div>
-                    </div>
-
-
-
-
-
-
-
-
-
 
                         {/* <PersonalInfoRow
                             header={"Enable Driveway"}
@@ -555,8 +576,8 @@ class Dashboard extends Component {
                             onClick={updateState}
                             buttonText={"submit"}
                         /> */}
-                        <br />
-                        {stateToPostRequest}
+                        {/* <br />
+                        {stateToPostRequest} */}
                 </div>
             </div>
         )
