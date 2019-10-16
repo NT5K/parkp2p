@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import store from 'store'
 import 'whatwg-fetch';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import StreetView from './StreetView';
 
 
 const styles = {
   overflow: "hidden",
-  height: "50vh",
-  // paddingTop: "50px",
-  paddingLeft: "20px",
-  border: "5px grey solid"
+  height: "100%",
+  paddingTop: "3%",
+  paddingLeft: "3%",
+  paddingBottom: "3.7%",
+  border: "5px grey solid",
 }
 
 class Customers extends Component {
@@ -56,9 +58,9 @@ class Customers extends Component {
 
     return (
       // <div className="bg-dark text-light h-100">
-      <div className="bg-dark text-white pt-2" style={styles}>
+      <div className="bg-dark text-white" style={styles}>
         <div className="row">
-              <div className="col-lg-6 col-md-12">
+              <div className="col-md-3 bg-dark">
                 <h4>Address:</h4>
                 <h4>-{this.props.location.address}</h4>
             < br />< br />
@@ -69,38 +71,44 @@ class Customers extends Component {
                     2
             < br />
               </div>
-              <div className="col-lg-6 col-md-12">
-                <div className="row justify-content-left">
-                  <div className="col-5">
-                    
-                    <h5>Hourly Rate: ${this.props.location.hourly}</h5>
-                      < br />
-                    <h5>Daily Rate: ${this.props.location.daily}</h5>
-                      < br />
-                    <h5>Weekly Rate: ${this.props.location.weekly}</h5>
-                      < br />
-                    <h5>Monthly Rate: ${this.props.location.monthly}</h5>
-                    
+              <div className="col-md-3 bg-dark text-center" style={{paddingBottom:"-3.7%"}}>
+               
+{this.props.location.position != undefined &&
+<img src={"https://maps.googleapis.com/maps/api/streetview?size=370x380&location=" + this.props.location.position.lat + "," + this.props.location.position.lng +
+"&fov=80&heading=70&pitch=0&key=AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g"} alt="No StreetView Images available" className="StreetView" />
+        }
+    
+    </div>
+     
+    
+                  
+                  <div className="col-md-6 bg-dark text-center">
+                <div className="row">
+                   <div className="col-md-6 bg-dark text-center">
+                        <h5>Hourly Rate: ${this.props.location.hourly}</h5>
+                          < br />
+                        <h5>Daily Rate: ${this.props.location.daily}</h5>
+                          < br />
+                        <h5>Weekly Rate: ${this.props.location.weekly}</h5>
+                          < br />
+                        <h5>Monthly Rate: ${this.props.location.monthly}</h5>
+                        < br />
+                              <button type="button" className="btn btn-success">Future Reservation</button>
                   </div>
-                  <div className="col-1">
-                <h5><input type="datetime-local" /></h5>
-                          < br />
-                    <h5><input type="text" /></h5>
-                          < br />
-                    <h5><input type="text" /></h5>
-                          < br />
-                    <h5><input type="text" /></h5>
-                  </div>
+                  
+                    <div className="col-md-6 bg-dark justify-content-center">
+                      <h5><input type="text" /></h5>
+                            < br />
+                      <h5><input type="text" /></h5>
+                            < br />
+                      <h5><input type="text" /></h5>
+                            < br />
+                      <h5><input type="text" /></h5>
+                      <button type="button" className="btn btn-success">Reserve Now</button>
+            
+                    </div>
                 </div>
-              <div className="row justify-content-left">
-                <div className="col-4">
-                  <button type="button" className="btn btn-success">Reserve Now</button>
-                </div>
-                <div className="col-4">
-                  <button type="button" className="btn btn-success">Future Reservation</button>
-                </div>
-              </div>
-        </div>
+       </div>
       </div>
       </div>
     );
