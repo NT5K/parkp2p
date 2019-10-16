@@ -130,7 +130,7 @@ class Subscription extends Component {
                     this.setState({
                         displaySubscription: inputSubscription,
                         displayInfoRow1: "Price: $100/mo",
-                        displayInfoRow2: "15% off spot price",
+                        displayInfoRow2: "No parking fees",
                         displayInfoRow3: "No charge for spots",
                         displayInfoRow4: "Early Bird Reservations"
                     });

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, /*InfoWindow,*/ Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
-import './GoogleMap.css';
+// import './GoogleMap.css';
 import StreetView from './StreetView';
 require('dotenv').config()
 
-const styles = require('./GoogleMapStyles.json')
+// const styles = require('./GoogleMapStyles.json')
 class MapContainer extends Component {
     constructor(props) {
         super(props);
@@ -62,9 +62,7 @@ class MapContainer extends Component {
         let { marker} = this.state
         return (
             <div className="container-flex">
-                <div style={{ position: "relative",height: "50vh", /*marginBottom: "3.5%"*/}} className="row"id="map">
-                <div style={{ position: "relative", height: "50vh", float:"left" }} className="col-12 bg-dark">
-            
+                <div style={{ position: "relative",height: "50vh", width: "100vw" /*marginBottom: "3.5%"*/}} id="map">
                     <Map
                         centerAroundCurrentLocation={true}
                         google={this.props.google}
@@ -79,7 +77,7 @@ class MapContainer extends Component {
                         fullscreenControl={false}
                         // streetViewControl={false}
                         mapTypeControl={false}
-                        styles={styles}
+                        // styles={styles}
                     >
                         <Marker
                             onClick={this.onMarkerClick}
@@ -116,12 +114,9 @@ class MapContainer extends Component {
                         >
                         </InfoWindow> */}
                     </Map>
-</div>
                 </div>
                 <div>
-                    <ExampleData 
-                        location={this.state.selectedPlace}
-                    />
+                    <ExampleData location={this.state.selectedPlace} />
                 </div>
             </div>
         );
