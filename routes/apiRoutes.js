@@ -582,4 +582,37 @@ router.post('/api/account/update/car/color', (req, res) => {
     };
   });
 });
+
+//===========================================================================
+  // update active state in dashboard
+//===========================================================================
+
+router.post('/api/account/update/active', (req, res) => {
+  const { token, inputState } = req.body;
+  
+  console.log("local token", token)
+  console.log("active state change", inputState)
+  const parsedState = JSON.parse(inputState)
+  // if (!stateToPostRequest) {
+  //   return res.send({
+  //     success: false,
+  //     error: "car Color input cannot be blank"
+  //   })
+  // }
+  
+  const query = "UPDATE users SET Active_State = ? WHERE ID = ?;";
+  const input = [inputState, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update active state")
+    } else {
+      return res.send({
+        success: true,
+        new_active_state: inputState
+      });
+    };
+  });
+});
 //============================================================================
