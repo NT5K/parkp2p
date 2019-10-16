@@ -2,7 +2,9 @@
 const express = require('express');
 const app = express();
 
+// const carRoutes = require('./routes/carRoutes')
 const nameAddressRoutes = require('./routes/nameAddressRoutes');
+const ratesRoutes = require('./routes/ratesRoutes');
 const apiRoutes = require('./routes/apiRoutes');
 const signin = require('./routes/signin');
 
@@ -27,13 +29,17 @@ app.use(express.text());
 app.use(express.json({ type: 'application/*+json' }));
 
 //routes
-app.use(nameAddressRoutes);
+app.use(nameAddressRoutes)
+// app.use(carRoutes)
+app.use(ratesRoutes);
 app.use(apiRoutes);
 app.use(signin);
 
 
 // use html and api files instead of putting them here
 require('./routes/nameAddressRoutes');
+// require('./routes/carRoutes');
+require('./routes/ratesRoutes');
 require('./routes/apiRoutes');
 require('./routes/signin');
 
