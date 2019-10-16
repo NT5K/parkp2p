@@ -61,9 +61,9 @@ class MapContainer extends Component {
     render() {
         let { marker} = this.state
         return (
-            <div>
-                <div style={{ position: "relative",height: "50vh"}} className="row"id="map">
-                <div style={{ position: "relative", height: "50vh", float:"left" }} className="col-9 bg-dark">
+            <div className="container-flex">
+                <div style={{ position: "relative",height: "50vh", /*marginBottom: "3.5%"*/}} className="row"id="map">
+                <div style={{ position: "relative", height: "50vh", float:"left" }} className="col-12 bg-dark">
             
                     <Map
                         centerAroundCurrentLocation={true}
@@ -117,11 +117,6 @@ class MapContainer extends Component {
                         </InfoWindow> */}
                     </Map>
 </div>
-                    <div style={{ position: "relative", height: "50vh", float: "left" }} className="col-3 bg-dark" id="StreetView">
-                     <StreetView
-                    location={this.state.selectedPlace}
-                    />
-                    </div>
                 </div>
                 <div>
                     <ExampleData 
