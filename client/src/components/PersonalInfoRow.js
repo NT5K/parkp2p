@@ -5,10 +5,10 @@ class PersonalInfoRow extends Component {
         // console.log(this.props)
         return (
             <div className="row mt-2 text-dark text-center justify-content-center">
-                <div className="col-sm-2 col-xs-6">
+                <div className="col-sm-2 col-xs-12">
                     <h6 className="border-right">{this.props.header}</h6>
                 </div>
-                <div className="col-sm-3 col-xs-6">
+                <div className="col-sm-3 col-xs-12">
                     {this.props.displayText}
                 </div>
                 <div className="col-sm-3 col-xs-6">

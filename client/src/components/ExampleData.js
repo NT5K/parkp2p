@@ -8,9 +8,9 @@ import StreetView from './StreetView';
 const styles = {
   overflow: "hidden",
   height: "100%",
-  paddingTop: "3%",
-  paddingLeft: "3%",
-  paddingBottom: "3.7%",
+  // paddingTop: "3%",
+  // paddingLeft: "3%",
+  // paddingBottom: "3.7%",
   border: "5px grey solid",
 }
 
@@ -47,7 +47,8 @@ class Customers extends Component {
 
   render() {
     const { token } = this.state
-
+    // const { lat, lng } = this.props.location.position
+    const { position, description, address, } = this.props.location
     if (!token) {
       return (
         <div>
@@ -57,59 +58,132 @@ class Customers extends Component {
     }
 
     return (
-      // <div className="bg-dark text-light h-100">
-      <div className="bg-dark text-white" style={styles}>
+    
+      <div className="bg-light text-dark container h-100 pt-4">
         <div className="row">
-              <div className="col-md-3 bg-dark">
-                <h4>Address:</h4>
-                <h4>-{this.props.location.address}</h4>
-            < br />< br />
-                <h4>Description:</h4>
-                <h4>-{this.props.location.description}</h4>
-                < br />
-                <h4>Available Spots:</h4>
-                    2
-            < br />
-              </div>
-              <div className="col-md-3 bg-dark text-center" style={{paddingBottom:"-3.7%"}}>
-               
-{this.props.location.position != undefined &&
-<img src={"https://maps.googleapis.com/maps/api/streetview?size=370x380&location=" + this.props.location.position.lat + "," + this.props.location.position.lng +
-"&fov=80&heading=70&pitch=0&key=AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g"} alt="No StreetView Images available" className="StreetView" />
-        }
-    
-    </div>
-     
-    
-                  
-                  <div className="col-md-6 bg-dark text-center">
-                <div className="row">
-                   <div className="col-md-6 bg-dark text-center">
-                        <h5>Hourly Rate: ${this.props.location.hourly}</h5>
-                          < br />
-                        <h5>Daily Rate: ${this.props.location.daily}</h5>
-                          < br />
-                        <h5>Weekly Rate: ${this.props.location.weekly}</h5>
-                          < br />
-                        <h5>Monthly Rate: ${this.props.location.monthly}</h5>
-                        < br />
-                              <button type="button" className="btn btn-success">Future Reservation</button>
-                  </div>
-                  
-                    <div className="col-md-6 bg-dark justify-content-center">
-                      <h5><input type="text" /></h5>
-                            < br />
-                      <h5><input type="text" /></h5>
-                            < br />
-                      <h5><input type="text" /></h5>
-                            < br />
-                      <h5><input type="text" /></h5>
-                      <button type="button" className="btn btn-success">Reserve Now</button>
-            
-                    </div>
+
+          <div className="col-md-5">
+            <div className="row">
+              <div className="col-md-4 mr-5">
+                <div className="row text-center">
+                    <h6>Address:</h6>
                 </div>
-       </div>
-      </div>
+                <div className="row">
+                  <p>{address}</p>
+                </div>
+              </div>
+              <div className="col-md-8">
+                <div className="row">
+                    <h6>Description:</h6>
+                </div>
+                <div className="row">
+                  <p>{description}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-7 p-4" style={styles}>
+            {/* <div className="row d-flex justify-content-between">
+              <div className="col-xs-3">
+                <h6><u>Rates</u></h6>
+              </div>
+              <div className="col-xs-3">
+                <h6><u>Price</u></h6>
+              </div>
+              <div className="col-xs-3">
+                <h6><u>Duration</u></h6>
+              </div>
+              <div className="col-xs-3">
+                <h6><u>Date</u></h6>
+              </div>
+            </div> */}
+          
+            {/* hourly */}
+            <div className="row d-flex justify-content-between">
+              <div className="col-xs-3">
+                <p>Hourly</p>
+              </div>
+              <div className="col-xs-3">
+                <p>${this.props.location.hourly}</p>
+              </div>
+              <div class="form-group w-25">
+                <input type="text" class="form-control" id="example1" placeholder="Duration" /> 
+              </div>
+              <div class="form-group w-25">
+                <input type="text" class="form-control" id="example1" placeholder="Date" /> 
+              </div>
+            </div>
+
+            {/* daily */}
+            <div className="row d-flex justify-content-between">
+              <div className="col-xs-3">
+                <p>Daily</p>
+              </div>
+              <div className="col-xs-3">
+                <p> ${this.props.location.daily}</p>
+              </div>
+              <div class="form-group w-25">
+                <input type="text" class="form-control" id="example1" placeholder="Duration" /> 
+              </div>
+              <div class="form-group w-25">
+                <input type="text" class="form-control" id="example1" placeholder="Date" /> 
+              </div>
+            </div>
+
+            {/* weekly */}
+            <div className="row d-flex justify-content-between">
+              <div className="col-xs-3">
+                <p>Weekly</p>
+              </div>
+              <div className="col-xs-3">
+                <p>${this.props.location.weekly}</p>
+              </div>
+              <div class="form-group w-25">
+                <input type="text" class="form-control" id="example1" placeholder="Duration" /> 
+              </div>
+              <div class="form-group w-25">
+                <input type="text" class="form-control" id="example1" placeholder="Date" /> 
+              </div>
+            </div>
+
+            {/* monthly */}
+            <div className="row d-flex justify-content-between">
+              <div className="col-xs-3">
+                <p>Monthly</p>
+              </div>
+              <div className="col-xs-3">
+                <p>${this.props.location.monthly}</p>
+              </div>
+              <div class="form-group w-25">
+                <input type="text" class="form-control" id="example1" placeholder="Duration" /> 
+              </div>
+              <div class="form-group w-25">
+                <input type="text" class="form-control" id="example1" placeholder="Date" /> 
+              </div>
+            </div>
+
+            {/* button */}
+            <div className="row">
+              <div className="col-md-12">
+                <button type="button" className="btn btn-sm w-100 btn-success">Reserve a spot now!</button>
+              </div>
+            </div>  
+          </div>
+
+          {/* <div className="col-md-3 col-xs-12">
+            {position != undefined &&
+              <img
+                src={
+                  "https://maps.googleapis.com/maps/api/streetview?size=370x380&location=" +
+                  this.props.location.position.lat + "," + this.props.location.position.lng +
+                  "&fov=80&heading=70&pitch=0&key=AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g"
+                }
+                alt="No StreetView Images available"
+                className="StreetView"
+              />
+            }
+           </div> */}
+        </div>
       </div>
     );
   }
