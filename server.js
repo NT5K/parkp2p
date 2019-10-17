@@ -12,9 +12,10 @@ const signin = require('./routes/signin');
 const expressValidator = require('express-validator');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
 const port = 5000;
+// const port = process.env.PORT || 3001;
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
