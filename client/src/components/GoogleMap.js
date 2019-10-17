@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, /*InfoWindow,*/ Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
 // import './GoogleMap.css';
-import StreetView from './StreetView';
-require('dotenv').config()
+// import StreetView from './StreetView';
+// require('dotenv').config()
 
 // const styles = require('./GoogleMapStyles.json')
 class MapContainer extends Component {
@@ -14,7 +14,7 @@ class MapContainer extends Component {
             mapStyles: {
                 width: "100%",
                 height: "100%",
-                float: "left"
+                float: "center"
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
@@ -31,19 +31,20 @@ class MapContainer extends Component {
     componentDidMount() {
         fetch('/api/public/driveways')
             .then(res => res.json())
-            .then(marker => this.setState({ marker }, () => console.log(this.state.marker)))
+            .then(marker => this.setState({ marker }))
+            .then( () => console.log("successful markers data fetch"))
             .catch(err => console.log(err));
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.Coords != this.props.Coords) {
+        if (nextProps.Coords !== this.props.Coords) {
             let latLng = { lat: nextProps.Coords.lat1, lng: nextProps.Coords.Lng1 }
             this.setState({ selectedPlace: latLng })
         }
     }
 
     onMarkerClick(locationString) {
-        console.log(locationString)
+        // console.log(locationString)
         this.setState({
             selectedPlace: locationString
         })
@@ -62,7 +63,7 @@ class MapContainer extends Component {
         let { marker} = this.state
         return (
             <div className="container-flex">
-                <div style={{ position: "relative",height: "50vh", width: "100vw" /*marginBottom: "3.5%"*/}} id="map">
+                <div style={{ position: "relative", height: "50vh", width: "100vw" /*marginBottom: "3.5%"*/}} id="map">
                     <Map
                         centerAroundCurrentLocation={true}
                         google={this.props.google}
@@ -73,7 +74,6 @@ class MapContainer extends Component {
                         //     lng: -81.6944
                         // }}
                         center={this.state.selectedPlace}
-                        centerAroundCurrentLocation={true}
                         fullscreenControl={false}
                         // streetViewControl={false}
                         mapTypeControl={false}
@@ -124,8 +124,8 @@ class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-    // apiKey: GOOGLE_API_KEY
-    apiKey: 'AIzaSyAJRWCPrSP6XMDKu - wlDMZy0rBNhPQjo4g'
+    // apiKey: process.env.REACT_APP_GOOGLE_API_KEY
+    apiKey: 'AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g'
 })(MapContainer);
 
 // class MapContainer extends Component {

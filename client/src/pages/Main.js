@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import NavBar from './../components/NavBar';
 
 
-const styles = {
-    overflow: "hidden",
-    // height: "100vh"
-}
+// const styles = {
+//     overflow: "hidden",
+//     // height: "100vh"
+// }
 
 class Main extends Component {
     render() {

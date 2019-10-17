@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Account from "./components/Dashboard_Account"
 import DashboardRoute from './pages/DashboardRoute'
+import storeFront from './pages/storeFront'
 // import Driveway from './components/Dashboard_Driveway'
 // import Subscription from './components/Dashboard_Subscription'
 // import Account_Cancel from "./components/Dashboard_Account_Cancel"
@@ -24,6 +25,7 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/dashboard/account" component={Account} />
             <Route path="/dash" component={DashboardRoute} />
+            <Route exact path="/front" component={storeFront} />
             {/* <Router>
               <div>
                 <SideBar />

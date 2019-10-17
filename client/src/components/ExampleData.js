@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import store from 'store'
 import 'whatwg-fetch';
 import { Redirect } from 'react-router-dom';
-import StreetView from './StreetView';
+// import StreetView from './StreetView';
 
 
 const styles = {
@@ -29,13 +29,14 @@ class Customers extends Component {
     localStorage.getItem('park_p2p') && this.setState({
       token: store.get('park_p2p').token
     })
-    console.log("state of token", this.state.token)
+    // console.log("state of token", this.state.token)
   }
 
   componentDidMount() {
     fetch('/api/public/driveways')
       .then(res => res.json())
-      .then(customers => this.setState({ customers }, () => console.log("session token", this.state.token)));
+      .then(customers => this.setState({ customers }))
+      // .then(() => console.log("session token", this.state.token))
   }
 
   // if logged in successfully redirect to main page
@@ -48,7 +49,7 @@ class Customers extends Component {
   render() {
     const { token } = this.state
     // const { lat, lng } = this.props.location.position
-    const { position, description, address, } = this.props.location
+    const { /* position, */ description, address, } = this.props.location
     if (!token) {
       return (
         <div>
@@ -106,11 +107,11 @@ class Customers extends Component {
               <div className="col-xs-3">
                 <p>${this.props.location.hourly}</p>
               </div>
-              <div class="form-group w-25">
-                <input type="text" class="form-control" id="example1" placeholder="Duration" /> 
+              <div className="form-group w-25">
+                <input type="text" className="form-control" id="example1" placeholder="Duration" /> 
               </div>
-              <div class="form-group w-25">
-                <input type="text" class="form-control" id="example1" placeholder="Date" /> 
+              <div className="form-group w-25">
+                <input type="text" className="form-control" id="example1" placeholder="Date" /> 
               </div>
             </div>
 
@@ -122,11 +123,11 @@ class Customers extends Component {
               <div className="col-xs-3">
                 <p> ${this.props.location.daily}</p>
               </div>
-              <div class="form-group w-25">
-                <input type="text" class="form-control" id="example1" placeholder="Duration" /> 
+              <div className="form-group w-25">
+                <input type="text" className="form-control" id="example1" placeholder="Duration" /> 
               </div>
-              <div class="form-group w-25">
-                <input type="text" class="form-control" id="example1" placeholder="Date" /> 
+              <div className="form-group w-25">
+                <input type="text" className="form-control" id="example1" placeholder="Date" /> 
               </div>
             </div>
 
@@ -138,11 +139,11 @@ class Customers extends Component {
               <div className="col-xs-3">
                 <p>${this.props.location.weekly}</p>
               </div>
-              <div class="form-group w-25">
-                <input type="text" class="form-control" id="example1" placeholder="Duration" /> 
+              <div className="form-group w-25">
+                <input type="text" className="form-control" id="example1" placeholder="Duration" /> 
               </div>
-              <div class="form-group w-25">
-                <input type="text" class="form-control" id="example1" placeholder="Date" /> 
+              <div className="form-group w-25">
+                <input type="text" className="form-control" id="example1" placeholder="Date" /> 
               </div>
             </div>
 
@@ -154,11 +155,11 @@ class Customers extends Component {
               <div className="col-xs-3">
                 <p>${this.props.location.monthly}</p>
               </div>
-              <div class="form-group w-25">
-                <input type="text" class="form-control" id="example1" placeholder="Duration" /> 
+              <div className="form-group w-25">
+                <input type="text" className="form-control" id="example1" placeholder="Duration" /> 
               </div>
-              <div class="form-group w-25">
-                <input type="text" class="form-control" id="example1" placeholder="Date" /> 
+              <div className="form-group w-25">
+                <input type="text" className="form-control" id="example1" placeholder="Date" /> 
               </div>
             </div>
 

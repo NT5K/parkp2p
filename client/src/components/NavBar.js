@@ -12,8 +12,6 @@ import GoogleMap from './GoogleMap';
 // const key = store.get('park_p2p')
 
 const styles = {
-
-
   shadow: {
     boxShadow: "1px 1px 1px black"
   },
@@ -21,10 +19,7 @@ const styles = {
     zIndex: 999,
     position: "absolute",
     overflow: "visible",
-    width: "100vw"
-  },
-  zIndexCollapse: {
-    zIndex: 2
+    width: "100%"
   }
 }
 // style = "z-index: 999; position: relative; overflow: visible;"
@@ -59,10 +54,10 @@ class NavBar extends Component {
       isLoading: true,
     });
     const obj = getFromStorage('park_p2p');
-    console.log("~~~~~~~~~", obj.token)
+    // console.log("~~~~~~~~~", obj.token)
     if (obj && obj.token) {
       const { token } = obj;
-      console.log("TOKEN", token)
+      // console.log("TOKEN", token)
       this.setState({ error: "good1" })
 
       // Delete token from database, clear local storage
@@ -126,7 +121,7 @@ class NavBar extends Component {
     }
     return (
       <div>
-        <nav className="navbar navbar-expand-md navbar-light bg-light pt-1 pb-2" style={styles.zIndex}>
+        <nav className="navbar navbar-expand-md navbar-dark bg-dark pt-1 pb-2" style={styles.zIndex}>
           <a className="navbar-brand mr-5" href="/">PARK P2P</a>
 
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -149,7 +144,7 @@ class NavBar extends Component {
                       aria-label="Search"
                       style={styles.shadow}
                       {...getInputProps({
-                        placeholder: 'Spots in "Cleveland, Oh"',
+                        placeholder: 'Search anywhere...',
                         className: 'location-search-input',
                       })}
                     />
@@ -208,7 +203,6 @@ class NavBar extends Component {
           <GoogleMap Coords={Coords} />
         </div>
       </div>
-
     )
   }
 }
