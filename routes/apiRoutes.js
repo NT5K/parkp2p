@@ -485,6 +485,73 @@ router.post('/api/account/update/rates/overnight', (req, res) => {
 });
 
 //===========================================================================
+  // update description rate in dashboard
+//===========================================================================
+
+router.post('/api/account/update/description', (req, res) => {
+  const { token, descriptionToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("description change", descriptionToPostRequest)
+
+  if (!descriptionToPostRequest) {
+    return res.send({
+      success: false,
+      error: "description input cannot be blank"
+    })
+  }
+  
+  const query = "UPDATE users SET Description = ? WHERE ID = ?;";
+  const input = [descriptionToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update description rate")
+    } else {
+      return res.send({
+        success: true,
+        new_description_rate: descriptionToPostRequest
+      });
+    };
+  });
+});
+
+//===========================================================================
+  // update state rate in dashboard
+//===========================================================================
+
+router.post('/api/account/update/state', (req, res) => {
+  const { token, stateToPostRequest } = req.body;
+  
+  console.log("local token", token)
+
+  if (stateToPostRequest === undefined) {
+    console.log("Inside HERE!!!!!!!!")
+    return res.send({
+      success: false,
+      error: "state input cannot be blank"
+    })
+  }
+
+  
+  const query = "UPDATE users SET Active_State = ? WHERE ID = ?;";
+  const input = ['1', token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update state rate")
+    } else {
+      return res.send({
+        success: true,
+        new_state_rate: stateToPostRequest
+      });
+    };
+  });
+});
+
+//===========================================================================
   // update car make in dashboard
 //===========================================================================
 
@@ -573,13 +640,97 @@ router.post('/api/account/update/car/color', (req, res) => {
   connection.query(query, input, (err, result) => {
     if(err) {
       console.log(err);
-      return res.status(500).send("failed to update daily rate")
+      return res.status(500).send("failed to update car Color")
     } else {
       return res.send({
         success: true,
-        new_description_rate: descriptionToPostRequest
+        new_car_Color: carColorToPostRequest
       });
     };
   });
 });
+
+//===========================================================================
+  // update subscription plan in dashboard
+//===========================================================================
+
+router.post('/api/account/subscription/plan/update', (req, res) => {
+  const { token, inputSubscription } = req.body;
+  
+  console.log("local token", token)
+  console.log("overnight change", inputSubscription)
+
+  if (!inputSubscription) {
+    return res.send({
+      success: false,
+      error: "invalid"
+    })
+  }
+  
+  const query = "UPDATE users SET Subscription = ? WHERE ID = ?;";
+  const input = [inputSubscription, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update")
+    } else {
+      return res.send({
+        success: true,
+        subscription: inputSubscription
+      });
+    };
+  });
+});
+
+//===========================================================================
+  // verify address for long lat on database
+//===========================================================================
+
+router.post('/api/account/verify/address', (req, res) => {
+  const { token, displayFullAddress } = req.body;
+  
+  console.log("local token", token)
+  console.log("address to geolocate ", displayFullAddress)
+
+  geo.find(displayFullAddress, function (err, res) {
+
+    const { lat, lng } = res[0].location
+    console.log("latitude ",lat, " longitude", lng)
+
+    const query = "UPDATE users SET Latitude = ?, Longitude = ? WHERE ID = ?;";
+    const input = [lat, lng, token]
+
+    connection.query(query, input, (err, __) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("failed to set lat lng")
+      }
+    });
+  });
+
+  return res.send({
+    success: true,
+    message: "Verified"
+  });
+});
+
+
+  
+  // const query = "UPDATE users SET Overnight = ? WHERE ID = ?;";
+  // const input = [overnightToPostRequest, token ]
+
+  // connection.query(query, input, (err, result) => {
+  //   if(err) {
+  //     console.log(err);
+  //     return res.status(500).send("failed to update overnight rate")
+  //   } else {
+  //     return res.send({
+  //       success: true,
+  //       new_overnight_rate: overnightToPostRequest
+  //     });
+  //   };
+  // });
+
+
 //============================================================================
