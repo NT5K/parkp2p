@@ -63,7 +63,7 @@ router.post('/api/account/signup', (req, res, next) => {
 })
 
 //===========================================================================
-   // Sign-in user              TODO: duplicate emails break page
+   // Sign-in user              TODO: duplicate emails break page (fixed!)
 //===========================================================================
 
 router.post('/api/account/signin', (req, res, next) => {
@@ -86,65 +86,79 @@ router.post('/api/account/signin', (req, res, next) => {
 
     // email lowercase and trim
     inputEmail = inputEmail.toLowerCase().trim();
+    // console.log("inputEmail = ", inputEmail)
 
-    // query's for database
-    const query = "SELECT * FROM users WHERE Email = ?;";
-    const input = [inputEmail];
+    // query database, check if row with inputEmail exists ( returns 0 or 1 )
+    const query1 = "SELECT EXISTS(SELECT * FROM users WHERE Email = ? LIMIT 1)";
+    const input1 = [inputEmail];
 
-    connection.query(query, input, (err, users) => {
-        const { Pass, ID, Email } = users[0]
-        const decryptedPass = bcrypt.compareSync(inputPassword, Pass)
-        console.log("decrypted pass true or false: ", decryptedPass)
-        console.log(ID)
-        // if (inputEmail !== Email) {
-        //     return res.send({
-        //         success: false,
-        //         message: 'Incorrect email'
-        //     });
-        // }
-        // if input password does not match database
-        if (!decryptedPass) {
+    connection.query(query1, input1, (err, check) => {
+
+        const userExistsCheck = JSON.parse(Object.values(check[0]))
+        console.log("does user exist? = ", userExistsCheck)
+
+        if (userExistsCheck === 0) {
             return res.send({
                 success: false,
-                message: 'Incorrect email or password'
+                message: 'User does not exist'
             });
-        }
-        if (err) {
-            console.log('err 2:', err);
+        } 
+        else if (err) {
+            console.log('err 1:', err);
             return res.send({
                 success: false,
                 message: 'Error: server error'
             });
-        }
-        if (users.length != 1) {
-            return res.send({
-                success: false,
-                message: 'Error: Invalid User'
-            });
-        }
+        } 
+        else {
+    
+        // if email exists, query database for pass to decrypt
+        const query = "SELECT * FROM users WHERE Email = ?;";
+        const input = [inputEmail];
 
-        // create session on database
-        const query2 = "INSERT INTO usersessions(_id) VALUES (?);";
-        const input2 = [ID];
-        // const hashedEmail = bcrypt.hashSync(Email, saltRounds);
-        // const input2 = [JSON.stringify(hashedEmail)];
+        connection.query(query, input, (err, users) => {
 
-        connection.query(query2, input2, (err, __) => {
+            const { Pass, ID } = users[0]
+            
+            const decryptedPass = bcrypt.compareSync(inputPassword, Pass)
+            console.log("decrypted pass true or false: ", decryptedPass)
+            
+            if (!decryptedPass) {
+                return res.send({
+                    success: false,
+                    message: 'Incorrect email or password'
+                });
+            }
             if (err) {
-                console.log(err);
                 return res.send({
                     success: false,
                     message: 'Error: server error'
                 });
             }
-            return res.send({
-                success: true,
-                message: 'Valid sign in',
-                test: "test message",
-                token: input2
+
+            // create session on database
+            const query2 = "INSERT INTO usersessions(_id) VALUES (?);";
+            const input2 = [ID];
+            // const hashedEmail = bcrypt.hashSync(Email, saltRounds);
+            // const input2 = [JSON.stringify(hashedEmail)];
+
+            connection.query(query2, input2, (err, __) => {
+                if (err) {
+                    console.log(err);
+                    return res.send({
+                        success: false,
+                        message: 'Error: server error'
+                    });
+                }
+                return res.send({
+                    success: true,
+                    message: 'Valid sign in',
+                    test: "test message",
+                    token: input2
+                });
             });
         });
-    });
+    }})
 });
 
 //===========================================================================
@@ -157,7 +171,7 @@ router.get('/api/account/verify', (req, res, next) => {
     const { token } = query;
 
     // Verify the token is one of a kind and it's not deleted.
-    const query3 = "SELECT _id FROM usersessions WHERE !idDeleted and _id = ?;";
+    const query3 = "SELECT _id FROM usersessions WHERE _id = ?;";
     const input3 = [token];
 
     connection.query(query3, input3, (err, sessions) => {
