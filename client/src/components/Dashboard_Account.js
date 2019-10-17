@@ -535,7 +535,7 @@ class Dashboard extends Component {
                     <div className="row mt-3 text-dark text-center pt-2">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>Address Verification</b></u></h5>
-                            <p>(once verified, your address is setup to display)</p>
+                            <p>(once verified, your address is setup to display, please click "verify" if you have altered your address)</p>
                         </div>
                     </div>
 

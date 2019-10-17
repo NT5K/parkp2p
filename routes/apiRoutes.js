@@ -1,4 +1,3 @@
-
 const connection = require("./connection");
 const express = require('express');
 const router = express.Router();
@@ -10,14 +9,14 @@ const geo = geocoder({
 module.exports = router;
 
 //===========================================================================
-  // THIS SHOULD NOT BE ABLE TO PULL PERSONAL INFORMATION
-  // ALSO CHECK IF ACTIVE STATE IS TRUE OR FALSE
+// THIS SHOULD NOT BE ABLE TO PULL PERSONAL INFORMATION
+// ALSO CHECK IF ACTIVE STATE IS TRUE OR FALSE
 //=======================================querying the dummy data in sql=======
 router.get('/api/public/driveways', (req, res) => {
   const query = "SELECT * FROM users;";
 
   connection.query(query, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("Failed to retrieve Data")
     } else {
@@ -64,7 +63,7 @@ router.get('/api/account/personal/:token', (req, res) => {
 // get rates info info from token
 //===========================================================================
 router.get('/api/account/rates/:token', (req, res) => {
-  const query = "Select Address, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Description, Active_State FROM users WHERE ID = ?;";
+  const query = "Select Address, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Active_State, Description FROM users WHERE ID = ?;";
   const { token } = req.params
   const input = [token]
   connection.query(query, input, (err, result) => {
@@ -97,15 +96,15 @@ router.get('/api/account/subscription/plan/:token', (req, res) => {
 });
 
 //===========================================================================
-  // update name in dashboard
+// update name in dashboard
 //===========================================================================
 router.post('/api/account/update/name/', (req, res) => {
   const { token, fullName } = req.body;
-  
+
   console.log("local token", token)
   console.log("first name change", fullName)
-  
-  if (!fullName) { 
+
+  if (!fullName) {
     return res.send({
       success: false,
       error: "name input cannot be blank"
@@ -113,10 +112,10 @@ router.post('/api/account/update/name/', (req, res) => {
   }
 
   const query = "UPDATE users SET Name = ? WHERE ID = ?;";
-  const input = [fullName, token ]
+  const input = [fullName, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update first name")
     } else {
@@ -129,11 +128,11 @@ router.post('/api/account/update/name/', (req, res) => {
 });
 
 //===========================================================================
-  // update email in dashboard
+// update email in dashboard
 //===========================================================================
 router.post('/api/account/update/email/', (req, res) => {
   const { token, emailToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("email change", emailToPostRequest)
 
@@ -143,12 +142,12 @@ router.post('/api/account/update/email/', (req, res) => {
       error: "email input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Email = ? WHERE ID = ?;";
-  const input = [emailToPostRequest, token ]
+  const input = [emailToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update email")
     } else {
@@ -161,11 +160,11 @@ router.post('/api/account/update/email/', (req, res) => {
 });
 
 //===========================================================================
-  // update phone number in dashboard
+// update phone number in dashboard
 //===========================================================================
 router.post('/api/account/update/phone/', (req, res) => {
   const { token, phone_numberToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("phone number change", phone_numberToPostRequest)
 
@@ -175,12 +174,12 @@ router.post('/api/account/update/phone/', (req, res) => {
       error: "phone number input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Phone_Number = ? WHERE ID = ?;";
-  const input = [phone_numberToPostRequest, token ]
+  const input = [phone_numberToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update phone number")
     } else {
@@ -193,11 +192,11 @@ router.post('/api/account/update/phone/', (req, res) => {
 });
 
 //===========================================================================
-  // update address in dashboard
+// update address in dashboard
 //===========================================================================
 router.post('/api/account/update/address/', (req, res) => {
   const { token, addressToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("address change", addressToPostRequest)
 
@@ -207,12 +206,12 @@ router.post('/api/account/update/address/', (req, res) => {
       error: "address input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Address = ? WHERE ID = ?;";
-  const input = [addressToPostRequest, token ]
+  const input = [addressToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update address")
     } else {
@@ -225,11 +224,11 @@ router.post('/api/account/update/address/', (req, res) => {
 });
 
 //===========================================================================
-  // update city in dashboard
+// update city in dashboard
 //===========================================================================
 router.post('/api/account/update/city/', (req, res) => {
   const { token, cityToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("city change", cityToPostRequest)
 
@@ -239,12 +238,12 @@ router.post('/api/account/update/city/', (req, res) => {
       error: "city input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET City = ? WHERE ID = ?;";
-  const input = [cityToPostRequest, token ]
+  const input = [cityToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update city")
     } else {
@@ -257,11 +256,11 @@ router.post('/api/account/update/city/', (req, res) => {
 });
 
 //===========================================================================
-  // update state in dashboard
+// update state in dashboard
 //===========================================================================
 router.post('/api/account/update/state/', (req, res) => {
   const { token, stateToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("state change", stateToPostRequest)
 
@@ -271,12 +270,12 @@ router.post('/api/account/update/state/', (req, res) => {
       error: "state input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET State = ? WHERE ID = ?;";
-  const input = [stateToPostRequest, token ]
+  const input = [stateToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update state")
     } else {
@@ -289,11 +288,11 @@ router.post('/api/account/update/state/', (req, res) => {
 });
 
 //===========================================================================
-  // update zipcode in dashboard
+// update zipcode in dashboard
 //===========================================================================
 router.post('/api/account/update/zipcode/', (req, res) => {
   const { token, zipcodeToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("zipcode change", zipcodeToPostRequest)
 
@@ -303,12 +302,12 @@ router.post('/api/account/update/zipcode/', (req, res) => {
       error: "zip input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Zipcode = ? WHERE ID = ?;";
-  const input = [zipcodeToPostRequest, token ]
+  const input = [zipcodeToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update zipcode")
     } else {
@@ -321,11 +320,11 @@ router.post('/api/account/update/zipcode/', (req, res) => {
 });
 
 //===========================================================================
-  // update hourly rate in dashboard
+// update hourly rate in dashboard
 //===========================================================================
 router.post('/api/account/update/rates/hourly', (req, res) => {
   const { token, hourlyToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("hourly change", hourlyToPostRequest)
 
@@ -335,12 +334,12 @@ router.post('/api/account/update/rates/hourly', (req, res) => {
       error: "hourly input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Hourly = ? WHERE ID = ?;";
-  const input = [hourlyToPostRequest, token ]
+  const input = [hourlyToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update hourly rate")
     } else {
@@ -353,12 +352,12 @@ router.post('/api/account/update/rates/hourly', (req, res) => {
 });
 
 //===========================================================================
-  // update daily rate in dashboard
+// update daily rate in dashboard
 //===========================================================================
 
 router.post('/api/account/update/rates/daily', (req, res) => {
   const { token, dailyToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("daily change", dailyToPostRequest)
 
@@ -368,12 +367,12 @@ router.post('/api/account/update/rates/daily', (req, res) => {
       error: "daily input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Daily = ? WHERE ID = ?;";
-  const input = [dailyToPostRequest, token ]
+  const input = [dailyToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update daily rate")
     } else {
@@ -386,12 +385,12 @@ router.post('/api/account/update/rates/daily', (req, res) => {
 });
 
 //===========================================================================
-  // update weekly rate in dashboard
+// update weekly rate in dashboard
 //===========================================================================
 
 router.post('/api/account/update/rates/weekly', (req, res) => {
   const { token, weeklyToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("weekly change", weeklyToPostRequest)
 
@@ -401,12 +400,12 @@ router.post('/api/account/update/rates/weekly', (req, res) => {
       error: "weekly input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Weekly = ? WHERE ID = ?;";
-  const input = [weeklyToPostRequest, token ]
+  const input = [weeklyToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update weekly rate")
     } else {
@@ -419,12 +418,12 @@ router.post('/api/account/update/rates/weekly', (req, res) => {
 });
 
 //===========================================================================
-  // update monthly rate in dashboard
+// update monthly rate in dashboard
 //===========================================================================
 
 router.post('/api/account/update/rates/monthly', (req, res) => {
   const { token, monthlyToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("monthly change", monthlyToPostRequest)
 
@@ -434,12 +433,12 @@ router.post('/api/account/update/rates/monthly', (req, res) => {
       error: "monthly input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Monthly = ? WHERE ID = ?;";
-  const input = [monthlyToPostRequest, token ]
+  const input = [monthlyToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update monthly rate")
     } else {
@@ -452,12 +451,12 @@ router.post('/api/account/update/rates/monthly', (req, res) => {
 });
 
 //===========================================================================
-  // update overnight rate in dashboard
+// update overnight rate in dashboard
 //===========================================================================
 
 router.post('/api/account/update/rates/overnight', (req, res) => {
   const { token, overnightToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("overnight change", overnightToPostRequest)
 
@@ -467,12 +466,12 @@ router.post('/api/account/update/rates/overnight', (req, res) => {
       error: "overnight input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Overnight = ? WHERE ID = ?;";
-  const input = [overnightToPostRequest, token ]
+  const input = [overnightToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update overnight rate")
     } else {
@@ -485,79 +484,12 @@ router.post('/api/account/update/rates/overnight', (req, res) => {
 });
 
 //===========================================================================
-  // update description rate in dashboard
-//===========================================================================
-
-router.post('/api/account/update/description', (req, res) => {
-  const { token, descriptionToPostRequest } = req.body;
-  
-  console.log("local token", token)
-  console.log("description change", descriptionToPostRequest)
-
-  if (!descriptionToPostRequest) {
-    return res.send({
-      success: false,
-      error: "description input cannot be blank"
-    })
-  }
-  
-  const query = "UPDATE users SET Description = ? WHERE ID = ?;";
-  const input = [descriptionToPostRequest, token ]
-
-  connection.query(query, input, (err, result) => {
-    if(err) {
-      console.log(err);
-      return res.status(500).send("failed to update description rate")
-    } else {
-      return res.send({
-        success: true,
-        new_description_rate: descriptionToPostRequest
-      });
-    };
-  });
-});
-
-//===========================================================================
-  // update state rate in dashboard
-//===========================================================================
-
-router.post('/api/account/update/state', (req, res) => {
-  const { token, stateToPostRequest } = req.body;
-  
-  console.log("local token", token)
-
-  if (stateToPostRequest === undefined) {
-    console.log("Inside HERE!!!!!!!!")
-    return res.send({
-      success: false,
-      error: "state input cannot be blank"
-    })
-  }
-
-  
-  const query = "UPDATE users SET Active_State = ? WHERE ID = ?;";
-  const input = ['1', token ]
-
-  connection.query(query, input, (err, result) => {
-    if(err) {
-      console.log(err);
-      return res.status(500).send("failed to update state rate")
-    } else {
-      return res.send({
-        success: true,
-        new_state_rate: stateToPostRequest
-      });
-    };
-  });
-});
-
-//===========================================================================
-  // update car make in dashboard
+// update car make in dashboard
 //===========================================================================
 
 router.post('/api/account/update/car/make', (req, res) => {
   const { token, carMakeToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("overnight change", carMakeToPostRequest)
 
@@ -567,12 +499,12 @@ router.post('/api/account/update/car/make', (req, res) => {
       error: "car make input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Car_Make = ? WHERE ID = ?;";
-  const input = [carMakeToPostRequest, token ]
+  const input = [carMakeToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update car make")
     } else {
@@ -585,12 +517,12 @@ router.post('/api/account/update/car/make', (req, res) => {
 });
 
 //===========================================================================
-  // update car model in dashboard
+// update car model in dashboard
 //===========================================================================
 
 router.post('/api/account/update/car/model', (req, res) => {
   const { token, carModelToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("overnight change", carModelToPostRequest)
 
@@ -600,12 +532,12 @@ router.post('/api/account/update/car/model', (req, res) => {
       error: "car Model input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Car_Model = ? WHERE ID = ?;";
-  const input = [carModelToPostRequest, token ]
+  const input = [carModelToPostRequest, token]
 
   connection.query(query, input, (err, result) => {
-    if(err) {
+    if (err) {
       console.log(err);
       return res.status(500).send("failed to update car Model")
     } else {
@@ -618,12 +550,12 @@ router.post('/api/account/update/car/model', (req, res) => {
 });
 
 //===========================================================================
-  // update car color in dashboard
+// update car color in dashboard
 //===========================================================================
 
 router.post('/api/account/update/car/color', (req, res) => {
   const { token, carColorToPostRequest } = req.body;
-  
+
   console.log("local token", token)
   console.log("overnight change", carColorToPostRequest)
 
@@ -633,13 +565,105 @@ router.post('/api/account/update/car/color', (req, res) => {
       error: "car Color input cannot be blank"
     })
   }
-  
+
   const query = "UPDATE users SET Car_Color = ? WHERE ID = ?;";
-  const input = [carColorToPostRequest, token ]
+  const input = [carColorToPostRequest, token]
+
+  connection.query(query, input, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send("failed to update car Color")
+    } else {
+      return res.send({
+        success: true,
+        new_car_Color: carColorToPostRequest
+      });
+    };
+  });
+});
+
+//===========================================================================
+// update subscription plan in dashboard
+//===========================================================================
+
+router.post('/api/account/subscription/plan/update', (req, res) => {
+  const { token, inputSubscription } = req.body;
+
+  console.log("local token", token)
+  console.log("overnight change", inputSubscription)
+
+  if (!inputSubscription) {
+    return res.send({
+      success: false,
+      error: "invalid"
+    })
+  }
+
+  const query = "UPDATE users SET Subscription = ? WHERE ID = ?;";
+  const input = [inputSubscription, token]
+
+  connection.query(query, input, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send("failed to update")
+    } else {
+      return res.send({
+        success: true,
+        subscription: inputSubscription
+      });
+    };
+  });
+});
+
+//===========================================================================
+// verify address for long lat on database
+//===========================================================================
+
+router.post('/api/account/verify/address', (req, res) => {
+  const { token, displayFullAddress } = req.body;
+
+  console.log("local token", token)
+  console.log("address to geolocate ", displayFullAddress)
+
+  geo.find(displayFullAddress, function (err, res) {
+
+    const { lat, lng } = res[0].location
+    console.log("latitude ", lat, " longitude", lng)
+
+    const query = "UPDATE users SET Latitude = ?, Longitude = ? WHERE ID = ?;";
+    const input = [lat, lng, token]
+
+    connection.query(query, input, (err, __) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("failed to set lat lng")
+      }
+    });
+  });
+
+  return res.send({
+    success: true,
+    message: "Verified"
+  });
+});
+
+//===========================================================================
+  // update active state in dashboard
+//===========================================================================
+
+router.post('/api/account/update/active', (req, res) => {
+  const { token, inputState } = req.body;
+  
+  console.log("local token", token)
+  console.log("active state change", inputState)
+  
+  const query = "UPDATE users SET Active_State = ? WHERE ID = ?;";
+  const input = [inputState, token ]
 
   connection.query(query, input, (err, result) => {
     if(err) {
       console.log(err);
+<<<<<<< HEAD
       return res.status(500).send("failed to update car Color")
     } else {
       return res.send({
@@ -678,6 +702,38 @@ router.post('/api/account/subscription/plan/update', (req, res) => {
       return res.send({
         success: true,
         subscription: inputSubscription
+=======
+      return res.status(500).send("failed to update active state")
+    } else {
+      return res.send({
+        success: true,
+        new_active_state: inputState
+      });
+    };
+  });
+});
+//===========================================================================
+  // update description in dashboard
+//===========================================================================
+
+router.post('/api/account/update/description', (req, res) => {
+  const { token, descriptionToPostRequest } = req.body;
+  
+  console.log("local token", token)
+  console.log("description change", descriptionToPostRequest)
+  
+  const query = "UPDATE users SET Description = ? WHERE ID = ?;";
+  const input = [descriptionToPostRequest, token ]
+
+  connection.query(query, input, (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("failed to update description")
+    } else {
+      return res.send({
+        success: true,
+        new_description: descriptionToPostRequest
+>>>>>>> 7daee9997fb965632c10974a0ab7b44ddb5cdd5e
       });
     };
   });
