@@ -36,7 +36,8 @@ class Login extends Component {
     }
 
     // function for post request to login
-    onSignIn() {
+    onSignIn(event) {
+        event.preventDefault()
         // Grab state
         const { signInEmail, signInPassword } = this.state;
         this.setState({ isLoading: true });

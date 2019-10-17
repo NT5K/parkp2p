@@ -3,11 +3,6 @@ import { Redirect } from 'react-router-dom'
 import SubscriptionPlanCard from './SubscriptionPlanCard'
 import store from 'store'
 import 'whatwg-fetch';
-const displayInfo = [{
-    "1": {
-
-    }
-}]
 
 class Subscription extends Component {
     constructor() {
@@ -44,7 +39,7 @@ class Subscription extends Component {
                 const { Subscription } = user[0]
                 console.log(this.state.token)
                 console.log(this.state.user)
-                if (Subscription == 1) {
+                if (Subscription === 1) {
                     this.setState({
                         user: user[0],
                         displaySubscription: Subscription,
@@ -53,7 +48,7 @@ class Subscription extends Component {
                         displayInfoRow3: "Early Bird Reservations"
                     })
                 }
-                else if (Subscription == 2) {
+                else if (Subscription === 2) {
                     this.setState({
                         user: user[0],
                         displaySubscription: Subscription,
@@ -63,7 +58,7 @@ class Subscription extends Component {
                         displayInfoRow4: "Early Bird Reservations"
                     })
                 }
-                else if (Subscription == 3) {
+                else if (Subscription === 3) {
                     this.setState({
                         user: user[0],
                         displaySubscription: Subscription,
@@ -73,7 +68,7 @@ class Subscription extends Component {
                         displayInfoRow4: "Early Bird Reservations"
                     })
                 } 
-                else if (Subscription == 0) {
+                else if (Subscription === 0) {
                     this.setState({
                         user: user[0], 
                         displaySubscription: Subscription,
@@ -109,7 +104,7 @@ class Subscription extends Component {
             .then(res => res.json())
             .then(json => {
                 // set state for display
-                if (json.success && json.subscription == 1) {
+                if (json.success && json.subscription === 1) {
                     this.setState({
                         displaySubscription: inputSubscription,
                         displayInfoRow1: "Price: $30/mo",
@@ -117,7 +112,7 @@ class Subscription extends Component {
                         displayInfoRow3: "Early Bird Reservations"
                     });
                 }
-                if (json.success && json.subscription == 2) {
+                if (json.success && json.subscription === 2) {
                     this.setState({
                         displaySubscription: inputSubscription,
                         displayInfoRow1: "Price: $50/mo",
@@ -126,7 +121,7 @@ class Subscription extends Component {
                         displayInfoRow4: "Early Bird Reservations"
                     });
                 }
-                if (json.success && json.subscription == 3) {
+                if (json.success && json.subscription === 3) {
                     this.setState({
                         displaySubscription: inputSubscription,
                         displayInfoRow1: "Price: $100/mo",
@@ -141,8 +136,8 @@ class Subscription extends Component {
     render() {
         const { 
             token, 
-            displaySubscription, 
-            displayInfo, 
+            // displaySubscription, 
+            // displayInfo, 
             displayInfoRow1,
             displayInfoRow2,
             displayInfoRow3, 

@@ -308,12 +308,12 @@ class Dashboard extends Component {
         .then(res => res.json())
         .then(json => {
             // set state for display
-            if (json.success && json.new_active_state == 1) {
+            if (json.success && json.new_active_state === 1) {
                 this.setState({
                     displayState: "Activated"
                 });
             }
-            if (json.success && json.new_active_state == 0) {
+            if (json.success && json.new_active_state === 0) {
                 this.setState({
                     displayState: "De-activated"
                 });
@@ -460,7 +460,7 @@ class Dashboard extends Component {
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>Driveway Rates</b></u></h5>
-                            <p>(set rates based on time, additional fees can be found <a href="#">here</a>)</p>
+                            <p>(set rates based on time, additional fees can be found <a href="/rates">here</a>)</p>
                         </div>
                     </div>
 

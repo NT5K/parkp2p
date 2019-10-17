@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom'
 import store from 'store';
 import 'whatwg-fetch';
 import PersonalInfoRow from './PersonalInfoRow'
-const geocoder = require('google-geocoder');
 
 class Dashboard extends Component {
     constructor() {
@@ -340,7 +339,6 @@ class Dashboard extends Component {
             .then(res => res.json())
             .then(json => {
                 // set state for display
-                const { displayCity, displayState, displayAddress } = this.state
                 if (json.success) {
                     this.setState({
                         verifyMessage: json.message
