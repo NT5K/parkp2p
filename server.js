@@ -4,6 +4,7 @@ const app = express();
 
 const apiRoutes = require('./routes/apiRoutes');
 const accountRoutes = require('./routes/accountRoutes');
+const reservationRoutes = require('./routes/reservationRoutes');
 const ratesRoutes = require('./routes/ratesRoutes');
 const subscriptionRoutes = require('./routes/subscriptionRoutes');
 const carRoutes = require('./routes/carRoutes');
@@ -34,6 +35,7 @@ app.use(express.json({ type: 'application/*+json' }));
 
 app.use(apiRoutes);
 app.use(accountRoutes);
+app.use(reservationRoutes);
 app.use(subscriptionRoutes);
 app.use(ratesRoutes);
 app.use(carRoutes);
@@ -43,6 +45,7 @@ app.use(signin);
 // use html and api files instead of putting them here
 require('./routes/apiRoutes');
 require('./routes/accountRoutes');
+require('./routes/reservationRoutes');
 require('./routes/subscriptionRoutes');
 require('./routes/ratesRoutes');
 require('./routes/carRoutes');

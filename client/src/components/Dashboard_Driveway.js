@@ -64,14 +64,14 @@ class Dashboard extends Component {
             .then(res => res.json())
             .then(user => {
                 const { Daily, Weekly, Hourly, Monthly, Overnight, Description, Active_State } = user[0]
-                console.log(this.state.token)
-                console.log(user[0].Daily)
-                console.log(this.state.user)
+                // console.log(this.state.token)
+                // console.log(user[0].Daily)
+                // console.log(this.state.user)
                 let ActiveState = ''
-                if (Active_State === 0) {
+                if (Active_State < 1) {
                     ActiveState = "De-activated"
                 } 
-                if (Active_State === 1) {
+                if (Active_State > 0) {
                     ActiveState = "Activated"
                 }
                 this.setState({
@@ -345,12 +345,12 @@ class Dashboard extends Component {
         .then(res => res.json())
         .then(json => {
             // set state for display
-            if (json.success && json.new_active_state === 1) {
+            if (json.success && json.new_active_state > 0) {
                 this.setState({
                     displayState: "Activated"
                 });
             }
-            if (json.success && json.new_active_state === 0) {
+            if (json.success && json.new_active_state < 1) {
                 this.setState({
                     displayState: "De-activated"
                 });

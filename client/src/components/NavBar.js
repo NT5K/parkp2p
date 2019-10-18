@@ -35,7 +35,8 @@ class NavBar extends Component {
       loggedOut: false,
       lat1: 0,
       Lng1: 0,
-      address: ''
+      address: '',
+      // Email: ''
     }
     this.handleSelect = this.handleSelect.bind(this);
     this.logout = this.logout.bind(this);
@@ -47,6 +48,13 @@ class NavBar extends Component {
       token: store.get('park_p2p').token
     })
   }
+
+  // componentDidMount() {
+  //   fetch('/api/account/personal/email/' + this.state.token)
+  //     .then(res => res.json())
+  //     .then(email => this.setState({ Email: email[0].Email }))
+  //   // .then(() => console.log("email", this.state.Email))
+  // }
 
   logout(event) {
     event.preventDefault()
@@ -105,7 +113,7 @@ class NavBar extends Component {
   render() {
     // const { token } = this.state
     // const { redirect } = this
-    const { loggedOut, address } = this.state
+    const { loggedOut, address, /*Email*/ } = this.state
     const { handleChange, handleSelect } = this
     const Coords = {
       lat1: this.state.lat1,
@@ -182,14 +190,14 @@ class NavBar extends Component {
             </form>
 
             <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <a className="nav-link text-primary" href="/">Share your driveway! <span className="sr-only">(current)</span></a>
-              </li>
+              {/* <li className="nav-item text-secondary pt-2">
+                Signed in as: {Email}
+              </li> */}
               <li className="nav-item">
                 <a className="nav-link" href="/dash">Dashboard</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">Help</a>
+                <a className="nav-link" href="/">About</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="/login" onClick={this.logout}>Logout</a>

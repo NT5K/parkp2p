@@ -21,4 +21,23 @@ router.get('/api/public/driveways', (req, res) => {
   });
 });
 
+
+//===========================================================================
+// get email for nav
+//============================================================================
+router.get('/api/account/personal/email/:token', (req, res) => {
+  const query = "Select Email FROM users WHERE ID = ?;";
+  const { token } = req.params
+  const input = [token]
+  connection.query(query, input, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Failed to get email')
+    } else {
+      // console.log(result)
+      return res.json(result);
+    };
+  });
+})
+
 //============================================================================
