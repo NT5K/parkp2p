@@ -8,7 +8,7 @@ module.exports = router;
 // get rates info info from token
 //===========================================================================
 router.get('/api/account/rates/:token', (req, res) => {
-    const query = "Select Address, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Active_State, Description, Spots FROM users WHERE ID = ?;";
+    const query = "Select Address, Spots, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Active_State, Description FROM users WHERE ID = ?;";
     const { token } = req.params
     const input = [token]
     connection.query(query, input, (err, result) => {
@@ -16,8 +16,9 @@ router.get('/api/account/rates/:token', (req, res) => {
             console.log(err);
             return res.status(500).send('Failed to get info')
         } else {
-            // console.log(result)
+
             return res.json(result);
+        
         };
     });
 });

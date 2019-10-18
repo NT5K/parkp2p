@@ -64,9 +64,7 @@ class Dashboard extends Component {
             .then(res => res.json())
             .then(user => {
                 const { Daily, Weekly, Hourly, Monthly, Overnight, Description, Active_State, Spots } = user[0]
-                console.log(Active_State)
-                console.log(user[0].Daily)
-                console.log(this.state.user)
+                console.log(user[0])
                 let ActiveState = ''
                 if (Active_State === 0) {
                     ActiveState = "De-activated"
