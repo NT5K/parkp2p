@@ -5,14 +5,14 @@ import { Redirect } from 'react-router-dom';
 // import StreetView from './StreetView';
 
 
-const styles = {
-  overflow: "hidden",
-  height: "100%",
-  // paddingTop: "3%",
-  // paddingLeft: "3%",
-  // paddingBottom: "3.7%",
-  border: "5px grey solid",
-}
+// const styles = {
+//   overflow: "hidden",
+//   height: "100%",
+//   // paddingTop: "3%",
+//   // paddingLeft: "3%",
+//   // paddingBottom: "3.7%",
+//   border: "5px grey solid",
+// }
 
 class Customers extends Component {
 
@@ -20,8 +20,27 @@ class Customers extends Component {
     super();
     this.state = {
       customers: [],
-      token: ''
+      token: '',
+
+      startDateValue: '',
+      startTimeValue: '',
+
+      endDateValue: '',
+      endTimeValue: '',
+
+      endDateTimeValue: '',
+      rateValue: '',
+      displayMessage: ''
+
     };
+    this.onTextboxChangeStartDate = this.onTextboxChangeStartDate.bind(this);
+    this.onTextboxChangeStartTime = this.onTextboxChangeStartTime.bind(this);
+
+    this.onTextboxChangeEndDate = this.onTextboxChangeEndDate.bind(this);
+    this.onTextboxChangeEndTime = this.onTextboxChangeEndTime.bind(this);
+
+    this.onTextboxChangeRate = this.onTextboxChangeRate.bind(this);
+    this.reserveSpot = this.reserveSpot.bind(this);
   }
 
   // if token in local storage, set token state to token value
@@ -46,10 +65,82 @@ class Customers extends Component {
     }
   }
 
+  onTextboxChangeStartDate(event) {
+    this.setState({
+      startDateValue: event.target.value,
+    });
+  }
+  onTextboxChangeStartTime(event) {
+    this.setState({
+      startTimeValue: event.target.value,
+    });
+  }
+  onTextboxChangeEndDate(event) {
+    this.setState({
+      endDateValue: event.target.value,
+    });
+  }
+  onTextboxChangeEndTime(event) {
+    this.setState({
+      endTimeValue: event.target.value,
+    });
+  }
+
+  onTextboxChangeRate(event) {
+    const selectedValue = document.getElementById("rate_value").value
+    console.log(selectedValue)
+    this.setState({
+      rateValue: selectedValue
+    });
+  }
+
+  reserveSpot(event) {
+    event.preventDefault()
+    // grab state
+    const { 
+      startDateValue,
+      startTimeValue,
+      endDateValue,
+      endTimeValue,
+      rateValue,
+      token
+    } = this.state;
+    // post to backend
+    fetch('/api/reserve/spot', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token,
+        startDateValue,
+        startTimeValue,
+        endDateValue,
+        endTimeValue,
+        rateValue
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log('json', json);
+        // set state for display
+        if (json.success) {
+          this.setState({
+            displayMessage: "Congratulations! You reserved a spot!"
+          });
+        }
+      });
+  }
+  
   render() {
     const { token } = this.state
+    const { startDateValue, startTimeValue, endDateValue, endTimeValue, rateValue, displayMessage  } = this.state
+    const { onTextboxChangeStartDate, onTextboxChangeStartTime, onTextboxChangeEndDate, onTextboxChangeEndTime,  onTextboxChangeRate, reserveSpot } = this
+    // const sel = document.getElementById('rate_value').value;
+    // const opt = sel.options[sel.selectedIndex];
     // const { lat, lng } = this.props.location.position
-    const { /* position, */ description, address, } = this.props.location
+    const { /* position, */ description, address, city, state, zipcode, hourly, daily, weekly, monthly, spots, id} = this.props.location
+
     if (!token) {
       return (
         <div>
@@ -59,133 +150,142 @@ class Customers extends Component {
     }
 
     return (
-    
-      <div className="bg-light text-dark container h-100 pt-4">
-        <div className="row">
+  
+        <div className="bg-light text-dark container h-100 pt-4 mb-5">
 
-          <div className="col-md-5">
-            <div className="row">
-              <div className="col-md-4 mr-5">
-                <div className="row text-center">
-                    <h6>Address:</h6>
-                </div>
-                <div className="row">
-                  <p>{address}</p>
-                </div>
+          <div className="row p-3">
+            <div className="col-md-7 col-xs-12">
+              <div className="row">
+                <h3>Address</h3>
               </div>
-              <div className="col-md-8">
-                <div className="row">
-                    <h6>Description:</h6>
-                </div>
-                <div className="row">
-                  <p>{description}</p>
-                </div>
+              <div className="row">
+                <h2>{address}</h2>
               </div>
-            </div>
-          </div>
-          <div className="col-md-7 p-4" style={styles}>
-            {/* <div className="row d-flex justify-content-between">
-              <div className="col-xs-3">
-                <h6><u>Rates</u></h6>
+              <div className="row">
+                <h2>{city} {state} {zipcode}</h2>
               </div>
-              <div className="col-xs-3">
-                <h6><u>Price</u></h6>
+
+              <div className="row pt-3">
+                <h3>Rates:</h3>
               </div>
-              <div className="col-xs-3">
-                <h6><u>Duration</u></h6>
+              <div className="row pb-1">
+                <h3>${hourly}/hr ${daily}/day ${weekly}/week ${monthly}/month</h3>
               </div>
-              <div className="col-xs-3">
-                <h6><u>Date</u></h6>
+              <hr />
+              <div className="row pt-3">
+                <h5>Description:</h5>
               </div>
-            </div> */}
+              <div className="row">
+                <h5>{description}</h5>
+              </div>
+              <div className="row pt-3">
+                <h5>Parking Instructions:</h5>
+              </div>
+              <div className="row mb-5">
+                <h5>Please park on the left side of the driveway, about half way up.</h5>
+              </div>
           
-            {/* hourly */}
-            <div className="row d-flex justify-content-between">
-              <div className="col-xs-3">
-                <p>Hourly</p>
-              </div>
-              <div className="col-xs-3">
-                <p>${this.props.location.hourly}</p>
-              </div>
-              <div className="form-group w-25">
-                <input type="text" className="form-control" id="example1" placeholder="Duration" /> 
-              </div>
-              <div className="form-group w-25">
-                <input type="text" className="form-control" id="example1" placeholder="Date" /> 
+            </div> {/* end first column */}
+
+            <div className="col-md-5 col-xs-12">
+              <div className="card text-center mb-4 shadow-sm">
+                <div className="card-header">
+                  <h4 className="my-0 font-weight-normal">Spot reservation form</h4>
+                </div>
+                <div className="card-body">
+                  <h5 className="card-title pricing-card-title">{address}</h5>
+                  <h6 className="card-title pricing-card-title">{city} {state} {zipcode}</h6>
+                
+                  <hr />
+
+
+                  <form className="reserve_spot" method="post" action="/api/reserve/spot">
+                    <h5 className="card-title pricing-card-title">Approximate Length of stay</h5>
+
+                    <div className="row">
+                      <div className="col-6">
+                        <h6>Start Date</h6>
+                        <input
+                          id="start_date"
+                          type="date"
+                          value={startDateValue}
+                          onChange={onTextboxChangeStartDate}
+                          required>
+                        </input>
+                      </div>
+                      <div className="col-6">
+                        <h6>Start Time</h6>
+                        <input
+                          id="start_time"
+                          type="time"
+                          value={startTimeValue}
+                          onChange={onTextboxChangeStartTime}
+                          required>
+                        </input>
+                      </div>
+                    </div>
+                  <div className="row">
+                    <div className="col-6">
+                      <h6>End Date</h6>
+                      <input
+                        id="end_date"
+                        type="date"
+                        value={endDateValue}
+                        onChange={onTextboxChangeEndDate}
+                        className="mb-3"
+                        required>
+                      </input>
+                    </div>
+                    <div className="col-6">
+                      <h6>End Time</h6>
+                      <input
+                        id="end_time"
+                        type="time"
+                        value={endTimeValue}
+                        onChange={onTextboxChangeEndTime}
+                        className="mb-3"
+                        required>
+                      </input>
+                    </div>
+                  </div>  
+                  <hr />
+              
+                  <select className="w-100" id="rate_value" onChange={onTextboxChangeRate}>
+                    <option value="blank">Rates</option>
+                      <option value={hourly}>${hourly}/hour (-12 hrs)</option>
+                      <option value={daily}>${daily}/daily (+12 hrs)</option>
+                      <option value={weekly}>${weekly}/week (5 days)</option>
+                      <option value={monthly}>${monthly}/month (4 weeks)</option>
+                    </select>
+                    <hr />
+                    <h6>
+                      Available Spots: {spots}
+                    </h6>
+                    <hr />
+                    <button
+                      type="submit"
+                      className="btn btn-md w-100 btn-block btn-primary mt-4"
+                      onClick={reserveSpot}
+                    >
+                      Reserve Now!
+                    </button>
+                    <h6>{displayMessage}</h6>
+                  </form>  
+
+
+                </div>
               </div>
             </div>
-
-            {/* daily */}
-            <div className="row d-flex justify-content-between">
-              <div className="col-xs-3">
-                <p>Daily</p>
-              </div>
-              <div className="col-xs-3">
-                <p> ${this.props.location.daily}</p>
-              </div>
-              <div className="form-group w-25">
-                <input type="text" className="form-control" id="example1" placeholder="Duration" /> 
-              </div>
-              <div className="form-group w-25">
-                <input type="text" className="form-control" id="example1" placeholder="Date" /> 
-              </div>
-            </div>
-
-            {/* weekly */}
-            <div className="row d-flex justify-content-between">
-              <div className="col-xs-3">
-                <p>Weekly</p>
-              </div>
-              <div className="col-xs-3">
-                <p>${this.props.location.weekly}</p>
-              </div>
-              <div className="form-group w-25">
-                <input type="text" className="form-control" id="example1" placeholder="Duration" /> 
-              </div>
-              <div className="form-group w-25">
-                <input type="text" className="form-control" id="example1" placeholder="Date" /> 
-              </div>
-            </div>
-
-            {/* monthly */}
-            <div className="row d-flex justify-content-between">
-              <div className="col-xs-3">
-                <p>Monthly</p>
-              </div>
-              <div className="col-xs-3">
-                <p>${this.props.location.monthly}</p>
-              </div>
-              <div className="form-group w-25">
-                <input type="text" className="form-control" id="example1" placeholder="Duration" /> 
-              </div>
-              <div className="form-group w-25">
-                <input type="text" className="form-control" id="example1" placeholder="Date" /> 
-              </div>
-            </div>
-
-            {/* button */}
-            <div className="row">
-              <div className="col-md-12">
-                <button type="button" className="btn btn-sm w-100 btn-success">Reserve a spot now!</button>
-              </div>
-            </div>  
-          </div>
-
-          {/* <div className="col-md-3 col-xs-12">
-            {position != undefined &&
-              <img
-                src={
-                  "https://maps.googleapis.com/maps/api/streetview?size=370x380&location=" +
-                  this.props.location.position.lat + "," + this.props.location.position.lng +
-                  "&fov=80&heading=70&pitch=0&key=AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g"
-                }
-                alt="No StreetView Images available"
-                className="StreetView"
-              />
-            }
-           </div> */}
+          </div> {/* end  big row */}
+            <p>Start Date: {startDateValue}</p>
+            <p>Start Time: {startTimeValue}</p>
+            <p>End Date: {endDateValue}</p>
+            <p>End Time: {endTimeValue}</p>
+            {/* <p>End Date: {endDateTimeValue}</p> */}
+            <p>Rate: {rateValue}</p>
+            {/* <p>Rate: {Object.value(daily)}</p> */}
+            <p>OwnerId: {id}</p>
         </div>
-      </div>
     );
   }
 }

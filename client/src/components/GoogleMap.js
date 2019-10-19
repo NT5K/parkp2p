@@ -44,7 +44,7 @@ class MapContainer extends Component {
     }
 
     onMarkerClick(locationString) {
-        // console.log(locationString)
+        console.log("LOCATION STRING", locationString)
         this.setState({
             selectedPlace: locationString
         })
@@ -94,11 +94,17 @@ class MapContainer extends Component {
                                 onClick={this.onMarkerClick}
                                 key={marker.ID}
                                 address={marker.Address}
+                                city={marker.City}
+                                state={marker.State}
+                                zipcode={marker.Zipcode}
                                 description={marker.Description}
                                 hourly={marker.Hourly}
                                 daily={marker.Daily}
                                 weekly={marker.Weekly}
                                 monthly={marker.Monthly}
+                                spots={marker.Spots}
+                                id={marker.ID}
+
                                 // animation={1}
                                 position={{ lat: marker.Latitude, lng: marker.Longitude }}
                                 icon={{
@@ -116,7 +122,9 @@ class MapContainer extends Component {
                     </Map>
                 </div>
                 <div>
-                    <ExampleData location={this.state.selectedPlace} />
+                    <ExampleData 
+                        location={this.state.selectedPlace} 
+                    />
                 </div>
             </div>
         );

@@ -1,0 +1,10 @@
+-- DROP TABLE usersessions
+CREATE TABLE usersessions
+(
+
+    userId INT AUTO_INCREMENT NOT NULL,
+    _id VARCHAR(100) UNIQUE NOT NULL,
+    createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    idDeleted BOOLEAN DEFAULT false,
+	PRIMARY KEY(userId)
+);

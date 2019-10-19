@@ -71,7 +71,7 @@ class Dashboard extends Component {
 
     // gets info based on token
     componentDidMount() {
-        const { token, user } = this.state
+        const { token, /*user*/ } = this.state
         fetch('/api/account/personal/' + token)
         .then(res => res.json())
         .then(user => {
@@ -89,7 +89,7 @@ class Dashboard extends Component {
                 displayLongitude: Longitude,
                 displayLatitude: Latitude
             })
-        }, () => console.log("user array", user, "this users token", token))
+        }, () => console.log(/*"user array", user, "this users token", token*/))
     }
 
     // passes input values to state

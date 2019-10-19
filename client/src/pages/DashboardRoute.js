@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route /* Switch */ } from "react-router-dom";
 import Account from "./../components/Dashboard_Account"
 import Driveway from './../components/Dashboard_Driveway'
+import Reservations from './../components/Dashboard_Reservations'
 import Car from './../components/Dashboard_Car'
 import Subscription from './../components/Dashboard_Subscription'
 import Account_Cancel from "./../components/Dashboard_Account_Cancel"
@@ -22,6 +23,7 @@ function Sidebar() {
                 <Route exact path="/dash/subscription" component={Subscription} />
                 <Route exact path="/dash/cancel" component={Account_Cancel} />
                 <Route exact path="/dash/profits" component={Account} />
+                <Route exact path="/dash/reservations" component={Reservations} />
                 <Route exact path="/dash/car" component={Car} />
             </div>
         </BrowserRouter>
