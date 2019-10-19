@@ -6,6 +6,8 @@ import Main from "./pages/Main";
 import Account from "./components/Dashboard_Account"
 import DashboardRoute from './pages/DashboardRoute'
 import storeFront from './pages/storeFront'
+import BackgroundProcess from './components/Background_Proccess'
+
 // import Driveway from './components/Dashboard_Driveway'
 // import Subscription from './components/Dashboard_Subscription'
 // import Account_Cancel from "./components/Dashboard_Account_Cancel"
@@ -17,8 +19,10 @@ import storeFront from './pages/storeFront'
 class App extends Component {
   render() {
     return (
+      
       <Router>
         <div>
+          <BackgroundProcess/>
           <Switch>
             <Route exact path="/" component={Main} />
             <Route exact path="/login" component={Login} />

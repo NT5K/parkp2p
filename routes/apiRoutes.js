@@ -56,24 +56,6 @@ router.get('/api/account/personal/:token', (req, res) => {
 });
 
 //===========================================================================
-// get rates info info from token
-//===========================================================================
-router.get('/api/account/rates/:token', (req, res) => {
-  const query = "Select Address, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Active_State, Description, Spots FROM users WHERE ID = ?;";
-  const { token } = req.params
-  const input = [token]
-  connection.query(query, input, (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send('Failed to get info')
-    } else {
-      // console.log(result)
-      return res.json(result);
-    };
-  });
-});
-
-//===========================================================================
 // get subscription info info from token
 //===========================================================================
 router.get('/api/account/subscription/plan/:token', (req, res) => {
