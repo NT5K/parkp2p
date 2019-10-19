@@ -5,8 +5,6 @@ import 'whatwg-fetch';
 import PersonalInfoRow from './PersonalInfoRow'
 
 
-
-
 class Dashboard extends Component {
     constructor() {
         super();
@@ -19,14 +17,18 @@ class Dashboard extends Component {
             displayMonthly: '',
             displayOvernight: '',
             displayDescription: '',
+            displayInstructions: '',
             displayState: '',
+            displaySpots: '',
             hourlyToPostRequest: '',
             dailyToPostRequest: '',
             weeklyToPostRequest: '',
             monthlyToPostRequest: '',
             overnightToPostRequest: '',
             descriptionToPostRequest: '',
+            instructionsToPostRequest: '',
             stateToPostRequest: '',
+            spotsToPostRequest: '',
             complete: ''
  
         }
@@ -43,11 +45,12 @@ class Dashboard extends Component {
         this.updateOvernight = this.updateOvernight.bind(this);
         this.onTextboxChangeDescription = this.onTextboxChangeDescription.bind(this);
         this.updateDescription = this.updateDescription.bind(this);
-        // this.onTextboxChangeState = this.onTextboxChangeState.bind(this);
-        // this.updateState = this.updateState.bind(this);
-
-        // this.onTextboxChangeStateTrueOrFalse = this.onTextboxChangeStateTrueOrFalse.bind(this);
+        this.onTextboxChangeSpots = this.onTextboxChangeSpots.bind(this);
+        this.updateSpots = this.updateSpots.bind(this);
         this.updateStateTrueOrFalse = this.updateStateTrueOrFalse.bind(this);
+        this.onTextboxChangeInstructions = this.onTextboxChangeInstructions.bind(this);
+        this.updateInstructions = this.updateInstructions.bind(this);
+        
     }
 
 
@@ -63,8 +66,8 @@ class Dashboard extends Component {
         fetch('/api/account/rates/' + this.state.token)
             .then(res => res.json())
             .then(user => {
-                const { Daily, Weekly, Hourly, Monthly, Overnight, Description, Active_State } = user[0]
-                // console.log(this.state.token)
+                const { Daily, Weekly, Hourly, Monthly, Overnight, Description, Active_State, Spots, Instructions } = user[0]
+                console.log(Instructions)
                 // console.log(user[0].Daily)
                 // console.log(this.state.user)
                 let ActiveState = ''
@@ -82,7 +85,9 @@ class Dashboard extends Component {
                     displayMonthly: Monthly,
                     displayOvernight: Overnight,
                     displayDescription: Description,
-                    displayState: ActiveState
+                    displayInstructions: Instructions,
+                    displayState: ActiveState,
+                    displaySpots: Spots
                     
                 })
             }, () => console.log("user array", this.state.user, "this users token", this.state.token))
@@ -288,44 +293,6 @@ class Dashboard extends Component {
             });
     }
 
-    // onTextboxChangeState(event) {
-    //     this.setState({
-    //         stateToPostRequest: event.target.checked
-    //     });
-    //     console.log(event.target.value,"value!!!");
-    //     console.log(event.target.checked,"checked!!!");
-
-    // }
-
-    // updateState(event) {
-    //     event.preventDefault()
-    //     // Grab state
-    //     const { stateToPostRequest, token } = this.state;
-    //     // post to backend
-    //     console.log(stateToPostRequest, "what is going into the post request")
-    //     fetch('/api/account/update/active', {
-    //         method: 'post',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             token,
-    //             stateToPostRequest
-    //         })
-    //     })
-    //     .then(res => res.json())
-    //     .then(json => {
-    //             // set state for display
-    //             // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
-    //             if (json.success) {
-    //                 this.setState({
-    //                     displayState: stateToPostRequest
-    //                     // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
-    //                 });
-    //             }
-    //         });
-    // }
-
     updateStateTrueOrFalse(event) {
         event.preventDefault()
         const inputState= event.target.value
@@ -358,6 +325,72 @@ class Dashboard extends Component {
         });
     }
 
+    onTextboxChangeSpots(event) {
+        this.setState({
+            spotsToPostRequest: event.target.value
+        });
+
+     }
+
+     updateSpots(event) {
+         event.preventDefault()
+         // Grab spots
+         const { spotsToPostRequest, token } = this.state;
+         // post to backend
+         console.log(spotsToPostRequest, "what is going into the post request")
+         fetch('/api/account/update/spots', {
+             method: 'post',
+             headers: {
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+                 token,
+                 spotsToPostRequest
+             })
+         })
+         .then(res => res.json())
+         .then(json => {
+                 if (json.success) {
+                     this.setState({
+                         displaySpots: spotsToPostRequest
+                     });
+                 }
+             });
+        }
+
+        onTextboxChangeInstructions(event) {
+            this.setState({
+                instructionsToPostRequest: event.target.value
+            });
+    
+         }
+    
+         updateInstructions(event) {
+             event.preventDefault()
+             // Grab spots
+             const { instructionsToPostRequest, token } = this.state;
+             // post to backend
+             console.log(instructionsToPostRequest, "what is going into the post request")
+             fetch('/api/account/update/instructions', {
+                 method: 'post',
+                 headers: {
+                     'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify({
+                     token,
+                     instructionsToPostRequest
+                 })
+             })
+             .then(res => res.json())
+             .then(json => {
+                     if (json.success) {
+                         this.setState({
+                             displayInstructions: instructionsToPostRequest
+                         });
+                     }
+                 });
+            }
+
     render() {
         const {
             displayHourly, 
@@ -366,7 +399,9 @@ class Dashboard extends Component {
             displayMonthly, 
             displayOvernight,
             displayDescription,
-            displayState, 
+            displayInstructions,
+            displayState,
+            displaySpots,
             token, 
             // complete
         } = this.state
@@ -377,6 +412,8 @@ class Dashboard extends Component {
             monthlyToPostRequest, 
             overnightToPostRequest, 
             descriptionToPostRequest,
+            instructionsToPostRequest,
+            spotsToPostRequest
             // stateToPostRequest 
         } = this.state
         const { 
@@ -385,10 +422,10 @@ class Dashboard extends Component {
             updateWeekly, 
             updateMonthly, 
             updateOvernight, 
-            updateDescription, 
-            // updateState, 
+            updateDescription,
+            updateInstructions, 
             updateStateTrueOrFalse, 
-            // onTextboxChangeStateTrueOrFalse 
+            updateSpots
         } = this
         const { 
             onTextboxChangeHourly, 
@@ -396,8 +433,9 @@ class Dashboard extends Component {
             onTextboxChangeWeekly, 
             onTextboxChangeMonthly, 
             onTextboxChangeOvernight, 
-            onTextboxChangeDescription, 
-            // onTextboxChangeState
+            onTextboxChangeDescription,
+            onTextboxChangeInstructions, 
+            onTextboxChangeSpots
         } = this
 
         if (!token) {
@@ -533,6 +571,34 @@ class Dashboard extends Component {
                         buttonText={"submit"}
                     />
 
+                    <PersonalInfoRow
+                    header={"Spots"}
+                    displayText={displaySpots}
+                    id={"update_Spots"}
+                    action={"/api/account/update/spots"}
+                    type={"number"}
+                    inputId={"spots"}
+                    value={spotsToPostRequest}
+                    onChange={onTextboxChangeSpots}
+                    placeholder={"number of spots"}
+                    onClick={updateSpots}
+                    buttonText={"submit"}
+                    />
+
+                    <PersonalInfoRow
+                    header={"Instructions"}
+                    displayText={displayInstructions}
+                    id={"update_Instructions"}
+                    action={"/api/account/update/instructions"}
+                    type={"text"}
+                    inputId={"instructions"}
+                    value={instructionsToPostRequest}
+                    onChange={onTextboxChangeInstructions}
+                    placeholder={"write instructions here"}
+                    onClick={updateInstructions}
+                    buttonText={"submit"}
+                    />          
+
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>Driveway Description</b></u></h5>
@@ -560,24 +626,7 @@ class Dashboard extends Component {
                         onClick={updateDescription}
                         buttonText={"submit"}
                     />
-
-                        {/* <PersonalInfoRow
-                            header={"Enable Driveway"}
-                            displayText={displayState}
-                            id={"update_State"}
-                            action={"/api/account/update/active"}
-                            type={"checkbox"}
-                            inputId={"state"}
-                            value={stateToPostRequest}
-                            checked={complete}
-                            ref={"complete"}
-                            onChange={onTextboxChangeState}
-                            placeholder={"state"}
-                            onClick={updateState}
-                            buttonText={"submit"}
-                        /> */}
-                        {/* <br />
-                        {stateToPostRequest} */}
+   
                 </div>
             </div>
         )

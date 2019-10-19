@@ -9,6 +9,7 @@ import Account_Cancel from "./../components/Dashboard_Account_Cancel"
 import "./DashboardStyles.css";
 import SideBar from "../components/Sidebar";
 import Navbar from './../components/Dashboard_Nav_Top'
+import BackgroundProcess from './../components/Background_Proccess'
 
 function Sidebar() {
     return (
