@@ -8,7 +8,7 @@ module.exports = router;
 // get rates info info from token
 //===========================================================================
 router.get('/api/account/rates/:token', (req, res) => {
-    const query = "Select Address, Spots, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Active_State, Description FROM users WHERE ID = ?;";
+    const query = "Select Address, Spots, City, Zipcode, State, Hourly, Daily, Weekly, Monthly, Overnight, Active_State, Description, Instructions FROM users WHERE ID = ?;";
     const { token } = req.params
     const input = [token]
     connection.query(query, input, (err, result) => {
@@ -100,6 +100,32 @@ router.post('/api/account/update/description', (req, res) => {
     };
   });
 });
+
+//===========================================================================
+  // update instructions in dashboard
+//===========================================================================
+
+router.post('/api/account/update/instructions', (req, res) => {
+    const { token, instructionsToPostRequest } = req.body;
+    
+    console.log("local token", token)
+    console.log("instructions change", instructionsToPostRequest)
+    
+    const query = "UPDATE users SET Instructions = ? WHERE ID = ?;";
+    const input = [instructionsToPostRequest, token ]
+  
+    connection.query(query, input, (err, result) => {
+      if(err) {
+        console.log(err);
+        return res.status(500).send("failed to update instructions")
+      } else {
+        return res.send({
+          success: true,
+          new_instructions: instructionsToPostRequest
+        });
+      };
+    });
+  });
 
 //===========================================================================
 // update hourly rate in dashboard

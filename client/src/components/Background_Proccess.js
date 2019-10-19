@@ -28,7 +28,7 @@ class BackgroundProcess extends Component {
     
     const { time } = this.state
 
-    console.log(time.getMinutes() === 59)
+    //console.log(time.getMinutes() === 59)
     
     return null
     }

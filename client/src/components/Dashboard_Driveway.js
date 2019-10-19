@@ -5,8 +5,6 @@ import 'whatwg-fetch';
 import PersonalInfoRow from './PersonalInfoRow'
 
 
-
-
 class Dashboard extends Component {
     constructor() {
         super();
@@ -19,6 +17,7 @@ class Dashboard extends Component {
             displayMonthly: '',
             displayOvernight: '',
             displayDescription: '',
+            displayInstructions: '',
             displayState: '',
             displaySpots: '',
             hourlyToPostRequest: '',
@@ -27,6 +26,7 @@ class Dashboard extends Component {
             monthlyToPostRequest: '',
             overnightToPostRequest: '',
             descriptionToPostRequest: '',
+            instructionsToPostRequest: '',
             stateToPostRequest: '',
             spotsToPostRequest: '',
             complete: ''
@@ -48,6 +48,9 @@ class Dashboard extends Component {
         this.onTextboxChangeSpots = this.onTextboxChangeSpots.bind(this);
         this.updateSpots = this.updateSpots.bind(this);
         this.updateStateTrueOrFalse = this.updateStateTrueOrFalse.bind(this);
+        this.onTextboxChangeInstructions = this.onTextboxChangeInstructions.bind(this);
+        this.updateInstructions = this.updateInstructions.bind(this);
+        
     }
 
 
@@ -63,8 +66,8 @@ class Dashboard extends Component {
         fetch('/api/account/rates/' + this.state.token)
             .then(res => res.json())
             .then(user => {
-                const { Daily, Weekly, Hourly, Monthly, Overnight, Description, Active_State } = user[0]
-                // console.log(this.state.token)
+                const { Daily, Weekly, Hourly, Monthly, Overnight, Description, Active_State, Spots, Instructions } = user[0]
+                console.log(Instructions)
                 // console.log(user[0].Daily)
                 // console.log(this.state.user)
                 let ActiveState = ''
@@ -82,6 +85,7 @@ class Dashboard extends Component {
                     displayMonthly: Monthly,
                     displayOvernight: Overnight,
                     displayDescription: Description,
+                    displayInstructions: Instructions,
                     displayState: ActiveState,
                     displaySpots: Spots
                     
@@ -354,6 +358,39 @@ class Dashboard extends Component {
              });
         }
 
+        onTextboxChangeInstructions(event) {
+            this.setState({
+                instructionsToPostRequest: event.target.value
+            });
+    
+         }
+    
+         updateInstructions(event) {
+             event.preventDefault()
+             // Grab spots
+             const { instructionsToPostRequest, token } = this.state;
+             // post to backend
+             console.log(instructionsToPostRequest, "what is going into the post request")
+             fetch('/api/account/update/instructions', {
+                 method: 'post',
+                 headers: {
+                     'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify({
+                     token,
+                     instructionsToPostRequest
+                 })
+             })
+             .then(res => res.json())
+             .then(json => {
+                     if (json.success) {
+                         this.setState({
+                             displayInstructions: instructionsToPostRequest
+                         });
+                     }
+                 });
+            }
+
     render() {
         const {
             displayHourly, 
@@ -362,6 +399,7 @@ class Dashboard extends Component {
             displayMonthly, 
             displayOvernight,
             displayDescription,
+            displayInstructions,
             displayState,
             displaySpots,
             token, 
@@ -374,6 +412,7 @@ class Dashboard extends Component {
             monthlyToPostRequest, 
             overnightToPostRequest, 
             descriptionToPostRequest,
+            instructionsToPostRequest,
             spotsToPostRequest
             // stateToPostRequest 
         } = this.state
@@ -383,7 +422,8 @@ class Dashboard extends Component {
             updateWeekly, 
             updateMonthly, 
             updateOvernight, 
-            updateDescription, 
+            updateDescription,
+            updateInstructions, 
             updateStateTrueOrFalse, 
             updateSpots
         } = this
@@ -393,7 +433,8 @@ class Dashboard extends Component {
             onTextboxChangeWeekly, 
             onTextboxChangeMonthly, 
             onTextboxChangeOvernight, 
-            onTextboxChangeDescription, 
+            onTextboxChangeDescription,
+            onTextboxChangeInstructions, 
             onTextboxChangeSpots
         } = this
 
@@ -543,6 +584,20 @@ class Dashboard extends Component {
                     onClick={updateSpots}
                     buttonText={"submit"}
                     />
+
+                    <PersonalInfoRow
+                    header={"Instructions"}
+                    displayText={displayInstructions}
+                    id={"update_Instructions"}
+                    action={"/api/account/update/instructions"}
+                    type={"text"}
+                    inputId={"instructions"}
+                    value={instructionsToPostRequest}
+                    onChange={onTextboxChangeInstructions}
+                    placeholder={"write instructions here"}
+                    onClick={updateInstructions}
+                    buttonText={"submit"}
+                    />          
 
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
