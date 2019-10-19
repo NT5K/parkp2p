@@ -116,8 +116,8 @@ class Reservations extends Component {
 
         return (
             <div className="container-flex">
-                <div className="row pb-3 pt-3 border-bottom text-center">
-                    <div className="col-xl-12">
+                <div className="row pb-2 pt-2 border-bottom text-center">
+                    <div className="col-12">
                         <h4>Current Reservations</h4>
                     </div>
                 </div>
