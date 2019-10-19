@@ -103,6 +103,7 @@ class MapContainer extends Component {
                                 weekly={marker.Weekly}
                                 monthly={marker.Monthly}
                                 spots={marker.Spots}
+                                id={marker.ID}
 
                                 // animation={1}
                                 position={{ lat: marker.Latitude, lng: marker.Longitude }}
@@ -121,7 +122,9 @@ class MapContainer extends Component {
                     </Map>
                 </div>
                 <div>
-                    <ExampleData location={this.state.selectedPlace} />
+                    <ExampleData 
+                        location={this.state.selectedPlace} 
+                    />
                 </div>
             </div>
         );

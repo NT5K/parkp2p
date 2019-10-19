@@ -4,6 +4,7 @@
         "Scriptjs",
         "Textbox",
         "Zipcode",
+        "datetime",
         "signin",
         "usersessions"
     ]
