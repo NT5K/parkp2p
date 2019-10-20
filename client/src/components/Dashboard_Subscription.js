@@ -52,7 +52,7 @@ class Subscription extends Component {
                     this.setState({
                         user: user[0],
                         displaySubscription: Subscription,
-                        displayInfoRow1: "Price: $50/mo",
+                        displayInfoRow1: "Price: $60/mo",
                         displayInfoRow2: "No parking fees",
                         displayInfoRow3: "15% off spot price",
                         displayInfoRow4: "Early Bird Reservations"
@@ -62,8 +62,8 @@ class Subscription extends Component {
                     this.setState({
                         user: user[0],
                         displaySubscription: Subscription,
-                        displayInfoRow1: "Price: $100/mo",
-                        displayInfoRow2: "15% off spot price",
+                        displayInfoRow1: "Price: $120/mo",
+                        displayInfoRow2: "No parking fees",
                         displayInfoRow3: "No charge for spots",
                         displayInfoRow4: "Early Bird Reservations"
                     })
@@ -116,7 +116,7 @@ class Subscription extends Component {
                 if (json.success && json.subscription > 1 && json.subscription < 3) {
                     this.setState({
                         displaySubscription: inputSubscription,
-                        displayInfoRow1: "Price: $50/mo",
+                        displayInfoRow1: "Price: $60/mo",
                         displayInfoRow2: "No parking fees",
                         displayInfoRow3: "15% off spot price",
                         displayInfoRow4: "Early Bird Reservations"
@@ -125,7 +125,7 @@ class Subscription extends Component {
                 if (json.success && json.subscription > 2) {
                     this.setState({
                         displaySubscription: inputSubscription,
-                        displayInfoRow1: "Price: $100/mo",
+                        displayInfoRow1: "Price: $120/mo",
                         displayInfoRow2: "No parking fees",
                         displayInfoRow3: "No charge for spots",
                         displayInfoRow4: "Early Bird Reservations"

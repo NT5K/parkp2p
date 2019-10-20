@@ -54,8 +54,38 @@ router.post('/api/reserve/spot', (req, res) => {
         } else {
             return res.send({
                 success: true,
+                spotSubtract: true
                 // new_active_state: inputState
             });
         };
+    });
+
+
+    const columnQuery = "SELECT * FROM users WHERE ID = ?;"; 
+        connection.query(columnQuery, [makerId], (err, res) => {
+        // catch any errors
+        if (err) {
+            console.log(err);
+            return res.status(500).send('failed');
+        };
+
+        const updateQuery = "UPDATE users SET ? WHERE ?;";
+        const updateSpotsCount = res[0].Spots - 1
+        const updateObject = [
+            {
+                Spots: updateSpotsCount
+            },
+            {
+                ID: makerId
+            }
+        ];
+
+        connection.query(updateQuery, updateObject, (err, data) => {
+            // catch any errors
+            if (err) {
+                console.log(err);
+                return res.status(500).send('bfgsder');
+            };
+        });
     });
 });

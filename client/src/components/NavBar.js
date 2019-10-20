@@ -22,7 +22,6 @@ const styles = {
     width: "100%"
   }
 }
-// style = "z-index: 999; position: relative; overflow: visible;"
 
 class NavBar extends Component {
   constructor(props) {
@@ -197,7 +196,7 @@ class NavBar extends Component {
                 <a className="nav-link" href="/dash">Dashboard</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">About</a>
+                <a className="nav-link" href="/about">About</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="/login" onClick={this.logout}>Logout</a>
@@ -207,7 +206,7 @@ class NavBar extends Component {
             </ul>
           </div>
         </nav>
-        <div>
+        <div className="pt-5">
           <GoogleMap Coords={Coords} />
         </div>
       </div>

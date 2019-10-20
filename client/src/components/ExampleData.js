@@ -77,7 +77,12 @@ class Customers extends Component {
     let rateFromInputNumber = ''
     let typeOfRate = ''
     let feeValue = ''
-    // grab state
+
+    const { 
+      Hourly, Daily, Weekly, Monthly, 
+      ID, Address, City, State, Zipcode 
+    } = this.props.location
+    
     const { 
       startDateValue,
       startTimeValue,
@@ -86,27 +91,28 @@ class Customers extends Component {
       rateValue,
       token
     } = this.state;
+
     if (rateValue < 2 && rateValue > 0) {
-      rateFromInputNumber = this.props.location.Hourly
+      rateFromInputNumber = Hourly
       typeOfRate = "Hour"
       feeValue = "0.25"
-
     }
     if (rateValue < 3 && rateValue > 1) {
-      rateFromInputNumber = this.props.location.Daily
+      rateFromInputNumber = Daily
       typeOfRate = "Day"
       feeValue = "2.00"
     }
     if (rateValue < 4 && rateValue > 2) {
-      rateFromInputNumber = this.props.location.Weekly
+      rateFromInputNumber = Weekly
       typeOfRate = "Week"
       feeValue = "12.00"
     }
     if (rateValue < 5 && rateValue > 3) {
-      rateFromInputNumber = this.props.location.Monthly
+      rateFromInputNumber = Monthly
       typeOfRate = "Month"
       feeValue = "35.00"
     }
+
     // post to backend
     fetch('/api/reserve/spot', {
       method: 'post',
@@ -124,11 +130,11 @@ class Customers extends Component {
         rateType: typeOfRate,
         feeValue,
 
-        makerId: this.props.location.ID,
-        address: this.props.location.Address,
-        city: this.props.location.City,
-        state: this.props.location.State,
-        zipcode: this.props.location.Zipcode,
+        makerId: ID,
+        address: Address,
+        city: City,
+        state: State,
+        zipcode: Zipcode,
         
       })
     })
@@ -163,12 +169,10 @@ class Customers extends Component {
       reserveSpot 
     } = this
     const { 
-      // position 
       Description, Instructions,
       Address, City, State, Zipcode, 
       Hourly, Daily, Weekly, Monthly, 
-      Spots, 
-      ID
+      Spots, /*ID*/
     } = this.props.location
 
     if (!token) {
@@ -302,9 +306,9 @@ class Customers extends Component {
           <p>End Date: {endDateValue}</p>
           <p>End Time: {endTimeValue}</p>
           <p>Rate: {rateValue}</p>
-        <p>{Date()}</p> */}
-        <p>OwnerId: {ID}</p>
-        {/* <p>option name: {document.getElementById("rate_value").value}</p> */}
+          <p>{Date()}</p>
+          <p>OwnerId: {ID}</p>
+          <p>option name: {document.getElementById("rate_value").value}</p> */}
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../utils/storage'
 import { Redirect } from 'react-router-dom'
+import store from 'store';
 
 const styles = {
     maxWidth: {
@@ -33,6 +34,13 @@ class Login extends Component {
         this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
         this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
         this.onSignIn = this.onSignIn.bind(this);
+    }
+
+    // set token state to token value
+    UNSAFE_componentWillMount() {
+        localStorage.getItem('park_p2p') && this.setState({
+            token: store.get('park_p2p').token
+        })
     }
 
     // function for post request to login
@@ -129,6 +137,7 @@ class Login extends Component {
             signInEmail,
             signInPassword
         } = this.state;
+
         if (isLoading) {
             return (
                 <div>
@@ -136,7 +145,13 @@ class Login extends Component {
                 </div>
             );
         }
-        if (!token) {
+        if (token) {
+            return (
+                <div>
+                    <Redirect to='/' />
+                </div>
+            );
+        } else {
             return (
                 <div className="container-fluid  pb-5 pt-5" style={styles.backgroundImage}>
                     <div className="row justify-content-center">
@@ -192,11 +207,6 @@ class Login extends Component {
                 </div>
             );
         }
-        return (
-            <div>
-                {this.redirectToMain()}
-            </div>
-        );
     }
 }
 
