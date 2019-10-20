@@ -18,13 +18,18 @@
 
 // });
 // const CarQuery = require('car-query')
-import CarQuery from 'car-query'
-const carQuery = new CarQuery();
+// import CarQuery from 'car-query'
+// const carQuery = new CarQuery();
 
-    carQuery.getYears()
-    .then(years => {
-        console.log(years)
-    });
-
-
-   
+//     carQuery.getYears()
+//     .then(years => {
+//         console.log(years)
+// //     });
+// const obj = {}
+// if (Object.keys(obj).length === 0) {
+//     console.log("0000000000")
+// } else {
+//     console.log("length")
+// }
+// // console.log(Object.keys(obj).length)
+   console.log(JSON.stringify(Date()))
