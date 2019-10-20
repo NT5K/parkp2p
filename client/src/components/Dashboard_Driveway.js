@@ -448,7 +448,7 @@ class Dashboard extends Component {
 
         return (
             <div>
-                <div className="container-flex">
+                <div className="container-flex pb-5">
                     <div className="row pb-3 pt-3 border-bottom text-center">
                         <div className="col-xl-12">
                             <h4>Edit Driveway Information</h4>
@@ -584,6 +584,18 @@ class Dashboard extends Component {
                     onClick={updateSpots}
                     buttonText={"submit"}
                     />
+
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Driveway Instructions</b></u></h5>
+                            example:<br />
+                            <div className="row pl-5 pr-5">
+                                <div className="col-sm-12">
+                                    "Please park as far back as you can. To the right side of the garage."
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <PersonalInfoRow
                     header={"Instructions"}

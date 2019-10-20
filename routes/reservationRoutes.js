@@ -40,7 +40,13 @@ router.post('/api/reserve/spot', (req, res) => {
         makerId,
         address, city, state, zipcode
     } = req.body;
-
+    if (!startDateValue || !startTimeValue || !endDateValue || !endTimeValue || !rateValue ) {
+        return res.send({
+            success: false,
+            spotSubtract: false
+            // new_active_state: inputState
+        });
+    }
     console.log("local token", token)
     // console.log("active state change", inputState)
 
