@@ -4,16 +4,6 @@ import 'whatwg-fetch';
 import { Redirect } from 'react-router-dom';
 // import StreetView from './StreetView';
 
-
-// const styles = {
-//   overflow: "hidden",
-//   height: "100%",
-//   // paddingTop: "3%",
-//   // paddingLeft: "3%",
-//   // paddingBottom: "3.7%",
-//   border: "5px grey solid",
-// }
-
 class Customers extends Component {
 
   constructor() {
@@ -30,7 +20,7 @@ class Customers extends Component {
 
       endDateTimeValue: '',
       rateValue: '',
-      displayMessage: ''
+      displayMessage: '',
 
     };
     this.onTextboxChangeStartDate = this.onTextboxChangeStartDate.bind(this);
@@ -49,20 +39,6 @@ class Customers extends Component {
       token: store.get('park_p2p').token
     })
     // console.log("state of token", this.state.token)
-  }
-
-  componentDidMount() {
-    fetch('/api/public/driveways')
-      .then(res => res.json())
-      .then(customers => this.setState({ customers }))
-      // .then(() => console.log("session token", this.state.token))
-  }
-
-  // if logged in successfully redirect to main page
-  redirectToLogin = () => {
-    if (this.state.token) {
-      return <Redirect to='/login' />
-    }
   }
 
   onTextboxChangeStartDate(event) {
@@ -88,7 +64,9 @@ class Customers extends Component {
 
   onTextboxChangeRate(event) {
     const selectedValue = document.getElementById("rate_value").value
-    console.log(selectedValue)
+    // const selectedName = document.getElementById("rate_value").data
+    console.log("selected value",selectedValue)
+    // console.log("selected name",selectedName)
     this.setState({
       rateValue: selectedValue
     });
@@ -96,6 +74,8 @@ class Customers extends Component {
 
   reserveSpot(event) {
     event.preventDefault()
+    let rateFromInputNumber = ''
+    let typeOfRate = ''
     // grab state
     const { 
       startDateValue,
@@ -105,6 +85,22 @@ class Customers extends Component {
       rateValue,
       token
     } = this.state;
+    if (rateValue < 2 && rateValue > 0) {
+      rateFromInputNumber = this.props.location.Hourly
+      typeOfRate = "Hourly"
+    }
+    if (rateValue < 3 && rateValue > 1) {
+      rateFromInputNumber = this.props.location.Daily
+      typeOfRate = "Daily"
+    }
+    if (rateValue < 4 && rateValue > 2) {
+      rateFromInputNumber = this.props.location.Weekly
+      typeOfRate = "Weekly"
+    }
+    if (rateValue < 5 && rateValue > 3) {
+      rateFromInputNumber = this.props.location.Monthly
+      typeOfRate = "Monthly"
+    }
     // post to backend
     fetch('/api/reserve/spot', {
       method: 'post',
@@ -117,29 +113,54 @@ class Customers extends Component {
         startTimeValue,
         endDateValue,
         endTimeValue,
-        rateValue
+        rateValue: rateFromInputNumber,
+        rateType: typeOfRate,
+        makerId: this.props.location.ID,
+        address: this.props.location.Address,
+        city: this.props.location.City,
+        state: this.props.location.State,
+        zipcode: this.props.location.Zipcode,
+        
       })
     })
-      .then(res => res.json())
-      .then(json => {
-        console.log('json', json);
-        // set state for display
-        if (json.success) {
-          this.setState({
-            displayMessage: "Congratulations! You reserved a spot!"
-          });
-        }
-      });
+    .then(res => res.json())
+    .then(json => {
+      console.log('json', json);
+      // set state for display
+      if (json.success) {
+        this.setState({
+          displayMessage: "Congratulations! You reserved a spot!"
+        });
+      }
+    });
   }
   
   render() {
-    const { token } = this.state
-    const { startDateValue, startTimeValue, endDateValue, endTimeValue, rateValue, displayMessage  } = this.state
-    const { onTextboxChangeStartDate, onTextboxChangeStartTime, onTextboxChangeEndDate, onTextboxChangeEndTime,  onTextboxChangeRate, reserveSpot } = this
-    // const sel = document.getElementById('rate_value').value;
-    // const opt = sel.options[sel.selectedIndex];
-    // const { lat, lng } = this.props.location.position
-    const { /* position, */ description, address, city, state, zipcode, hourly, daily, weekly, monthly, spots, id} = this.props.location
+    const { 
+      token,
+      startDateValue, 
+      startTimeValue, 
+      endDateValue, 
+      endTimeValue, 
+      // rateValue, 
+      displayMessage  
+    } = this.state
+    const { 
+      onTextboxChangeStartDate, 
+      onTextboxChangeStartTime, 
+      onTextboxChangeEndDate, 
+      onTextboxChangeEndTime,  
+      onTextboxChangeRate, 
+      reserveSpot 
+    } = this
+    const { 
+      // position 
+      Description, Instructions,
+      Address, City, State, Zipcode, 
+      Hourly, Daily, Weekly, Monthly, 
+      Spots, 
+      ID
+    } = this.props.location
 
     if (!token) {
       return (
@@ -150,142 +171,132 @@ class Customers extends Component {
     }
 
     return (
-  
-        <div className="bg-light text-dark container h-100 pt-4 mb-5">
-
-          <div className="row p-3">
-            <div className="col-md-7 col-xs-12">
-              <div className="row">
-                <h3>Address</h3>
+      <div className="bg-light text-dark container h-100 pt-4 mb-5">
+        <div className="row p-3">
+          <div className="col-md-7 col-xs-12">
+            <div className="row">
+              <h4>Address</h4>
+            </div>
+            <div className="row">
+            <h2>{Address}</h2>
+            </div>
+            <div className="row">
+              <h2>{City} {State} {Zipcode}</h2>
+            </div>
+            <div className="row pt-3">
+              <h4>Rates:</h4>
+            </div>
+            <div className="row pb-1">
+              <h3>${Hourly}/hr ${Daily}/day ${Weekly}/week ${Monthly}/month</h3>
+            </div>
+            <hr />
+            <div className="row pt-3">
+              <h5>Description:</h5>
+            </div>
+            <div className="row">
+              <h5>{Description}</h5>
+            </div>
+            <div className="row pt-3">
+              <h5>Parking Instructions:</h5>
+            </div>
+            <div className="row mb-4">
+              <h5>{Instructions}</h5>
+            </div>
+            <div className="row">
+              <h5>Available Spots: {Spots}</h5>
+            </div>
+          </div> {/* end first column */}
+          <div className="col-md-5 col-xs-12">
+            <div className="card text-center mb-4 shadow-sm">
+              <div className="card-header">
+                <h4 className="my-0 font-weight-normal">Spot reservation form</h4>
               </div>
-              <div className="row">
-                <h2>{address}</h2>
-              </div>
-              <div className="row">
-                <h2>{city} {state} {zipcode}</h2>
-              </div>
-
-              <div className="row pt-3">
-                <h3>Rates:</h3>
-              </div>
-              <div className="row pb-1">
-                <h3>${hourly}/hr ${daily}/day ${weekly}/week ${monthly}/month</h3>
-              </div>
-              <hr />
-              <div className="row pt-3">
-                <h5>Description:</h5>
-              </div>
-              <div className="row">
-                <h5>{description}</h5>
-              </div>
-              <div className="row pt-3">
-                <h5>Parking Instructions:</h5>
-              </div>
-              <div className="row mb-5">
-                <h5>Please park on the left side of the driveway, about half way up.</h5>
-              </div>
-          
-            </div> {/* end first column */}
-
-            <div className="col-md-5 col-xs-12">
-              <div className="card text-center mb-4 shadow-sm">
-                <div className="card-header">
-                  <h4 className="my-0 font-weight-normal">Spot reservation form</h4>
-                </div>
-                <div className="card-body">
-                  <h5 className="card-title pricing-card-title">{address}</h5>
-                  <h6 className="card-title pricing-card-title">{city} {state} {zipcode}</h6>
-                
-                  <hr />
-
-
-                  <form className="reserve_spot" method="post" action="/api/reserve/spot">
-                    <h5 className="card-title pricing-card-title">Approximate Length of stay</h5>
-
-                    <div className="row">
-                      <div className="col-6">
-                        <h6>Start Date</h6>
-                        <input
-                          id="start_date"
-                          type="date"
-                          value={startDateValue}
-                          onChange={onTextboxChangeStartDate}
-                          required>
-                        </input>
-                      </div>
-                      <div className="col-6">
-                        <h6>Start Time</h6>
-                        <input
-                          id="start_time"
-                          type="time"
-                          value={startTimeValue}
-                          onChange={onTextboxChangeStartTime}
-                          required>
-                        </input>
-                      </div>
-                    </div>
+              <div className="card-body">
+                <h5 className="card-title pricing-card-title">{Address}</h5>
+                <h6 className="card-title pricing-card-title">{City} {State} {Zipcode}</h6>
+                <hr />
+                <form className="reserve_spot" method="post" action="/api/reserve/spot">
+                  <h5 className="card-title pricing-card-title">Approximate Length of stay</h5>
                   <div className="row">
                     <div className="col-6">
-                      <h6>End Date</h6>
+                      <h6>Start Date</h6>
                       <input
-                        id="end_date"
+                        id="start_date"
                         type="date"
-                        value={endDateValue}
-                        onChange={onTextboxChangeEndDate}
-                        className="mb-3"
+                        value={startDateValue}
+                        onChange={onTextboxChangeStartDate}
+                        className="mb-3 form-control date-local"
                         required>
                       </input>
                     </div>
                     <div className="col-6">
-                      <h6>End Time</h6>
+                      <h6>Start Time</h6>
                       <input
-                        id="end_time"
+                        id="start_time"
                         type="time"
-                        value={endTimeValue}
-                        onChange={onTextboxChangeEndTime}
-                        className="mb-3"
+                        value={startTimeValue}
+                        onChange={onTextboxChangeStartTime}
+                        className="mb-3 form-control time-local"
                         required>
                       </input>
                     </div>
-                  </div>  
+                  </div>
+                <div className="row">
+                  <div className="col-6">
+                    <h6>End Date</h6>
+                    <input
+                      id="end_date"
+                      type="date"
+                      value={endDateValue}
+                      onChange={onTextboxChangeEndDate}
+                        className="mb-3 form-control date-local"
+                      required>
+                    </input>
+                  </div>
+                  <div className="col-6">
+                    <h6>End Time</h6>
+                    <input
+                      id="end_time"
+                      type="time"
+                      value={endTimeValue}
+                      onChange={onTextboxChangeEndTime}
+                      className="mb-3 form-control time-local"
+                      required>
+                    </input>
+                  </div>
+                </div>  
+                <hr />
+                  <select className="w-100 form-control" id="rate_value" onChange={onTextboxChangeRate}>
+                  <option value="blank">Rates</option>
+                    <option value="1">${Hourly}/hour (-12 hrs)</option>
+                    <option value="2">${Daily}/daily (+12 hrs)</option>
+                    <option value="3">${Weekly}/week (5 days)</option>
+                    <option value="4">${Monthly}/month (4 weeks)</option>
+                  </select>
                   <hr />
-              
-                  <select className="w-100" id="rate_value" onChange={onTextboxChangeRate}>
-                    <option value="blank">Rates</option>
-                      <option value={hourly}>${hourly}/hour (-12 hrs)</option>
-                      <option value={daily}>${daily}/daily (+12 hrs)</option>
-                      <option value={weekly}>${weekly}/week (5 days)</option>
-                      <option value={monthly}>${monthly}/month (4 weeks)</option>
-                    </select>
-                    <hr />
-                    <h6>
-                      Available Spots: {spots}
-                    </h6>
-                    <hr />
-                    <button
-                      type="submit"
-                      className="btn btn-md w-100 btn-block btn-primary mt-4"
-                      onClick={reserveSpot}
-                    >
-                      Reserve Now!
-                    </button>
-                    <h6>{displayMessage}</h6>
-                  </form>  
-
-
-                </div>
+                  <button
+                    type="submit"
+                    className="btn btn-md w-100 btn-block btn-primary mt-4"
+                    onClick={reserveSpot}
+                  >
+                    Reserve Now!
+                  </button>
+                  
+                  <h6 className="pt-3">{displayMessage}</h6>
+                </form>  
               </div>
             </div>
-          </div> {/* end  big row */}
-            <p>Start Date: {startDateValue}</p>
-            <p>Start Time: {startTimeValue}</p>
-            <p>End Date: {endDateValue}</p>
-            <p>End Time: {endTimeValue}</p>
-            {/* <p>End Date: {endDateTimeValue}</p> */}
-            <p>Rate: {rateValue}</p>
-            {/* <p>Rate: {Object.value(daily)}</p> */}
-            <p>OwnerId: {id}</p>
-        </div>
+          </div>
+        </div> {/* end  big row */}
+          {/* <p>Start Date: {startDateValue}</p>
+          <p>Start Time: {startTimeValue}</p>
+          <p>End Date: {endDateValue}</p>
+          <p>End Time: {endTimeValue}</p>
+          <p>Rate: {rateValue}</p>
+        <p>{Date()}</p> */}
+        <p>OwnerId: {ID}</p>
+        {/* <p>option name: {document.getElementById("rate_value").value}</p> */}
+      </div>
     );
   }
 }
