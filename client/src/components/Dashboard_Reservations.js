@@ -13,7 +13,6 @@ class Reservations extends Component {
         };
     }
 
-
     // set token state to token value
     UNSAFE_componentWillMount() {
         localStorage.getItem('park_p2p') && this.setState({

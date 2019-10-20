@@ -146,6 +146,10 @@ class Customers extends Component {
         this.setState({
           displayMessage: "Congratulations! You reserved a spot!"
         });
+      } else {
+        this.setState({
+          displayMessage: "Please fill out all information."
+        });
       }
     });
   }
