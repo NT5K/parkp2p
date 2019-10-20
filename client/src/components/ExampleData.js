@@ -41,13 +41,6 @@ class Customers extends Component {
     // console.log("state of token", this.state.token)
   }
 
-  // if logged in successfully redirect to main page
-  redirectToLogin = () => {
-    if (this.state.token) {
-      return <Redirect to='/login' />
-    }
-  }
-
   onTextboxChangeStartDate(event) {
     this.setState({
       startDateValue: event.target.value,
@@ -71,7 +64,9 @@ class Customers extends Component {
 
   onTextboxChangeRate(event) {
     const selectedValue = document.getElementById("rate_value").value
-    console.log(selectedValue)
+    // const selectedName = document.getElementById("rate_value").data
+    console.log("selected value",selectedValue)
+    // console.log("selected name",selectedName)
     this.setState({
       rateValue: selectedValue
     });
@@ -79,6 +74,8 @@ class Customers extends Component {
 
   reserveSpot(event) {
     event.preventDefault()
+    let rateFromInputNumber = ''
+    let typeOfRate = ''
     // grab state
     const { 
       startDateValue,
@@ -88,6 +85,22 @@ class Customers extends Component {
       rateValue,
       token
     } = this.state;
+    if (rateValue < 2 && rateValue > 0) {
+      rateFromInputNumber = this.props.location.Hourly
+      typeOfRate = "Hourly"
+    }
+    if (rateValue < 3 && rateValue > 1) {
+      rateFromInputNumber = this.props.location.Daily
+      typeOfRate = "Daily"
+    }
+    if (rateValue < 4 && rateValue > 2) {
+      rateFromInputNumber = this.props.location.Weekly
+      typeOfRate = "Weekly"
+    }
+    if (rateValue < 5 && rateValue > 3) {
+      rateFromInputNumber = this.props.location.Monthly
+      typeOfRate = "Monthly"
+    }
     // post to backend
     fetch('/api/reserve/spot', {
       method: 'post',
@@ -100,7 +113,14 @@ class Customers extends Component {
         startTimeValue,
         endDateValue,
         endTimeValue,
-        rateValue
+        rateValue: rateFromInputNumber,
+        rateType: typeOfRate,
+        makerId: this.props.location.ID,
+        address: this.props.location.Address,
+        city: this.props.location.City,
+        state: this.props.location.State,
+        zipcode: this.props.location.Zipcode,
+        
       })
     })
     .then(res => res.json())
@@ -122,7 +142,7 @@ class Customers extends Component {
       startTimeValue, 
       endDateValue, 
       endTimeValue, 
-      rateValue, 
+      // rateValue, 
       displayMessage  
     } = this.state
     const { 
@@ -179,8 +199,11 @@ class Customers extends Component {
             <div className="row pt-3">
               <h5>Parking Instructions:</h5>
             </div>
-            <div className="row mb-5">
+            <div className="row mb-4">
               <h5>{Instructions}</h5>
+            </div>
+            <div className="row">
+              <h5>Available Spots: {Spots}</h5>
             </div>
           </div> {/* end first column */}
           <div className="col-md-5 col-xs-12">
@@ -226,7 +249,7 @@ class Customers extends Component {
                       type="date"
                       value={endDateValue}
                       onChange={onTextboxChangeEndDate}
-                      className="mb-3 form-control date-local"
+                        className="mb-3 form-control date-local"
                       required>
                     </input>
                   </div>
@@ -243,17 +266,13 @@ class Customers extends Component {
                   </div>
                 </div>  
                 <hr />
-                <select className="w-100" id="rate_value" onChange={onTextboxChangeRate}>
+                  <select className="w-100 form-control" id="rate_value" onChange={onTextboxChangeRate}>
                   <option value="blank">Rates</option>
-                    <option value={Hourly}>${Hourly}/hour (-12 hrs)</option>
-                    <option value={Daily}>${Daily}/daily (+12 hrs)</option>
-                    <option value={Weekly}>${Weekly}/week (5 days)</option>
-                    <option value={Monthly}>${Monthly}/month (4 weeks)</option>
+                    <option value="1">${Hourly}/hour (-12 hrs)</option>
+                    <option value="2">${Daily}/daily (+12 hrs)</option>
+                    <option value="3">${Weekly}/week (5 days)</option>
+                    <option value="4">${Monthly}/month (4 weeks)</option>
                   </select>
-                  <hr />
-                  <h6>
-                    Available Spots: {Spots}
-                  </h6>
                   <hr />
                   <button
                     type="submit"
@@ -262,6 +281,7 @@ class Customers extends Component {
                   >
                     Reserve Now!
                   </button>
+                  
                   <h6 className="pt-3">{displayMessage}</h6>
                 </form>  
               </div>
@@ -273,8 +293,9 @@ class Customers extends Component {
           <p>End Date: {endDateValue}</p>
           <p>End Time: {endTimeValue}</p>
           <p>Rate: {rateValue}</p>
-          <p>OwnerId: {ID}</p>
-          <p>{Date()}</p> */}
+        <p>{Date()}</p> */}
+        <p>OwnerId: {ID}</p>
+        {/* <p>option name: {document.getElementById("rate_value").value}</p> */}
       </div>
     );
   }

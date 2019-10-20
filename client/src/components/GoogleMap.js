@@ -87,7 +87,7 @@ class MapContainer extends Component {
         // console.log("personLoggedIn", personLoggedIn)
         return (
             <div className="container-flex">
-                <div style={{ position: "relative", height: "50vh", width: "100vw" /*marginBottom: "3.5%"*/}} id="map">
+                <div style={{ position: "relative", height: "50vh", width: "100%" /*marginBottom: "3.5%"*/}} id="map">
                     <Map
                         centerAroundCurrentLocation={true}
                         google={this.props.google}
