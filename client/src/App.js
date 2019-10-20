@@ -29,7 +29,7 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/dashboard/account" component={Account} />
             <Route path="/dash" component={DashboardRoute} />
-            <Route exact path="/front" component={storeFront} />
+            <Route exact path="/about" component={storeFront} />
             {/* <Router>
               <div>
                 <SideBar />
