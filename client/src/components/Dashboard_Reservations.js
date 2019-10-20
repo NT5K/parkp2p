@@ -49,13 +49,13 @@ class Reservations extends Component {
             <div className="container">
                 <div className="row pb-2 pt-2 border-bottom text-center">
                     <div className="col-12">
-                        <h4>Current Reservations</h4>
+                        <h4>My Reservations</h4>
                     </div>
                 </div>
-                <div className="row mt-5 d-flex justify-content-between text-center">
+                <div className="row mt-3 d-flex justify-content-between text-center">
                     <div className="col-12 d-flex justify-content-center">
                         <div className="card-deck mb-3 text-center d-flex justify-content-between">
-                            {reservations.map((row, i) =>
+                            {reservations.map((row, i) => 
                                 <div key={i}>
                                     <ReservationCard
                                         number={i + 1}

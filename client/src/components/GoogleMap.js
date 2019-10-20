@@ -106,36 +106,53 @@ class MapContainer extends Component {
                         <Marker
                             onClick={this.onMarkerClick}
                             address={'You are Here'}
-                            label={"X"}
+                            // label={"X"}
                             // animation={2}
                             icon={{
-                                url: "http://maps.google.com/mapfiles/ms/icons/red.png"
+                                // url: "http://maps.google.com/mapfiles/ms/icons/red.png"
+                                // url: "https://img.icons8.com/plasticine/24/000000/map-pin.png"
+                                // url: "https://img.icons8.com/ios-filled/100/000000/standing-man.png"
+                                // url: "https://img.icons8.com/material-rounded/24/000000/standing-man.png"
+                                // url: "https://img.icons8.com/nolan/32/000000/street-view.png"
+                                url: "https://img.icons8.com/dusk/32/000000/street-view.png"
                             }}
                         />
-                        {marker.map(marker =>
-                            <Marker
-                                onClick={this.onMarkerClick}
-                                key={marker.ID}
-                                Address={marker.Address}
-                                City={marker.City}
-                                State={marker.State}
-                                Zipcode={marker.Zipcode}
-                                Description={marker.Description}
-                                Instructions={marker.Instructions}
-                                Hourly={marker.Hourly}
-                                Daily={marker.Daily}
-                                Weekly={marker.Weekly}
-                                Monthly={marker.Monthly}
-                                Spots={marker.Spots}
-                                ID={marker.ID}
+                        {marker.map(marker => {
+                            if(marker.Active_State > 0) {
+                                return <Marker
+                                    onClick={this.onMarkerClick}
+                                    key={marker.ID}
+                                    Address={marker.Address}
+                                    City={marker.City}
+                                    State={marker.State}
+                                    Zipcode={marker.Zipcode}
+                                    Description={marker.Description}
+                                    Instructions={marker.Instructions}
+                                    Hourly={marker.Hourly}
+                                    Daily={marker.Daily}
+                                    Weekly={marker.Weekly}
+                                    Monthly={marker.Monthly}
+                                    Spots={marker.Spots}
+                                    ID={marker.ID}
 
-                                // animation={1}
-                                position={{ lat: marker.Latitude, lng: marker.Longitude }}
-                                icon={{
-                                    url: "http://maps.google.com/mapfiles/ms/icons/green.png"
-                                }}
-                            />
-                        )}
+                                    // animation={1}
+                                    position={{ lat: marker.Latitude, lng: marker.Longitude }}
+                                    icon={{
+                                        url: "http://maps.google.com/mapfiles/ms/icons/green.png"
+                                        // url: "https://img.icons8.com/material-sharp/24/000000/garage-door.png"
+                                        // url: "https://img.icons8.com/color/48/000000/place-marker.png"
+                                        // url: "https://img.icons8.com/offices/16/000000/marker.png"
+                                        // url: "https://img.icons8.com/office/30/000000/marker.png"
+                                        // url: "https://img.icons8.com/color/48/000000/map-pin.png"
+                                    }}
+                                />
+                            }    
+                        })}
+
+
+
+
+
                         {/* <InfoWindow
                             marker={this.state.activeMarker}
                             visible={this.state.showingInfoWindow}

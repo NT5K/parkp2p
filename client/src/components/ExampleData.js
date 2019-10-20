@@ -76,6 +76,7 @@ class Customers extends Component {
     event.preventDefault()
     let rateFromInputNumber = ''
     let typeOfRate = ''
+    let feeValue = ''
     // grab state
     const { 
       startDateValue,
@@ -87,19 +88,24 @@ class Customers extends Component {
     } = this.state;
     if (rateValue < 2 && rateValue > 0) {
       rateFromInputNumber = this.props.location.Hourly
-      typeOfRate = "Hourly"
+      typeOfRate = "Hour"
+      feeValue = "0.25"
+
     }
     if (rateValue < 3 && rateValue > 1) {
       rateFromInputNumber = this.props.location.Daily
-      typeOfRate = "Daily"
+      typeOfRate = "Day"
+      feeValue = "2.00"
     }
     if (rateValue < 4 && rateValue > 2) {
       rateFromInputNumber = this.props.location.Weekly
-      typeOfRate = "Weekly"
+      typeOfRate = "Week"
+      feeValue = "12.00"
     }
     if (rateValue < 5 && rateValue > 3) {
       rateFromInputNumber = this.props.location.Monthly
-      typeOfRate = "Monthly"
+      typeOfRate = "Month"
+      feeValue = "35.00"
     }
     // post to backend
     fetch('/api/reserve/spot', {
@@ -113,8 +119,11 @@ class Customers extends Component {
         startTimeValue,
         endDateValue,
         endTimeValue,
+
         rateValue: rateFromInputNumber,
         rateType: typeOfRate,
+        feeValue,
+
         makerId: this.props.location.ID,
         address: this.props.location.Address,
         city: this.props.location.City,
