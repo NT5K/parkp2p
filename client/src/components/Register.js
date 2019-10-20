@@ -23,7 +23,6 @@ const styles = {
 class Home extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             isLoading: false,
             token: '',
@@ -62,26 +61,27 @@ class Home extends Component {
                 inputPasswordCheck: signUpPasswordCheck
             }),
             // json response
-        }).then(res => res.json())
-            // if json.success, set signUpError to json.msg which is "congrats"
-            .then(json => {
-                console.log('json', json);
-                if (json.success) {
-                    this.setState({
-                        signUpError: json.message,
-                        isLoading: false,
-                        signUpEmail: '',
-                        signUpPassword: '',
-                        signUpPasswordCheck: ''
-                    });
-                    // TODO: set msg here maybe will fix duplicate email
-                } else {
-                    this.setState({
-                        signUpError: json.message,
-                        isLoading: false
-                    });
-                }
-            });
+        })
+        .then(res => res.json())
+        // if json.success, set signUpError to json.msg which is "congrats"
+        .then(json => {
+            console.log('json', json);
+            if (json.success) {
+                this.setState({
+                    signUpError: json.message,
+                    isLoading: false,
+                    signUpEmail: '',
+                    signUpPassword: '',
+                    signUpPasswordCheck: ''
+                });
+                // TODO: set msg here maybe will fix duplicate email
+            } else {
+                this.setState({
+                    signUpError: json.message,
+                    isLoading: false
+                });
+            }
+        });
     }
 
     onTextboxChangeSignUpEmail(event) {

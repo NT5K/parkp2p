@@ -12,29 +12,22 @@ class Car extends Component {
         this.state = {
             user: [],
             token: '',
-
             Car_Make: '',
             carMakeToPostRequest: '',
             displayCarMake: '',
-
             carModelToPostRequest: '',
             displayCarModel: '',
-
             carYearToPostRequest: '',
             displayCarYear: '',
-
             displayCarColor: '',
             carColorToPostRequest: '',
-
             displayFullCar: ''
         };
 
         this.updateCarMake = this.updateCarMake.bind(this);
         this.onTextboxCarMake = this.onTextboxCarMake.bind(this);
-
         this.updateCarModel = this.updateCarModel.bind(this);
         this.onTextboxCarModel = this.onTextboxCarModel.bind(this);
-
         this.updateCarColor = this.updateCarColor.bind(this);
         this.onTextboxCarColor = this.onTextboxCarColor.bind(this);
     }
@@ -62,9 +55,9 @@ class Car extends Component {
                 displayFullCar: Car_Color + " " + Car_Make + " " + Car_Model
                 
             })
-        }, () => console.log("user array", user, "this users token", token))
+        // }, () => console.log("user array", user, "this users token", token))
+        }, () => console.log('success'))
     }
-
 
     updateCarMake(event) {
         event.preventDefault()
@@ -81,16 +74,16 @@ class Car extends Component {
                 carMakeToPostRequest
             })
         })
-            .then(res => res.json())
-            .then(json => {
-                // set state for display
-                if (json.success) {
-                    this.setState({
-                        displayCarMake: carMakeToPostRequest,
-                        displayFullCar: carMakeToPostRequest + " " + displayCarModel
-                    });
-                }
-            });
+        .then(res => res.json())
+        .then(json => {
+            // set state for display
+            if (json.success) {
+                this.setState({
+                    displayCarMake: carMakeToPostRequest,
+                    displayFullCar: carMakeToPostRequest + " " + displayCarModel
+                });
+            }
+        });
     }
 
     updateCarModel(event) {
@@ -194,13 +187,11 @@ class Car extends Component {
 
         return (
             <div className="container-flex">
-
                 <div className="row pb-3 pt-3 border-bottom text-center">
                     <div className="col-xl-12">
                         <h4>View / Edit Car Information</h4>
                     </div>
                 </div>
-
                 <div className="row mt-3 text-dark text-center">
                     <div className="col-sm-12">
                         <h5 className="text-center"><u><b>Car Information</b></u></h5>
@@ -208,15 +199,12 @@ class Car extends Component {
                         <p><b>Your Car: {displayFullCar}</b></p>
                     </div>
                 </div>
-
                 <br />
-
                 <div className="row mt-3 text-dark text-center">
                     <div className="col-sm-12">
                         <h5 className="text-center"><u><b>Edit Car</b></u></h5>
                     </div>
                 </div>
-                
                 <div>
                     <PersonalInfoRow
                         header="Car Make"

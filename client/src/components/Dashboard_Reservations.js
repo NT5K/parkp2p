@@ -29,7 +29,8 @@ class Reservations extends Component {
             this.setState({
                 reservations,
             })
-        }, () => console.log("reservations array", reservations, "this users token", token))
+        // }, () => console.log("reservations array", reservations, "this users token", token))
+        }, () => console.log("success"))
     }   
 
     render() {
