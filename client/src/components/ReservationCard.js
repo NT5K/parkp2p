@@ -12,10 +12,12 @@ class ReservationCard extends Component {
             start_date, end_date, 
             start_time, end_time 
         } = this.props
+
         const startTime = convertTime(start_time);
         const endTime = convertTime(end_time);
         const rateWithFee = rate + fee
         // console.log(this.props)
+        
         return (
             <div className="card mb-4 shadow-sm">
                 <div className="card-header">

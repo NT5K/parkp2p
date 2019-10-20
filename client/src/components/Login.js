@@ -22,7 +22,6 @@ const styles = {
 class Login extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             isLoading: false,
             token: '',
@@ -60,29 +59,29 @@ class Login extends Component {
                 inputPassword: signInPassword
             }),
         }).then(res => res.json())
-            .then(json => {
-                console.log('json', json);
-                // if successful credentials
-                if (json.success) {
-                    // set local storage
-                    setInStorage('park_p2p', { token: json.token[0] });
-                    console.log(json.token)
-                    // clear states and display message
-                    this.setState({
-                        signInError: json.message,
-                        isLoading: false,
-                        signInPassword: '',
-                        signInEmail: '',
-                        token: json.token,
-                    });
-                    // display error message, loading state false
-                } else {
-                    this.setState({
-                        signInError: json.message,
-                        isLoading: false,
-                    });
-                }
-            });
+        .then(json => {
+            console.log('json', json);
+            // if successful credentials
+            if (json.success) {
+                // set local storage
+                setInStorage('park_p2p', { token: json.token[0] });
+                console.log(json.token)
+                // clear states and display message
+                this.setState({
+                    signInError: json.message,
+                    isLoading: false,
+                    signInPassword: '',
+                    signInEmail: '',
+                    token: json.token,
+                });
+                // display error message, loading state false
+            } else {
+                this.setState({
+                    signInError: json.message,
+                    isLoading: false,
+                });
+            }
+        });
     }
 
     // set states for email and password
@@ -91,6 +90,7 @@ class Login extends Component {
             signInEmail: event.target.value,
         });
     }
+    
     onTextboxChangeSignInPassword(event) {
         this.setState({
             signInPassword: event.target.value,

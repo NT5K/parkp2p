@@ -38,26 +38,26 @@ class MapContainer extends Component {
             token: store.get('park_p2p').token
         })
     }
+
     componentDidMount() {
         fetch('/api/public/driveways')
-            .then(res => res.json())
-            .then(marker => 
-                this.setState({ 
-                    marker,
-                    personLoggedIn: this.state.marker[this.state.token - 1]
-                }))
-            .then(()=> 
-                this.setState({
-                    selectedPlace: this.state.marker[this.state.token - 1]
-                }))
-            .then( () => console.log("successful markers data fetch"))
-            // .then( () => console.log("this is the person logged in", this.state.marker[this.state.token - 1]))
-            // .then( () => console.log("this is the person logged in", this.state.personLoggedIn.Description))
-            .catch(err => console.log(err));
+        .then(res => res.json())
+        .then(marker => 
+            this.setState({ 
+                marker,
+                personLoggedIn: this.state.marker[this.state.token - 1]
+            }))
+        .then(()=> 
+            this.setState({
+                selectedPlace: this.state.marker[this.state.token - 1]
+            }))
+        .then( () => console.log("successful markers data fetch"))
+        // .then( () => console.log("this is the person logged in", this.state.marker[this.state.token - 1]))
+        // .then( () => console.log("this is the person logged in", this.state.personLoggedIn.Description))
+        .catch(err => console.log(err));
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        
         if (nextProps.Coords !== this.props.Coords) {
             let latLng = { lat: nextProps.Coords.lat1, lng: nextProps.Coords.Lng1 }
             this.setState({ selectedPlace: latLng })
@@ -148,11 +148,6 @@ class MapContainer extends Component {
                                 />
                             }    
                         })}
-
-
-
-
-
                         {/* <InfoWindow
                             marker={this.state.activeMarker}
                             visible={this.state.showingInfoWindow}

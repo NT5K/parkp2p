@@ -7,10 +7,8 @@ function Markers() {
           <Marker
             name={this.props.name}
             position={{ lat: this.props.Latitude, lng: this.props.Longitude }} />
-  
       </div>
     )
-  
 }
 
 export default Markers;

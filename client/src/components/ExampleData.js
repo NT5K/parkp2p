@@ -11,24 +11,19 @@ class Customers extends Component {
     this.state = {
       customers: [],
       token: '',
-
       startDateValue: '',
       startTimeValue: '',
-
       endDateValue: '',
       endTimeValue: '',
-
       endDateTimeValue: '',
       rateValue: '',
       displayMessage: '',
-
     };
+
     this.onTextboxChangeStartDate = this.onTextboxChangeStartDate.bind(this);
     this.onTextboxChangeStartTime = this.onTextboxChangeStartTime.bind(this);
-
     this.onTextboxChangeEndDate = this.onTextboxChangeEndDate.bind(this);
     this.onTextboxChangeEndTime = this.onTextboxChangeEndTime.bind(this);
-
     this.onTextboxChangeRate = this.onTextboxChangeRate.bind(this);
     this.reserveSpot = this.reserveSpot.bind(this);
   }

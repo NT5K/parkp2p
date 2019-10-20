@@ -6,8 +6,7 @@ const styles = {
         backgroundImage: "url('../images/noSpots.jpg')",
         height: "100vh",
         backgroundRepeat: "initial"
-    },
-
+    }
 }
 
 class RegisterPage extends Component {
