@@ -470,7 +470,7 @@ class Dashboard extends Component {
                         <div className="col-sm-3 col-xs-6">
                             {displayState}
                         </div>
-
+                        
                         <form id="state_change" method="POST" action='/api/account/update/active'></form>
 
                         <div className="col-sm-2 col-xs-2">
@@ -496,7 +496,7 @@ class Dashboard extends Component {
                             </button>
                         </div>
                     </div>
-
+                    <hr />
 
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
@@ -570,7 +570,17 @@ class Dashboard extends Component {
                         onClick={updateOvernight}
                         buttonText={"submit"}
                     />
-
+                    <hr />
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Available Spots</b></u></h5>
+                            <div className="row pl-5 pr-5">
+                                <div className="col-sm-12">
+                                    (how many parking spots will be available)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <PersonalInfoRow
                     header={"Spots"}
                     displayText={displaySpots}
@@ -584,13 +594,13 @@ class Dashboard extends Component {
                     onClick={updateSpots}
                     buttonText={"submit"}
                     />
-
+                    <hr />
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>Driveway Instructions</b></u></h5>
                             example:<br />
                             <div className="row pl-5 pr-5">
-                                <div className="col-sm-12">
+                                <div className="col-sm-12 pb-2">
                                     "Please park as far back as you can. To the right side of the garage."
                                 </div>
                             </div>
@@ -610,7 +620,7 @@ class Dashboard extends Component {
                     onClick={updateInstructions}
                     buttonText={"submit"}
                     />          
-
+                    <hr />
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>Driveway Description</b></u></h5>
