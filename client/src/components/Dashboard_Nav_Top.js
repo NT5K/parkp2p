@@ -6,7 +6,8 @@ const headerStyle = {
     // backgroundColor: '#3b4cc4',
     // zIndex: 1,
     boxShadow: '5px 5px 8px -2px gray',
-    height: "60px"
+    height: "60px",
+    width: '100vw'
 }
 
 class DashboardNav extends Component {

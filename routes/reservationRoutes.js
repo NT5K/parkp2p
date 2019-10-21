@@ -40,7 +40,7 @@ router.post('/api/reserve/spot', (req, res) => {
         makerId,
         address, city, state, zipcode
     } = req.body;
-    if (!startDateValue || !startTimeValue || !endDateValue || !endTimeValue || rateValue === "Rates" ) {
+    if (!startDateValue || !startTimeValue || !endDateValue || !endTimeValue || rateValue === "blank" ) {
         return res.send({
             success: false,
             spotSubtract: false

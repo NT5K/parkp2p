@@ -469,26 +469,30 @@ class Dashboard extends Component {
                         <form id="state_change" method="POST" action='/api/account/update/active'></form>
 
                         <div className="col-sm-2 col-xs-2">
-                            <button
-                                type="button"
-                                className="btn btn-sm btn-block btn-primary"
-                                value="1"
-                                form="state_change"
-                                onClick={updateStateTrueOrFalse}
-                            >
-                                Activate
-                            </button>
-                        </div>
-                        <div className="col-sm-2 col-xs-2">
-                            <button
-                                type="button"
-                                className="btn btn-sm btn-block btn-primary"
-                                value="0"
-                                form="state_change"
-                                onClick={updateStateTrueOrFalse}
-                            >
-                                De-activate
-                            </button>
+                            <div className="row">
+                                <div className="col">
+                                    <button
+                                        type="button"
+                                        className="btn btn-sm btn-block btn-primary"
+                                        value="1"
+                                        form="state_change"
+                                        onClick={updateStateTrueOrFalse}
+                                    >
+                                        Activate
+                                    </button>
+                                </div>
+                                <div className="col">
+                                    <button
+                                        type="button"
+                                        className="btn btn-sm btn-block btn-primary"
+                                        value="0"
+                                        form="state_change"
+                                        onClick={updateStateTrueOrFalse}
+                                    >
+                                        De-activate
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <hr />
@@ -591,7 +595,7 @@ class Dashboard extends Component {
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>Driveway Instructions</b></u></h5>
-                            example:<br />
+                            <b>Example</b><br />
                             <div className="row pl-5 pr-5">
                                 <div className="col-sm-12 pb-2">
                                     "Please park as far back as you can. To the right side of the garage."
@@ -601,7 +605,7 @@ class Dashboard extends Component {
                     </div>
 
                     <PersonalInfoRowTextArea
-                    header={"Instructions"}
+                    header={"Current Instructions"}
                     displayText={displayInstructions}
                     id={"update_Instructions"}
                     action={"/api/account/update/instructions"}
@@ -618,7 +622,7 @@ class Dashboard extends Component {
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>Driveway Description</b></u></h5>
-                            example:<br /> 
+                            <b>Example</b><br /> 
                             <div className="row pl-5 pr-5">
                                 <div className="col-sm-12">
                                         "Our driveway is right next to the local high school. Street parking is 
@@ -630,7 +634,7 @@ class Dashboard extends Component {
                     </div>
 
                     <PersonalInfoRowTextArea
-                        header={"Description"}
+                        header={"Current Description"}
                         displayText={displayDescription}
                         id={"update_Description"}
                         action={"/api/account/update/description"}
