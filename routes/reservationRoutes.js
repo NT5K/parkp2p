@@ -149,3 +149,25 @@ router.post('/api/reserve/remove', (req, res) => {
     });
     
 })
+
+//===========================================================================
+// push date to reservation row
+//===========================================================================
+
+router.post('/api/create/timestamp/', (req, res) => {
+    const { rowID } = req.body
+    // const dateNow = Date()
+    const query = 'UPDATE reservations SET starttimer = ? WHERE ID = ?'
+    const date = new Date()
+    console.log("DATE", new Date())
+    const input = [date, rowID]
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Failed to push date')
+        } else {
+            // console.log(result)
+            return res.json(result);
+        }
+    })
+});
