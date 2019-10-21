@@ -2,14 +2,21 @@
 const express = require('express');
 const app = express();
 
-const htmlRoutes = require('./routes/htmlRoutes');
 const apiRoutes = require('./routes/apiRoutes');
+const accountRoutes = require('./routes/accountRoutes');
+const reservationRoutes = require('./routes/reservationRoutes');
+const ratesRoutes = require('./routes/ratesRoutes');
+const subscriptionRoutes = require('./routes/subscriptionRoutes');
+const carRoutes = require('./routes/carRoutes');
 const signin = require('./routes/signin');
 
 const expressValidator = require('express-validator');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
+
+const port = 5000;
+// const port = process.env.PORT || 3001;
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -25,16 +32,24 @@ app.use(express.text());
 app.use(express.json({ type: 'application/*+json' }));
 
 //routes
-app.use(htmlRoutes);
+
 app.use(apiRoutes);
+app.use(accountRoutes);
+app.use(reservationRoutes);
+app.use(subscriptionRoutes);
+app.use(ratesRoutes);
+app.use(carRoutes);
 app.use(signin);
 
 
 // use html and api files instead of putting them here
-require('./routes/htmlRoutes');
 require('./routes/apiRoutes');
+require('./routes/accountRoutes');
+require('./routes/reservationRoutes');
+require('./routes/subscriptionRoutes');
+require('./routes/ratesRoutes');
+require('./routes/carRoutes');
 require('./routes/signin');
 
-const PORT = process.env.PORT || 5000;
 
-app.listen(process.env.PORT || 5000, () => `Server running on port ${PORT}`);
+app.listen(port, () => `Server running on port ${port}`);

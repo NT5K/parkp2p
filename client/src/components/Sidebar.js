@@ -8,7 +8,6 @@ class Sidebar extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             token: ''
         }
@@ -61,10 +60,11 @@ class Sidebar extends Component {
             <Menu>
                 <br />
                 <h1>Menu</h1>
-                <Link className="nav-link  menu-item" to="/dash">Profits</Link>
-                <Link className="nav-link  menu-item" to="/dash/account">Account</Link>
-                <Link className="nav-link  menu-item" to="/dash/driveway">Driveway</Link>
-                <Link className="nav-link  menu-item" to="/dash/reservation">Reservations</Link>
+                <Link className="nav-link  menu-item" to="/dash/profits">Profits</Link>
+                <Link className="nav-link  menu-item" to="/dash/">Account</Link>
+                <Link className="nav-link  menu-item" to="/dash/driveway">My Driveway</Link>
+                <Link className="nav-link  menu-item" to="/dash/car">My Car</Link>
+                <Link className="nav-link  menu-item" to="/dash/reservations">Reservations</Link>
                 <Link className="nav-link  menu-item" to="/dash/subscription">Subscription</Link>
                 <Link className="nav-link  menu-item" to="/dash/cancel">Cancel Account</Link>
                 <a className="nav-link  menu-item" href="/">Main Menu</a>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../utils/storage'
 import { Redirect } from 'react-router-dom'
+import store from 'store';
 
 const styles = {
     maxWidth: {
@@ -21,7 +22,6 @@ const styles = {
 class Login extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             isLoading: false,
             token: '',
@@ -35,8 +35,16 @@ class Login extends Component {
         this.onSignIn = this.onSignIn.bind(this);
     }
 
+    // set token state to token value
+    UNSAFE_componentWillMount() {
+        localStorage.getItem('park_p2p') && this.setState({
+            token: store.get('park_p2p').token
+        })
+    }
+
     // function for post request to login
-    onSignIn() {
+    onSignIn(event) {
+        event.preventDefault()
         // Grab state
         const { signInEmail, signInPassword } = this.state;
         this.setState({ isLoading: true });
@@ -51,29 +59,29 @@ class Login extends Component {
                 inputPassword: signInPassword
             }),
         }).then(res => res.json())
-            .then(json => {
-                console.log('json', json);
-                // if successful credentials
-                if (json.success) {
-                    // set local storage
-                    setInStorage('park_p2p', { token: json.token[0] });
-                    console.log(json.token)
-                    // clear states and display message
-                    this.setState({
-                        signInError: json.message,
-                        isLoading: false,
-                        signInPassword: '',
-                        signInEmail: '',
-                        token: json.token,
-                    });
-                    // display error message, loading state false
-                } else {
-                    this.setState({
-                        signInError: json.message,
-                        isLoading: false,
-                    });
-                }
-            });
+        .then(json => {
+            console.log('json', json);
+            // if successful credentials
+            if (json.success) {
+                // set local storage
+                setInStorage('park_p2p', { token: json.token[0] });
+                console.log(json.token)
+                // clear states and display message
+                this.setState({
+                    signInError: json.message,
+                    isLoading: false,
+                    signInPassword: '',
+                    signInEmail: '',
+                    token: json.token,
+                });
+                // display error message, loading state false
+            } else {
+                this.setState({
+                    signInError: json.message,
+                    isLoading: false,
+                });
+            }
+        });
     }
 
     // set states for email and password
@@ -82,6 +90,7 @@ class Login extends Component {
             signInEmail: event.target.value,
         });
     }
+    
     onTextboxChangeSignInPassword(event) {
         this.setState({
             signInPassword: event.target.value,
@@ -128,6 +137,7 @@ class Login extends Component {
             signInEmail,
             signInPassword
         } = this.state;
+
         if (isLoading) {
             return (
                 <div>
@@ -135,7 +145,13 @@ class Login extends Component {
                 </div>
             );
         }
-        if (!token) {
+        if (token) {
+            return (
+                <div>
+                    <Redirect to='/' />
+                </div>
+            );
+        } else {
             return (
                 <div className="container-fluid  pb-5 pt-5" style={styles.backgroundImage}>
                     <div className="row justify-content-center">
@@ -191,11 +207,6 @@ class Login extends Component {
                 </div>
             );
         }
-        return (
-            <div>
-                {this.redirectToMain()}
-            </div>
-        );
     }
 }
 

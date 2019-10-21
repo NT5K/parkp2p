@@ -3,8 +3,7 @@ import { Redirect } from 'react-router-dom'
 import store from 'store'
 import 'whatwg-fetch';
 import PersonalInfoRow from './PersonalInfoRow'
-
-
+import PersonalInfoRowTextArea from './PersonalInfoRowTextArea'
 
 class Dashboard extends Component {
     constructor() {
@@ -17,12 +16,20 @@ class Dashboard extends Component {
             displayWeekly: '',
             displayMonthly: '',
             displayOvernight: '',
+            displayDescription: '',
+            displayInstructions: '',
+            displayState: '',
+            displaySpots: '',
             hourlyToPostRequest: '',
             dailyToPostRequest: '',
             weeklyToPostRequest: '',
             monthlyToPostRequest: '',
-            overnightToPostRequest: ''
- 
+            overnightToPostRequest: '',
+            descriptionToPostRequest: '',
+            instructionsToPostRequest: '',
+            stateToPostRequest: '',
+            spotsToPostRequest: '',
+            // complete: ''
         }
 
         this.onTextboxChangeHourly = this.onTextboxChangeHourly.bind(this);
@@ -35,6 +42,13 @@ class Dashboard extends Component {
         this.updateMonthly = this.updateMonthly.bind(this);
         this.onTextboxChangeOvernight = this.onTextboxChangeOvernight.bind(this);
         this.updateOvernight = this.updateOvernight.bind(this);
+        this.onTextboxChangeDescription = this.onTextboxChangeDescription.bind(this);
+        this.updateDescription = this.updateDescription.bind(this);
+        this.onTextboxChangeSpots = this.onTextboxChangeSpots.bind(this);
+        this.updateSpots = this.updateSpots.bind(this);
+        this.updateStateTrueOrFalse = this.updateStateTrueOrFalse.bind(this);
+        this.onTextboxChangeInstructions = this.onTextboxChangeInstructions.bind(this);
+        this.updateInstructions = this.updateInstructions.bind(this);
     }
 
 
@@ -48,21 +62,34 @@ class Dashboard extends Component {
     // gets info based on token
     componentDidMount() {
         fetch('/api/account/rates/' + this.state.token)
-            .then(res => res.json())
-            .then(user => {
-                const { Daily, Weekly, Hourly, Monthly, Overnight } = user[0]
-                console.log(this.state.token)
-                console.log(user[0].Daily)
-                console.log(this.state.user)
-                this.setState({
-                    user: user[0],
-                    displayDaily: Daily,
-                    displayHourly: Hourly,
-                    displayWeekly: Weekly,
-                    displayMonthly: Monthly,
-                    displayOvernight: Overnight,
-                })
-            }, () => console.log("user array", this.state.user, "this users token", this.state.token))
+        .then(res => res.json())
+        .then(user => {
+            const { Daily, Weekly, Hourly, Monthly, Overnight, Description, Active_State, Spots, Instructions } = user[0]
+            // console.log(Instructions)
+            // console.log(user[0].Daily)
+            // console.log(this.state.user)
+            let ActiveState = ''
+            if (Active_State < 1) {
+                ActiveState = "De-activated"
+            } 
+            if (Active_State > 0) {
+                ActiveState = "Activated"
+            }
+            this.setState({
+                user: user[0],
+                displayDaily: Daily,
+                displayHourly: Hourly,
+                displayWeekly: Weekly,
+                displayMonthly: Monthly,
+                displayOvernight: Overnight,
+                displayDescription: Description,
+                displayInstructions: Instructions,
+                displayState: ActiveState,
+                displaySpots: Spots
+                
+            })
+        // }, () => console.log("user array", this.state.user, "this users token", this.state.token))
+        }, () => console.log('success'))
     }
 
     // passes input values to state
@@ -90,15 +117,13 @@ class Dashboard extends Component {
         })
         .then(res => res.json())
         .then(json => {
-                // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
-                if (json.success) {
-                    this.setState({
-                        displayHourly: hourlyToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
-                    });
-                }
-            });
+            // set state for display
+            if (json.success) {
+                this.setState({
+                    displayHourly: hourlyToPostRequest
+                });
+            }
+        });
     }
 
     // passes input values to state
@@ -126,15 +151,13 @@ class Dashboard extends Component {
         })
         .then(res => res.json())
         .then(json => {
-                // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
-                if (json.success) {
-                    this.setState({
-                        displayDaily: dailyToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
-                    });
-                }
-            });
+            // set state for display
+            if (json.success) {
+                this.setState({
+                    displayDaily: dailyToPostRequest
+                });
+            }
+        });
     }
 
     onTextboxChangeWeekly(event) {
@@ -161,15 +184,13 @@ class Dashboard extends Component {
         })
         .then(res => res.json())
         .then(json => {
-                // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
-                if (json.success) {
-                    this.setState({
-                        displayWeekly: weeklyToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
-                    });
-                }
-            });
+            // set state for display
+            if (json.success) {
+                this.setState({
+                    displayWeekly: weeklyToPostRequest
+                });
+            }
+        });
     }
 
     onTextboxChangeMonthly(event) {
@@ -196,15 +217,13 @@ class Dashboard extends Component {
         })
         .then(res => res.json())
         .then(json => {
-                // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
-                if (json.success) {
-                    this.setState({
-                        displayMonthly: monthlyToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
-                    });
-                }
-            });
+            // set state for display
+            if (json.success) {
+                this.setState({
+                    displayMonthly: monthlyToPostRequest
+                });
+            }
+        });
     }
 
     onTextboxChangeOvernight(event) {
@@ -231,24 +250,190 @@ class Dashboard extends Component {
         })
         .then(res => res.json())
         .then(json => {
-                // set state for display
-                // const { displayCity, displayState, displayZipcode, displayAddress } = this.state
+            // set state for display
+            if (json.success) {
+                this.setState({
+                    displayOvernight: overnightToPostRequest
+                });
+            }
+        });
+    }
+
+    onTextboxChangeDescription(event) {
+        this.setState({
+            descriptionToPostRequest: event.target.value
+        });
+    }
+
+    updateDescription(event) {
+        event.preventDefault()
+        // Grab state
+        const { descriptionToPostRequest, token } = this.state;
+        // post to backend
+        console.log(descriptionToPostRequest)
+        fetch('/api/account/update/description', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                descriptionToPostRequest
+            })
+        })
+        .then(res => res.json())
+        .then(json => {
+            // set state for display
+            if (json.success) {
+                this.setState({
+                    displayDescription: descriptionToPostRequest
+                });
+            }
+        });
+    }
+
+    updateStateTrueOrFalse(event) {
+        event.preventDefault()
+        const inputState= event.target.value
+        // Grab state
+        const { token } = this.state;
+        // post to backend
+        fetch('/api/account/update/active', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                inputState
+            })
+        })
+        .then(res => res.json())
+        .then(json => {
+            // set state for display
+            if (json.success && json.new_active_state > 0) {
+                this.setState({
+                    displayState: "Activated"
+                });
+            }
+            if (json.success && json.new_active_state < 1) {
+                this.setState({
+                    displayState: "De-activated"
+                });
+            }
+        });
+    }
+
+    onTextboxChangeSpots(event) {
+        this.setState({
+            spotsToPostRequest: event.target.value
+        });
+    }
+
+     updateSpots(event) {
+         event.preventDefault()
+         // Grab spots
+         const { spotsToPostRequest, token } = this.state;
+         // post to backend
+         console.log(spotsToPostRequest, "what is going into the post request")
+         fetch('/api/account/update/spots', {
+             method: 'post',
+             headers: {
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+                 token,
+                 spotsToPostRequest
+             })
+         })
+         .then(res => res.json())
+         .then(json => {
                 if (json.success) {
                     this.setState({
-                        displayOvernight: overnightToPostRequest
-                        // displayFullAddress: displayAddress + ", " + displayCity + ", " + displayState + " " + zipcodeToPostRequest
+                        displaySpots: spotsToPostRequest
                     });
                 }
             });
-    }
+        }
+
+        onTextboxChangeInstructions(event) {
+            this.setState({
+                instructionsToPostRequest: event.target.value
+            });
+         }
+    
+         updateInstructions(event) {
+             event.preventDefault()
+             // Grab spots
+             const { instructionsToPostRequest, token } = this.state;
+             // post to backend
+             console.log(instructionsToPostRequest, "what is going into the post request")
+             fetch('/api/account/update/instructions', {
+                 method: 'post',
+                 headers: {
+                     'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify({
+                     token,
+                     instructionsToPostRequest
+                 })
+             })
+             .then(res => res.json())
+             .then(json => {
+                if (json.success) {
+                    this.setState({
+                        displayInstructions: instructionsToPostRequest
+                    });
+                }
+            });
+        }
 
     render() {
-        const { displayHourly, displayDaily, displayWeekly, displayMonthly, displayOvernight, token} = this.state
-        const { hourlyToPostRequest, dailyToPostRequest, weeklyToPostRequest, monthlyToPostRequest, overnightToPostRequest } = this.state
-        const { updateHourly, updateDaily, updateWeekly, updateMonthly, updateOvernight } = this
-        const { onTextboxChangeHourly, onTextboxChangeDaily, onTextboxChangeWeekly, onTextboxChangeMonthly, onTextboxChangeOvernight} = this
-        
-        console.log(displayDaily,"HERE!!!");
+        const {
+            displayHourly, 
+            displayDaily, 
+            displayWeekly, 
+            displayMonthly, 
+            displayOvernight,
+            displayDescription,
+            displayInstructions,
+            displayState,
+            displaySpots,
+            token, 
+            // complete
+        } = this.state
+        const { 
+            hourlyToPostRequest, 
+            dailyToPostRequest, 
+            weeklyToPostRequest,
+            monthlyToPostRequest, 
+            overnightToPostRequest, 
+            descriptionToPostRequest,
+            instructionsToPostRequest,
+            spotsToPostRequest
+            // stateToPostRequest 
+        } = this.state
+        const { 
+            updateHourly, 
+            updateDaily, 
+            updateWeekly, 
+            updateMonthly, 
+            updateOvernight, 
+            updateDescription,
+            updateInstructions, 
+            updateStateTrueOrFalse, 
+            updateSpots
+        } = this
+        const { 
+            onTextboxChangeHourly, 
+            onTextboxChangeDaily, 
+            onTextboxChangeWeekly, 
+            onTextboxChangeMonthly, 
+            onTextboxChangeOvernight, 
+            onTextboxChangeDescription,
+            onTextboxChangeInstructions, 
+            onTextboxChangeSpots
+        } = this
 
         if (!token) {
             return (
@@ -260,86 +445,211 @@ class Dashboard extends Component {
 
         return (
             <div>
-                {/* <DashboardNav />
-                <SideBar /> */}
-                <div className="container-flex">
+                <div className="container-flex pb-5">
                     <div className="row pb-3 pt-3 border-bottom text-center">
                         <div className="col-xl-12">
-                            <h4>Set Driveway Rates</h4>
+                            <h4>Edit Driveway Information</h4>
+                        </div>
+                    </div>
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Driveway Active State</b></u></h5>
+                            <p>(when set to active, your driveway will be available to the public)</p>
+                        </div>
+                    </div>
+                    {/* active state of driveway, active or de-active buttons */}
+                    <div className="row mt-2 text-dark text-center justify-content-center">
+                        <div className="col-sm-2 col-xs-6">
+                            <h6 className="border-right">Driveway State</h6>
+                        </div>
+                        <div className="col-sm-3 col-xs-6">
+                            {displayState}
+                        </div>
+                        
+                        <form id="state_change" method="POST" action='/api/account/update/active'></form>
+
+                        <div className="col-sm-2 col-xs-2">
+                            <div className="row">
+                                <div className="col">
+                                    <button
+                                        type="button"
+                                        className="btn btn-sm btn-block btn-primary"
+                                        value="1"
+                                        form="state_change"
+                                        onClick={updateStateTrueOrFalse}
+                                    >
+                                        Activate
+                                    </button>
+                                </div>
+                                <div className="col">
+                                    <button
+                                        type="button"
+                                        className="btn btn-sm btn-block btn-primary"
+                                        value="0"
+                                        form="state_change"
+                                        onClick={updateStateTrueOrFalse}
+                                    >
+                                        De-activate
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Driveway Rates</b></u></h5>
+                            <p>(set rates based on time, additional fees can be found <a href="/rates">here</a>)</p>
+                        </div>
+                    </div>
+                    <PersonalInfoRow
+                        header={"Hourly"}
+                        displayText={'$' + displayHourly}
+                        id={"update_Hourly"}
+                        action={"/api/account/update/rates/hourly"}
+                        type={"number"}
+                        inputId={"hourly"}
+                        value={hourlyToPostRequest}
+                        onChange={onTextboxChangeHourly}
+                        placeholder={"hourly"}
+                        onClick={updateHourly}
+                        buttonText={"submit"}
+                    />
+                    <PersonalInfoRow
+                        header={"Daily"}
+                        displayText={'$'+displayDaily}
+                        id={"update_Daily"}
+                        action={"/api/account/update/rates/daily"}
+                        type={"number"}
+                        inputId={"daily"}
+                        value={dailyToPostRequest}
+                        onChange={onTextboxChangeDaily}
+                        placeholder={"daily"}
+                        onClick={updateDaily}
+                        buttonText={"submit"}
+                    />
+                    <PersonalInfoRow
+                        header={"Weekly"}
+                        displayText={'$'+displayWeekly}
+                        id={"update_Weekly"}
+                        action={"/api/account/update/rates/weekly"}
+                        type={"number"}
+                        inputId={"weekly"}
+                        value={weeklyToPostRequest}
+                        onChange={onTextboxChangeWeekly}
+                        placeholder={"weekly"}
+                        onClick={updateWeekly}
+                        buttonText={"submit"}
+                    />
+                    <PersonalInfoRow
+                        header={"Monthly"}
+                        displayText={'$'+displayMonthly}
+                        id={"update_Monthly"}
+                        action={"/api/account/update/rates/monthly"}
+                        type={"number"}
+                        inputId={"monthly"}
+                        value={monthlyToPostRequest}
+                        onChange={onTextboxChangeMonthly}
+                        placeholder={"monthly"}
+                        onClick={updateMonthly}
+                        buttonText={"submit"}
+                    />
+                    <PersonalInfoRow
+                        header={"Overnight"}
+                        displayText={'$'+displayOvernight}
+                        id={"update_Overnight"}
+                        action={"/api/account/update/rates/overnight"}
+                        type={"number"}
+                        inputId={"overnight"}
+                        value={overnightToPostRequest}
+                        onChange={onTextboxChangeOvernight}
+                        placeholder={"overnight"}
+                        onClick={updateOvernight}
+                        buttonText={"submit"}
+                    />
+                    <hr />
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Available Spots</b></u></h5>
+                            <div className="row pl-5 pr-5">
+                                <div className="col-sm-12">
+                                    (how many parking spots will be available)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <PersonalInfoRow
+                    header={"Spots"}
+                    displayText={displaySpots}
+                    id={"update_Spots"}
+                    action={"/api/account/update/spots"}
+                    type={"number"}
+                    inputId={"spots"}
+                    value={spotsToPostRequest}
+                    onChange={onTextboxChangeSpots}
+                    placeholder={"number of spots"}
+                    onClick={updateSpots}
+                    buttonText={"submit"}
+                    />
+                    <hr />
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Driveway Instructions</b></u></h5>
+                            <b>Example</b><br />
+                            <div className="row pl-5 pr-5">
+                                <div className="col-sm-12 pb-2">
+                                    "Please park as far back as you can. To the right side of the garage."
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                        
-                        <PersonalInfoRow
-                            header={"Hourly"}
-                            displayText={'$' + displayHourly}
-                            id={"update_Hourly"}
-                            action={"/api/account/update/rates/hourly"}
-                            type={"number"}
-                            inputId={"hourly"}
-                            value={hourlyToPostRequest}
-                            onChange={onTextboxChangeHourly}
-                            placeholder={"hourly"}
-                            onClick={updateHourly}
-                            buttonText={"submit"}
-                        />
-                       <PersonalInfoRow
-                            header={"Daily"}
-                            displayText={'$'+displayDaily}
-                            id={"update_Daily"}
-                            action={"/api/account/update/rates/daily"}
-                            type={"number"}
-                            inputId={"daily"}
-                            value={dailyToPostRequest}
-                            onChange={onTextboxChangeDaily}
-                            placeholder={"daily"}
-                            onClick={updateDaily}
-                            buttonText={"submit"}
-                        />
-                        <PersonalInfoRow
-                            header={"Weekly"}
-                            displayText={'$'+displayWeekly}
-                            id={"update_Weekly"}
-                            action={"/api/account/update/rates/weekly"}
-                            type={"number"}
-                            inputId={"weekly"}
-                            value={weeklyToPostRequest}
-                            onChange={onTextboxChangeWeekly}
-                            placeholder={"weekly"}
-                            onClick={updateWeekly}
-                            buttonText={"submit"}
-                        />
-                        <PersonalInfoRow
-                            header={"Monthly"}
-                            displayText={'$'+displayMonthly}
-                            id={"update_Monthly"}
-                            action={"/api/account/update/rates/monthly"}
-                            type={"number"}
-                            inputId={"monthly"}
-                            value={monthlyToPostRequest}
-                            onChange={onTextboxChangeMonthly}
-                            placeholder={"monthly"}
-                            onClick={updateMonthly}
-                            buttonText={"submit"}
-                        />
-                        <PersonalInfoRow
-                            header={"Overnight"}
-                            displayText={'$'+displayOvernight}
-                            id={"update_Overnight"}
-                            action={"/api/account/update/rates/overnight"}
-                            type={"number"}
-                            inputId={"overnight"}
-                            value={overnightToPostRequest}
-                            onChange={onTextboxChangeOvernight}
-                            placeholder={"overnight"}
-                            onClick={updateOvernight}
-                            buttonText={"submit"}
-                        />
+                    <PersonalInfoRowTextArea
+                    header={"Current Instructions"}
+                    displayText={displayInstructions}
+                    id={"update_Instructions"}
+                    action={"/api/account/update/instructions"}
+                    type={"textarea"}
+                    rows='3'
+                    inputId={"instructions"}
+                    value={instructionsToPostRequest}
+                    onChange={onTextboxChangeInstructions}
+                    placeholder={"write instructions here"}
+                    onClick={updateInstructions}
+                    buttonText={"submit"}
+                    />          
+                    <hr />
+                    <div className="row mt-3 text-dark text-center">
+                        <div className="col-sm-12">
+                            <h5 className="text-center"><u><b>Driveway Description</b></u></h5>
+                            <b>Example</b><br /> 
+                            <div className="row pl-5 pr-5">
+                                <div className="col-sm-12">
+                                        "Our driveway is right next to the local high school. Street parking is 
+                                        virtually nonexistent for friday night football games. A 2 minute walk to work
+                                            in the local downtown area. Great daily rates!"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <PersonalInfoRowTextArea
+                        header={"Current Description"}
+                        displayText={displayDescription}
+                        id={"update_Description"}
+                        action={"/api/account/update/description"}
+                        type={"text"}
+                        inputId={"description"}
+                        value={descriptionToPostRequest}
+                        onChange={onTextboxChangeDescription}
+                        placeholder={"description"}
+                        onClick={updateDescription}
+                        buttonText={"submit"}
+                    />
+   
                 </div>
             </div>
         )
-
-                
     }
 }
 

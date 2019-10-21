@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { getFromStorage } from '../utils/storage'
 import { Redirect } from 'react-router-dom'
+import store from 'store';
 
 
 const styles = {
@@ -22,7 +23,6 @@ const styles = {
 class Home extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             isLoading: false,
             token: '',
@@ -36,6 +36,13 @@ class Home extends Component {
         this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
         this.onTextboxChangeSignUpPasswordCheck = this.onTextboxChangeSignUpPasswordCheck.bind(this);
         this.onSignUp = this.onSignUp.bind(this);
+    }
+
+    // set token state to token value
+    UNSAFE_componentWillMount() {
+        localStorage.getItem('park_p2p') && this.setState({
+            token: store.get('park_p2p').token
+        })
     }
 
     onSignUp() {
@@ -54,26 +61,27 @@ class Home extends Component {
                 inputPasswordCheck: signUpPasswordCheck
             }),
             // json response
-        }).then(res => res.json())
-            // if json.success, set signUpError to json.msg which is "congrats"
-            .then(json => {
-                console.log('json', json);
-                if (json.success) {
-                    this.setState({
-                        signUpError: json.message,
-                        isLoading: false,
-                        signUpEmail: '',
-                        signUpPassword: '',
-                        signUpPasswordCheck: ''
-                    });
-                    // TODO: set msg here maybe will fix duplicate email
-                } else {
-                    this.setState({
-                        signUpError: json.message,
-                        isLoading: false
-                    });
-                }
-            });
+        })
+        .then(res => res.json())
+        // if json.success, set signUpError to json.msg which is "congrats"
+        .then(json => {
+            console.log('json', json);
+            if (json.success) {
+                this.setState({
+                    signUpError: json.message,
+                    isLoading: false,
+                    signUpEmail: '',
+                    signUpPassword: '',
+                    signUpPasswordCheck: ''
+                });
+                // TODO: set msg here maybe will fix duplicate email
+            } else {
+                this.setState({
+                    signUpError: json.message,
+                    isLoading: false
+                });
+            }
+        });
     }
 
     onTextboxChangeSignUpEmail(event) {
@@ -135,6 +143,7 @@ class Home extends Component {
             signUpError
         } = this.state;
         console.log(signUpError)
+        
         if (isLoading) {
             return (
                 <div>
@@ -143,13 +152,19 @@ class Home extends Component {
             );
         }
         if (signUpError === "congrats")
-            return (
-                <div>
+        return (
+            <div>
                     <Redirect to='/login' />
                 </div>
             )
-
-        if (!token) {
+            
+        if (token) {
+            return (
+                <div>
+                    <Redirect to='/' />
+                </div>
+            );
+        } else {
             return (
                 <div className="container-fluid pb-5 pt-5" style={styles.backgroundImage}>
 
@@ -216,11 +231,6 @@ class Home extends Component {
                 </div>
             );
         }
-        return (
-            <div>
-                {this.redirectToLogin()}
-            </div>
-        );
     }
 }
 
