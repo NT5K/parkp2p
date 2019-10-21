@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import store from 'store'
 import 'whatwg-fetch';
 import PersonalInfoRow from './PersonalInfoRow'
+import PersonalInfoRowTextArea from './PersonalInfoRowTextArea'
 
 
 class Dashboard extends Component {
@@ -607,12 +608,13 @@ class Dashboard extends Component {
                         </div>
                     </div>
 
-                    <PersonalInfoRow
+                    <PersonalInfoRowTextArea
                     header={"Instructions"}
                     displayText={displayInstructions}
                     id={"update_Instructions"}
                     action={"/api/account/update/instructions"}
-                    type={"text"}
+                    type={"textarea"}
+                    rows='3'
                     inputId={"instructions"}
                     value={instructionsToPostRequest}
                     onChange={onTextboxChangeInstructions}
@@ -635,7 +637,7 @@ class Dashboard extends Component {
                         </div>
                     </div>
 
-                    <PersonalInfoRow
+                    <PersonalInfoRowTextArea
                         header={"Description"}
                         displayText={displayDescription}
                         id={"update_Description"}
