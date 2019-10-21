@@ -51,6 +51,4 @@ require('./routes/ratesRoutes');
 require('./routes/carRoutes');
 require('./routes/signin');
 
-
-
-app.listen(port, () => `Server running on port ${port}`);
+app.listen(process.env.PORT || 5000, () => `Server running on port ${PORT}`);
