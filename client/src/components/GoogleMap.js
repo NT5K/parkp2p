@@ -146,7 +146,7 @@ class MapContainer extends Component {
                                         // url: "https://img.icons8.com/color/48/000000/map-pin.png"
                                     }}
                                 />
-                            }    
+                            }   
                         })}
                         {/* <InfoWindow
                             marker={this.state.activeMarker}

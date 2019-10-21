@@ -22,7 +22,7 @@ class Reservations extends Component {
 
     // gets info based on token
     componentDidMount() {
-        const { token, reservations } = this.state
+        const { token , reservations } = this.state
         fetch('/api/reservations/' + token)
         .then(res => res.json())
         .then(reservations => {
@@ -36,7 +36,7 @@ class Reservations extends Component {
     render() {
         let { reservations } = this.state
         const { token } = this.state
-
+        console.log(reservations)
         if (!token) {
             return (
                 <div>
@@ -56,7 +56,7 @@ class Reservations extends Component {
                     <div className="col-12 d-flex justify-content-center">
                         <div className="card-deck mb-3 text-center d-flex justify-content-between">
                             {reservations.map((row, i) => 
-                                <div key={i}>
+                                <div key={i} id={i}>
                                     <ReservationCard
                                         number={i + 1}
                                         address={row.Address}
@@ -71,6 +71,9 @@ class Reservations extends Component {
                                         end_time={row.End_Time}
                                         start_date={row.Start_Date}
                                         end_date={row.End_Date}
+                                        id={i}
+                                        rowID={row.ID}
+                                        makerID={row.MakerId}
                                     />
                                 </div>
                             )}

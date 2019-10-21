@@ -1,8 +1,8 @@
-import React, { Component }  from "react";
-import { Link } from 'react-router-dom'
-import { slide as Menu } from "react-burger-menu";
-import store from 'store'
-import { getFromStorage } from '../utils/storage'
+import /*React,*/ { Component }  from "react";
+// import { Link } from 'react-router-dom'
+// import { slide as Menu } from "react-burger-menu";
+// import store from 'store'
+// import { getFromStorage } from '../utils/storage'
 
 class BackgroundProcess extends Component {
 
@@ -26,7 +26,7 @@ class BackgroundProcess extends Component {
     
     render() {
     
-    const { time } = this.state
+    // const { time } = this.state
 
     //console.log(time.getMinutes() === 59)
     
