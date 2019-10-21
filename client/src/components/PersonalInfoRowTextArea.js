@@ -6,7 +6,7 @@ class PersonalInfoRowTextArea extends Component {
         return (
             <div className="row mt-2 text-dark text-center justify-content-center">
                 <div className="col-sm-2 col-xs-12">
-                    <h6 className="border-right">{this.props.header}</h6>
+                    <h6 className="border-right"><b>{this.props.header}</b></h6>
                 </div>
                 <div className="col-sm-3 col-xs-12">
                     {this.props.displayText}

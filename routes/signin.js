@@ -45,7 +45,7 @@ router.post('/api/account/signup', (req, res, next) => {
     const hashedPass = bcrypt.hashSync(inputPassword, saltRounds);
 
     // query's for database
-    const query = "INSERT INTO users (Email, Pass, Name, Phone_Number, Address, City, State, Zipcode, Longitude, Latitude, Car_Year, Car_Make, Car_Model, Car_Color, Spots, Active_State, Hourly, Daily, Weekly, Monthly, Overnight, Balance, Subscription, Description, Instructions) VALUES (?, ?, 'John Smith', '9871234321', '4321 Default Address Rd', 'New York', 'NY', '90210', null, null, 2112, 'make', 'model', 'color', 0, false, 1, 10, 40, 120, 12, 0, 0, 'This will be the spot where your description sits. Should contain details about the area and what makes your driveway a good spot.', 'This is where some parking instructions will be. Describe where a car should be parked in your driveway.');";
+    const query = "INSERT INTO users (Email, Pass, Name, Phone_Number, Address, City, State, Zipcode, Longitude, Latitude, Car_Year, Car_Make, Car_Model, Car_Color, Spots, Active_State, Hourly, Daily, Weekly, Monthly, Overnight, Balance, Credits, Subscription, Description, Instructions) VALUES (?, ?, 'John Smith', '9871234321', '4321 Default Address Rd', 'New York', 'NY', '90210', null, null, 2112, 'make', 'model', 'color', 0, false, 1, 10, 40, 120, 12, 0, 500, 0,  'This will be the spot where your description sits. Should contain details about the area and what makes your driveway a good spot.', 'This is where some parking instructions will be. Describe where a car should be parked in your driveway.');";
     const input = [inputEmail, hashedPass];
 
     connection.query(query, input, (err, result) => {

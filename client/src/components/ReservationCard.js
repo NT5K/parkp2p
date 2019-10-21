@@ -55,7 +55,7 @@ class ReservationCard extends Component {
                             <h4 className="">Reservation {number}</h4>
                         </div>
                         <div className="col-2">
-                            <p role="button" onClick={() => deleteRes(id)}> ✗ </p>
+                            <p role="button" onClick={() => deleteRes(id)}> x </p>
                         </div>
                     </div>
                 </div>
