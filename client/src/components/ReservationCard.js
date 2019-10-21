@@ -6,6 +6,7 @@ class ReservationCard extends Component {
         super(props);
         this.deleteRes = this.deleteRes.bind(this);
     }
+
     deleteRes = (idFromCard) => {
         // remove div by id 
         document.getElementById(idFromCard).remove()
@@ -32,20 +33,46 @@ class ReservationCard extends Component {
         });
     }
 
+    StartTimer(rowToChange) {
+        // event.preventDefault()
+        // // grab state
+        // const { rowID } = this.props
+        // post to backend
+        fetch('/api/create/timestamp/', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                rowID: rowToChange,
+                date: Date().now
+            })
+        })
+            .then(res => res.json())
+            .then(json => {
+                console.log('json', json);
+                // set state for display
+                if (json.success) {
+                   console.log('date added to database')
+                }
+            });
+    }
+
     render() {
-        const { deleteRes } = this
+        const { deleteRes, StartTimer } = this
         const { 
             number, id,
             address, city, state, zipcode, 
             rate, fee, 
             stay_type, 
             start_date, end_date, 
-            start_time, end_time
+            start_time, end_time, rowID
         } = this.props
 
         const startTime = convertTime(start_time);
         const endTime = convertTime(end_time);
         const rateWithFee = rate + fee
+        console.log(this.props.rowID)
         
         return (
             <div className="card mb-4 shadow-sm">
@@ -76,14 +103,17 @@ class ReservationCard extends Component {
                     <hr />
                     <h5>Time Since Arrival</h5>
                     <h5>00:25:00</h5>
+                    <form method="post" id="time_input" action='/api/create/timestamp/'></form>
                     <button
                         type="button"
                         className="btn btn-lg w-100 btn-block btn-primary"
                         value="Start Time"
-                        // onClick={"this.props.onClick"}
+                        form="time_input"
+                        onClick={() => StartTimer(rowID)}
                     >
                         Start Timer
                     </button>
+                    <h1>{rowID}</h1>
                 </div>
             </div>
         )
