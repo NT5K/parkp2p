@@ -24,7 +24,7 @@ router.get('/api/reservations/:token', (req, res) => {
 });
 
 //===========================================================================
-// create reservation
+// create reservation / remove one to makers spot count
 //===========================================================================
 
 router.post('/api/reserve/spot', (req, res) => {
@@ -40,7 +40,7 @@ router.post('/api/reserve/spot', (req, res) => {
         makerId,
         address, city, state, zipcode
     } = req.body;
-    if (!startDateValue || !startTimeValue || !endDateValue || !endTimeValue || !rateValue ) {
+    if (!startDateValue || !startTimeValue || !endDateValue || !endTimeValue || rateValue === "Rates" ) {
         return res.send({
             success: false,
             spotSubtract: false
@@ -65,7 +65,6 @@ router.post('/api/reserve/spot', (req, res) => {
             });
         };
     });
-
 
     const columnQuery = "SELECT * FROM users WHERE ID = ?;"; 
         connection.query(columnQuery, [makerId], (err, res) => {
@@ -95,3 +94,58 @@ router.post('/api/reserve/spot', (req, res) => {
         });
     });
 });
+//===========================================================================
+// delete reservation / add one to makers spot count
+//===========================================================================
+router.post('/api/reserve/remove', (req, res) => {
+    const { makerID, rowID } = req.body
+
+    const query1 = "DELETE FROM reservations WHERE ID = ?;";
+    const input1 = [rowID];
+
+    connection.query(query1, input1, (err, __) => {
+        if (err) {
+            console.log(err);
+            return res.send({
+                success: false,
+                message: 'Error deleting'
+            });
+        }
+        return res.send({
+            success: true,
+            message: 'success deleting'
+        });
+    });
+
+    const columnQuery = "SELECT * FROM users WHERE ID = ?;";
+    connection.query(columnQuery, [makerID], (err, res) => {
+        // catch any errors
+        if (err) {
+            console.log(err);
+            return res.status(500).send('failed');
+        };
+
+        const updateQuery = "UPDATE users SET ? WHERE ?;";
+        const updateSpotsCount = res[0].Spots + 1
+        const updateObject = [
+            {
+                Spots: updateSpotsCount
+            },
+            {
+                ID: makerID
+            }
+        ];
+
+        connection.query(updateQuery, updateObject, (err, data) => {
+            // catch any errors
+            if (err) {
+                console.log(err);
+                return res.send({
+                    success: true,
+                    message: 'success adding'
+                });
+            };
+        });
+    });
+    
+})

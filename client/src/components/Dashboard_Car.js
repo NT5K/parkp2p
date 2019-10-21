@@ -40,7 +40,7 @@ class Car extends Component {
     }
 
     componentDidMount() {
-        const { token, user } = this.state
+        const { token /*, user*/ } = this.state
         fetch('/api/account/personal/car/' + token)
         .then(res => res.json())
         .then(user => {

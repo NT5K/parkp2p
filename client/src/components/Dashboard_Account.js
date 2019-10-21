@@ -58,7 +58,7 @@ class Dashboard extends Component {
         fetch('/api/account/personal/' + token)
         .then(res => res.json())
         .then(user => {
-            const { Name, Email, Phone_Number , Address, City, Zipcode, State, Longitude, Latitude} = user[0] 
+            const { Name, Email, Phone_Number , Address, City, Zipcode, State /*, Longitude, Latitude*/ } = user[0] 
             this.setState({
                 user: user[0], 
                 displayFullName: Name,

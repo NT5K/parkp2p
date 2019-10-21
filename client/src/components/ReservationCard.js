@@ -2,33 +2,67 @@ import React, { Component } from "react";
 const convertTime = require('convert-time');
 
 class ReservationCard extends Component {
-    
+    constructor(props) {
+        super(props);
+        this.deleteRes = this.deleteRes.bind(this);
+    }
+    deleteRes = (idFromCard) => {
+        // remove div by id 
+        document.getElementById(idFromCard).remove()
+        const { rowID, makerID } = this.props
+        // remove column from reservations database
+        // add one to the makers spot count
+        fetch('/api/reserve/remove', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+               rowID,
+               makerID
+            })
+        })
+        .then(res => res.json())
+        .then(json => {
+            console.log('json', json);
+            // set state for display
+            if (json.success) {
+                console.log("spot deleted, spot added to maker")
+            } 
+        });
+    }
+
     render() {
+        const { deleteRes } = this
         const { 
-            number, 
+            number, id,
             address, city, state, zipcode, 
             rate, fee, 
             stay_type, 
             start_date, end_date, 
-            start_time, end_time 
+            start_time, end_time
         } = this.props
 
         const startTime = convertTime(start_time);
         const endTime = convertTime(end_time);
         const rateWithFee = rate + fee
-        // console.log(this.props)
         
         return (
             <div className="card mb-4 shadow-sm">
                 <div className="card-header">
-                    <h4 className="my-0 font-weight-normal">Reservation {number}</h4>
+                    <div className="row">
+                        <div className="col-10">
+                            <h4 className="">Reservation {number}</h4>
+                        </div>
+                        <div className="col-2">
+                            <p role="button" onClick={() => deleteRes(id)}> ✗ </p>
+                        </div>
+                    </div>
                 </div>
                 <div className="card-body">
                     <h5 className="card-title pricing-card-title">{address}</h5>
                     <h6 className="card-title pricing-card-title">{city}, {state} {zipcode}</h6>
                     <hr />
-                    
-                    <h6 className="card-title pricing-card-title"></h6>
                     <ul className="list-unstyled mt-3 mb-4">
                         <li>Rate: ${rate}/{stay_type}</li>
                         <li>Fee: ${fee}/{stay_type}</li>
@@ -37,7 +71,6 @@ class ReservationCard extends Component {
                     <hr />
                     <h6>Estimated Dates</h6>
                     <h5>{start_date} - {end_date}</h5>
-                    
                     <h6>Estimated Times</h6>
                     <h5>{startTime} - {endTime}</h5>
                     <hr />
@@ -47,7 +80,7 @@ class ReservationCard extends Component {
                         type="button"
                         className="btn btn-lg w-100 btn-block btn-primary"
                         value="Start Time"
-                        onClick={"this.props.onClick"}
+                        // onClick={"this.props.onClick"}
                     >
                         Start Timer
                     </button>
