@@ -642,7 +642,7 @@ class Dashboard extends Component {
                         inputId={"description"}
                         value={descriptionToPostRequest}
                         onChange={onTextboxChangeDescription}
-                        placeholder={"description"}
+                        placeholder={"write description here"}
                         onClick={updateDescription}
                         buttonText={"submit"}
                     />

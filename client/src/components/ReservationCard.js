@@ -42,6 +42,7 @@ class ReservationCard extends Component {
             // set state for display
             if (json.success) {
                 console.log("spot deleted, spot added to maker")
+                this.onCloseModal()
             } 
         });
     }
@@ -75,12 +76,12 @@ class ReservationCard extends Component {
         const { deleteRes, StartTimer, onOpenModal } = this
         const { open } = this.state;
         const { 
-            number, id,
+            number, id, rowID,
             address, city, state, zipcode, 
             rate, fee, 
             stay_type, 
             start_date, end_date, 
-            start_time, end_time, rowID,
+            start_time, end_time
         } = this.props
 
         const startTime = convertTime(start_time);
@@ -138,10 +139,7 @@ class ReservationCard extends Component {
                         {({ start }) => (
                             <React.Fragment>
                                 <div>
-                                    <Timer.Days /> days since parking<br />
-                                    <Timer.Hours /> hours since parking<br />
-                                    <Timer.Minutes /> minutes since parking<br />
-                                    <Timer.Seconds /> seconds since parking<br />
+                                    <h5><Timer.Days />:<Timer.Hours />:<Timer.Minutes />:<Timer.Seconds /></h5>
                                 </div>
                                 <div>
                                     <form method="post" id="time_input" action='/api/create/timestamp/'></form>
