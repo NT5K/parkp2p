@@ -596,6 +596,7 @@ class Dashboard extends Component {
                     onChange={onTextboxChangeInstructions}
                     placeholder={"write instructions here"}
                     onClick={updateInstructions}
+                    size='100px'
                     buttonText={"submit"}
                     />          
 

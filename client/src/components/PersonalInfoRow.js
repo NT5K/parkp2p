@@ -21,6 +21,8 @@ class PersonalInfoRow extends Component {
                             onChange={this.props.onChange}
                             className="form-control"
                             placeholder={this.props.placeholder}
+                            size={this.props.size}
+                            style={{height: this.props.size || '35px'}}
                             required
                         />
                     </form>
