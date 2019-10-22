@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Account from "./components/Dashboard_Account"
 import DashboardRoute from './pages/DashboardRoute'
+import Page404 from './pages/Page404'
 import storeFront from './pages/storeFront'
 import BackgroundProcess from './components/Background_Proccess'
 
@@ -21,6 +22,7 @@ class App extends Component {
             <Route exact path="/dashboard/account" component={Account} />
             <Route path="/dash" component={DashboardRoute} />
             <Route exact path="/about" component={storeFront} />
+            <Route component={Page404} />
           </Switch>
         </div>
       </Router>
