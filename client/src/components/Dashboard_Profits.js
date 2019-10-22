@@ -14,7 +14,7 @@ class Profits extends Component {
             token: '',
             displayBalance: '',
             balanceToPostRequest: '0',
-            displayCredit: '0'
+            displayCredit: ''
         };
 
 this.onTextboxChangeBalance = this.onTextboxChangeBalance.bind(this)
@@ -34,12 +34,12 @@ this.updateBalance = this.updateBalance.bind(this)
         fetch('/api/account/personal/profits/' + token)
         .then(res => res.json())
         .then(user => {
-            const { Balance } = user[0]
+            const { Balance, Credits } = user[0]
             console.log(user)
             this.setState({
                 user: user[0],
                 displayBalance: Balance,
-                //displayCredit: Credit               
+                displayCredit: Credits              
             })
         // }, () => console.log("user array", user, "this users token", token))
         }, () => console.log('success'))

@@ -30,7 +30,7 @@ router.get('/api/account/personal/:token', (req, res) => {
 // get profit page info from token
 //===========================================================================
 router.get('/api/account/personal/profits/:token', (req, res) => {
-    const query = "Select Balance FROM users WHERE ID = ?;";
+    const query = "Select Balance, Credits FROM users WHERE ID = ?;";
     const { token } = req.params
     const input = [token]
     connection.query(query, input, (err, result) => {
