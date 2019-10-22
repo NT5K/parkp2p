@@ -122,6 +122,7 @@ class Reservations extends Component {
                                         rowID={row.ID}
                                         makerID={row.MakerId}
                                         starttimer={row.starttimer}
+                                        stoptimer={row.stoptimer}
                                     />
                                 </div>
                             )}

@@ -7,7 +7,8 @@ const convertTime = require('convert-time');
 class ReservationCard extends Component {
     constructor(props) {
         super(props); this.state = {
-            open: false
+            open: false,
+            displayTime: '00:00:00'
         }
         this.deleteRes = this.deleteRes.bind(this);
     }
@@ -52,6 +53,7 @@ class ReservationCard extends Component {
         // // grab state
         // const { rowID } = this.props
         // post to backend
+        
         fetch('/api/create/timestamp/', {
             method: 'post',
             headers: {
@@ -59,7 +61,7 @@ class ReservationCard extends Component {
             },
             body: JSON.stringify({
                 rowID: rowToChange,
-                date: Date().now
+                // date: Date().now
             })
         })
             .then(res => res.json())
@@ -72,9 +74,37 @@ class ReservationCard extends Component {
             });
     }
 
+    StopTimer(rowToChange) {
+        let stopDate = new Date(this.props.stoptimer);
+        let date2 = new Date(this.props.starttimer);
+        let calculatedTime = new DateDiff(stopDate, date2);
+        let rateWithFee = this.props.rate + this.props.fee;
+        fetch('/api/stop/timestamp/', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                rowID: rowToChange,
+                date: Date().now,
+                makerID: this.props.makerID,
+                bill: calculatedTime.hours()*rateWithFee
+                
+            })
+        })
+            .then(res => res.json())
+            .then(json => {
+                console.log('json', json);
+                // set state for display
+                if (json.success) {
+                   console.log('stop time added to database')
+                }
+            })
+    }
+
     render() {
         const { deleteRes, StartTimer, onOpenModal } = this
-        const { open } = this.state;
+        const { open, displayTime} = this.state;
         const { 
             number, id, rowID,
             address, city, state, zipcode, 
@@ -93,6 +123,7 @@ class ReservationCard extends Component {
         let diff = new DateDiff(date1, date2);
         diff.years();
         diff.months();
+        console.log('dif days',diff.seconds())
         diff.days();
         diff.weeks();
         diff.hours();
@@ -132,14 +163,18 @@ class ReservationCard extends Component {
                     <h5>{startTime} - {endTime}</h5>
                     <hr />
                     <h5>Time Since Arrival</h5>
+                    <h5>{displayTime}</h5>
                     <Timer
                         initialTime={diff.difference}
                         direction="forward"
-                        startImmediately={true}>
-                        {({ start }) => (
+                        startImmediately={true}
+                        onStart={() => StartTimer(rowID)}
+                        onStop={() => this.StopTimer(rowID)}>
+                        {({ start, stop }) => (
                             <React.Fragment>
                                 <div>
                                     <h5><Timer.Days />:<Timer.Hours />:<Timer.Minutes />:<Timer.Seconds /></h5>
+                                
                                 </div>
                                 <div>
                                     <form method="post" id="time_input" action='/api/create/timestamp/'></form>
@@ -147,15 +182,24 @@ class ReservationCard extends Component {
                                         type="button"
                                         className="btn btn-lg w-100 btn-block btn-primary"
                                         value="Start Time"
+                                        id="startButton"
                                         form="time_input"
-                                        onClick={() => StartTimer(rowID)}
+                                        onClick={start}
+                                        
                                     >
                                         Start Timer
+                                    </button>
+                                    <button 
+                                    type="button"
+                                    className="btn btn-lg w-100 btn-block btn-primary"
+                                    form="time_input"
+                                    onClick={stop}
+                                    >Stop Timer
                                     </button>
                                 </div>
                             </React.Fragment>
                         )}
-                    </Timer>    
+                    </Timer>     
                 </div>
             </div>
         )
