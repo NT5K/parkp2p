@@ -50,7 +50,7 @@ router.post('/api/reserve/spot', (req, res) => {
     console.log("local token", token)
     // console.log("active state change", inputState)
 
-    const query = "INSERT INTO reservations(Token, MakerId, Longitude, Latitude, Address, City, State, Zipcode, Stay_Type, Start_Date, End_Date, Start_Time, End_Time, Car, Rate, Fee, Cost, Active) VALUES (?, ?, '0', '0', ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Car', ?, ?, 0, false)";
+    const query = "INSERT INTO reservations(Token, MakerId, Longitude, Latitude, Address, City, State, Zipcode, Stay_Type, Start_Date, End_Date, Start_Time, End_Time, Car, Rate, Fee, Cost, Active, starttimer) VALUES (?, ?, '0', '0', ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Car', ?, ?, 0, false, '')";
     const input = [token, makerId, address, city, state, zipcode, rateType, startDateValue, endDateValue, startTimeValue, endTimeValue, rateValue, feeValue]
 
     connection.query(query, input, (err, result) => {
