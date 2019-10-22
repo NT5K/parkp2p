@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, /*InfoWindow,*/ Marker } from 'google-maps-react';
 import ExampleData from './ExampleData';
+import store from 'store'
 // import './GoogleMap.css';
 // import StreetView from './StreetView';
 // require('dotenv').config()
-
 // const styles = require('./GoogleMapStyles.json')
+
 class MapContainer extends Component {
     constructor(props) {
         super(props);
@@ -18,22 +19,42 @@ class MapContainer extends Component {
             },
             showingInfoWindow: false,  //Hides or the shows the infoWindow
             activeMarker: {},          //Shows the active marker upon click
-            selectedPlace: {},
+            selectedPlace: '',
             Address: '',
             address: '',
             lat: 0,
             lng: 0,
-            marker: []
+            marker: [],
+            token: '',
+            personLoggedIn: {}
         };
+
         this.onMarkerClick = this.onMarkerClick.bind(this);
+    }
+
+    // set token state to token value
+    UNSAFE_componentWillMount() {
+        localStorage.getItem('park_p2p') && this.setState({
+            token: store.get('park_p2p').token
+        })
     }
 
     componentDidMount() {
         fetch('/api/public/driveways')
-            .then(res => res.json())
-            .then(marker => this.setState({ marker }))
-            .then( () => console.log("successful markers data fetch"))
-            .catch(err => console.log(err));
+        .then(res => res.json())
+        .then(marker => 
+            this.setState({ 
+                marker,
+                personLoggedIn: this.state.marker[this.state.token - 1]
+            }))
+        .then(()=> 
+            this.setState({
+                selectedPlace: this.state.marker[this.state.token - 1]
+            }))
+        .then( () => console.log("successful markers data fetch"))
+        // .then( () => console.log("this is the person logged in", this.state.marker[this.state.token - 1]))
+        // .then( () => console.log("this is the person logged in", this.state.personLoggedIn.Description))
+        .catch(err => console.log(err));
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -44,7 +65,7 @@ class MapContainer extends Component {
     }
 
     onMarkerClick(locationString) {
-        console.log("LOCATION STRING", locationString)
+        // console.log("LOCATION STRING", locationString)
         this.setState({
             selectedPlace: locationString
         })
@@ -60,10 +81,13 @@ class MapContainer extends Component {
     };
 
     render() {
-        let { marker} = this.state
+        let { marker /*personLoggedIn, selectedPlace*/} = this.state
+        // console.log("selectedPlace",selectedPlace)
+        // console.log("selectedPlace LENGTH", Object.keys(selectedPlace).length)
+        // console.log("personLoggedIn", personLoggedIn)
         return (
             <div className="container-flex">
-                <div style={{ position: "relative", height: "50vh", width: "100vw" /*marginBottom: "3.5%"*/}} id="map">
+                <div style={{ position: "relative", height: "50vh", width: "100%" /*marginBottom: "3.5%"*/}} id="map">
                     <Map
                         centerAroundCurrentLocation={true}
                         google={this.props.google}
@@ -82,37 +106,48 @@ class MapContainer extends Component {
                         <Marker
                             onClick={this.onMarkerClick}
                             address={'You are Here'}
-                            label={"X"}
+                            // label={"X"}
                             // animation={2}
                             icon={{
-                                url: "http://maps.google.com/mapfiles/ms/icons/red.png"
+                                // url: "http://maps.google.com/mapfiles/ms/icons/red.png"
+                                // url: "https://img.icons8.com/plasticine/24/000000/map-pin.png"
+                                // url: "https://img.icons8.com/ios-filled/100/000000/standing-man.png"
+                                // url: "https://img.icons8.com/material-rounded/24/000000/standing-man.png"
+                                // url: "https://img.icons8.com/nolan/32/000000/street-view.png"
+                                url: "https://img.icons8.com/dusk/32/000000/street-view.png"
                             }}
                         />
-                        {marker.map(marker =>
+                        {marker.map(marker => {
+                            if(marker.Active_State > 0) {
+                                return <Marker
+                                    onClick={this.onMarkerClick}
+                                    key={marker.ID}
+                                    Address={marker.Address}
+                                    City={marker.City}
+                                    State={marker.State}
+                                    Zipcode={marker.Zipcode}
+                                    Description={marker.Description}
+                                    Instructions={marker.Instructions}
+                                    Hourly={marker.Hourly}
+                                    Daily={marker.Daily}
+                                    Weekly={marker.Weekly}
+                                    Monthly={marker.Monthly}
+                                    Spots={marker.Spots}
+                                    ID={marker.ID}
 
-                            <Marker
-                                onClick={this.onMarkerClick}
-                                key={marker.ID}
-                                address={marker.Address}
-                                city={marker.City}
-                                state={marker.State}
-                                zipcode={marker.Zipcode}
-                                description={marker.Description}
-                                hourly={marker.Hourly}
-                                daily={marker.Daily}
-                                weekly={marker.Weekly}
-                                monthly={marker.Monthly}
-                                spots={marker.Spots}
-                                id={marker.ID}
-
-                                // animation={1}
-                                position={{ lat: marker.Latitude, lng: marker.Longitude }}
-                                icon={{
-                                    url: "http://maps.google.com/mapfiles/ms/icons/green.png"
-                                }}
-                            />
-
-                        )}
+                                    // animation={1}
+                                    position={{ lat: marker.Latitude, lng: marker.Longitude }}
+                                    icon={{
+                                        url: "http://maps.google.com/mapfiles/ms/icons/green.png"
+                                        // url: "https://img.icons8.com/material-sharp/24/000000/garage-door.png"
+                                        // url: "https://img.icons8.com/color/48/000000/place-marker.png"
+                                        // url: "https://img.icons8.com/offices/16/000000/marker.png"
+                                        // url: "https://img.icons8.com/office/30/000000/marker.png"
+                                        // url: "https://img.icons8.com/color/48/000000/map-pin.png"
+                                    }}
+                                />
+                            }   
+                        })}
                         {/* <InfoWindow
                             marker={this.state.activeMarker}
                             visible={this.state.showingInfoWindow}
@@ -135,67 +170,3 @@ export default GoogleApiWrapper({
     // apiKey: process.env.REACT_APP_GOOGLE_API_KEY
     apiKey: 'AIzaSyAJRWCPrSP6XMDKu-wlDMZy0rBNhPQjo4g'
 })(MapContainer);
-
-// class MapContainer extends Component {
-
-
-    // state = {
-    //     showingInfoWindow: false,  //Hides or the shows the infoWindow
-    //     activeMarker: {},          //Shows the active marker upon click
-    //     selectedPlace: {}          //Shows the infoWindow to the selected place upon a marker
-    // };
-
-    // onMarkerClick = (props, marker, e) =>
-    //     this.setState({
-    //         selectedPlace: props,
-    //         activeMarker: marker,
-    //         showingInfoWindow: true
-    //     });
-
-    // onClose = props => {
-    //     if (this.state.showingInfoWindow) {
-    //         this.setState({
-    //             showingInfoWindow: false,
-    //             activeMarker: null
-    //         });
-    //     }
-    // };
-
-//     render() {
-//         return (
-//             <div style={{ ...styles.shadow, ...styles.zIndex }, { position: 'relative', width: '100vw', height: '80vh' } } >
-//                 <Map
-//                     google={this.props.google}
-//                     zoom={14}
-//                     style={mapStyles}
-//                     initialCenter={{
-//                         lat: 41.4993,
-//                         lng: -81.6944
-//                     }}
-                    // fullscreenControl={false}
-                    // streetViewControl={false}
-                    // mapTypeControl={false}
-//                 >
-                    // <Marker
-                    //     onClick={this.onMarkerClick}
-                    //     name={"Downtown Cleveland"}
-                    // />
-//                     <Marker
-//                         onClick={this.onMarkerClick}
-//                         name={"Browns Stadium"}
-//                         position={{ lat: 41.5061, lng: -81.6995 }}
-//                     />
-                    // <InfoWindow
-                    //     marker={this.state.activeMarker}
-                    //     visible={this.state.showingInfoWindow}
-                    //     onClose={this.onClose}
-                    // >
-                    //     <div>
-                    //         <h4>{this.state.selectedPlace.name}</h4>
-                    //     </div>
-                    // </InfoWindow>
-//                 </Map>
-//             </div>
-//         );
-//     }
-// }

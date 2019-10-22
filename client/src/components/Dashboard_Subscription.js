@@ -12,7 +12,6 @@ class Subscription extends Component {
             token: '',
             displaySubscription: '',
             subscriptionNumberToPostRequest: '',
-
             displayInfoRow1: '',
             displayInfoRow2: '',
             displayInfoRow3: '',
@@ -21,7 +20,6 @@ class Subscription extends Component {
 
         this.updateSubscription = this.updateSubscription.bind(this);
         // this.onClickSetNumberForPostRequest = this.onClickSetNumberForPostRequest.bind(this);
-
     }
 
     // set token state to token value
@@ -34,49 +32,49 @@ class Subscription extends Component {
     // gets info based on token
     componentDidMount() {
         fetch('/api/account/subscription/plan/' + this.state.token)
-            .then(res => res.json())
-            .then(user => {
-                const { Subscription } = user[0]
-                // console.log(this.state.token)
-                // console.log(this.state.user)
-                if (Subscription === 1) {
-                    this.setState({
-                        user: user[0],
-                        displaySubscription: Subscription,
-                        displayInfoRow1: "Price: $30/mo",
-                        displayInfoRow2: "No parking fees",
-                        displayInfoRow3: "Early Bird Reservations"
-                    })
-                }
-                else if (Subscription < 3 && Subscription > 1) {
-                    this.setState({
-                        user: user[0],
-                        displaySubscription: Subscription,
-                        displayInfoRow1: "Price: $50/mo",
-                        displayInfoRow2: "No parking fees",
-                        displayInfoRow3: "15% off spot price",
-                        displayInfoRow4: "Early Bird Reservations"
-                    })
-                }
-                else if (Subscription > 2) {
-                    this.setState({
-                        user: user[0],
-                        displaySubscription: Subscription,
-                        displayInfoRow1: "Price: $100/mo",
-                        displayInfoRow2: "15% off spot price",
-                        displayInfoRow3: "No charge for spots",
-                        displayInfoRow4: "Early Bird Reservations"
-                    })
-                } 
-                else if (Subscription < 1) {
-                    this.setState({
-                        user: user[0], 
-                        displaySubscription: Subscription,
-                        displayInfoRow1: "No Subscription",
-                        
-                    })
-                }
-            }, () => console.log("user array", this.state.user, "this users token", this.state.token))
+        .then(res => res.json())
+        .then(user => {
+            const { Subscription } = user[0]
+            // console.log(this.state.token)
+            // console.log(this.state.user)
+            if (Subscription === 1) {
+                this.setState({
+                    user: user[0],
+                    displaySubscription: Subscription,
+                    displayInfoRow1: "Price: $30/mo",
+                    displayInfoRow2: "No parking fees",
+                    displayInfoRow3: "Early Bird Reservations"
+                })
+            }
+            else if (Subscription < 3 && Subscription > 1) {
+                this.setState({
+                    user: user[0],
+                    displaySubscription: Subscription,
+                    displayInfoRow1: "Price: $60/mo",
+                    displayInfoRow2: "No parking fees",
+                    displayInfoRow3: "15% off spot price",
+                    displayInfoRow4: "Early Bird Reservations"
+                })
+            }
+            else if (Subscription > 2) {
+                this.setState({
+                    user: user[0],
+                    displaySubscription: Subscription,
+                    displayInfoRow1: "Price: $120/mo",
+                    displayInfoRow2: "No parking fees",
+                    displayInfoRow3: "No charge for spots",
+                    displayInfoRow4: "Early Bird Reservations"
+                })
+            } 
+            else if (Subscription < 1) {
+                this.setState({
+                    user: user[0], 
+                    displaySubscription: Subscription,
+                    displayInfoRow1: "No Subscription",
+                    
+                })
+            }
+        }, () => console.log("user array", this.state.user, "this users token", this.state.token))
     }
 
     onClickSetNumberForPostRequest(event) {
@@ -101,37 +99,37 @@ class Subscription extends Component {
                 inputSubscription
             })
         })
-            .then(res => res.json())
-            .then(json => {
-                // set state for display
-                if (json.success && json.subscription < 2) {
-                    this.setState({
-                        displaySubscription: inputSubscription,
-                        displayInfoRow1: "Price: $30/mo",
-                        displayInfoRow2: "No parking fees",
-                        displayInfoRow3: "Early Bird Reservations",
-                        displayInfoRow4: ""
-                    });
-                }
-                if (json.success && json.subscription > 1 && json.subscription < 3) {
-                    this.setState({
-                        displaySubscription: inputSubscription,
-                        displayInfoRow1: "Price: $50/mo",
-                        displayInfoRow2: "No parking fees",
-                        displayInfoRow3: "15% off spot price",
-                        displayInfoRow4: "Early Bird Reservations"
-                    });
-                }
-                if (json.success && json.subscription > 2) {
-                    this.setState({
-                        displaySubscription: inputSubscription,
-                        displayInfoRow1: "Price: $100/mo",
-                        displayInfoRow2: "No parking fees",
-                        displayInfoRow3: "No charge for spots",
-                        displayInfoRow4: "Early Bird Reservations"
-                    });
-                }
-            });
+        .then(res => res.json())
+        .then(json => {
+            // set state for display
+            if (json.success && json.subscription < 2) {
+                this.setState({
+                    displaySubscription: inputSubscription,
+                    displayInfoRow1: "Price: $30/mo",
+                    displayInfoRow2: "No parking fees",
+                    displayInfoRow3: "Early Bird Reservations",
+                    displayInfoRow4: ""
+                });
+            }
+            if (json.success && json.subscription > 1 && json.subscription < 3) {
+                this.setState({
+                    displaySubscription: inputSubscription,
+                    displayInfoRow1: "Price: $60/mo",
+                    displayInfoRow2: "No parking fees",
+                    displayInfoRow3: "15% off spot price",
+                    displayInfoRow4: "Early Bird Reservations"
+                });
+            }
+            if (json.success && json.subscription > 2) {
+                this.setState({
+                    displaySubscription: inputSubscription,
+                    displayInfoRow1: "Price: $120/mo",
+                    displayInfoRow2: "No parking fees",
+                    displayInfoRow3: "No charge for spots",
+                    displayInfoRow4: "Early Bird Reservations"
+                });
+            }
+        });
     }
 
     render() {
@@ -157,7 +155,6 @@ class Subscription extends Component {
         return (
             <div>
                 <div className="container-flex">
-
                     <div className="row pb-3 pt-3 border-bottom text-center">
                         <div className="col-xl-12">
                             <h4>Subscription Plans</h4>
@@ -214,7 +211,6 @@ class Subscription extends Component {
                             />
                         </div>
                     </div>
-                    
                 </div>
             </div>
         )

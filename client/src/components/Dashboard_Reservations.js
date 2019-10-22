@@ -9,27 +9,9 @@ class Reservations extends Component {
         super();
         this.state = {
             reservations: [],
-            token: '',
-            Token: '',
-            Longitude: '',
-            Latitude: '',
-            Address: '',
-            Hourly: '',
-            Daily: '',
-            Weekly: '',
-            Monthly: '',
-            Overnight: '',
-            Start_Date: '',
-            Start_Time: '',
-            Car: '',
-            Rate: '',
-            Fee: '',
-            Cost: '',
-            Active: ''
-            
+            token: ''
         };
     }
-
 
     // set token state to token value
     UNSAFE_componentWillMount() {
@@ -40,72 +22,21 @@ class Reservations extends Component {
 
     // gets info based on token
     componentDidMount() {
-        const { token, reservations } = this.state
+        const { token , reservations } = this.state
         fetch('/api/reservations/' + token)
         .then(res => res.json())
         .then(reservations => {
-            const { 
-                Token, 
-                Longitude, 
-                Latitude, 
-                Address, 
-                Hourly, 
-                Daily,
-                Weekly, 
-                Monthly, 
-                Overnight, 
-                Start_Date, 
-                Start_Time, 
-                Car, 
-                Rate, 
-                Fee, 
-                Cost, 
-                Active 
-            } = reservations[0]
             this.setState({
                 reservations,
-                Token,
-                Longitude,
-                Latitude,
-                Address,
-                Hourly,
-                Daily,
-                Weekly,
-                Monthly,
-                Overnight,
-                Start_Date,
-                Start_Time,
-                Car,
-                Rate,
-                Fee,
-                Cost,
-                Active
             })
-        }, () => console.log("reservations array", reservations, "this users token", token))
+        // }, () => console.log("reservations array", reservations, "this users token", token))
+        }, () => console.log("success"))
     }   
 
     render() {
         let { reservations } = this.state
-        const {
-            token,
-            Token,
-            Longitude,
-            Latitude,
-            Address,
-            Hourly,
-            Daily,
-            Weekly,
-            Monthly,
-            Overnight,
-            Start_Date,
-            Start_Time,
-            Car,
-            Rate,
-            Fee,
-            Cost,
-            Active
-        } = this.state
-
+        const { token } = this.state
+        console.log(reservations)
         if (!token) {
             return (
                 <div>
@@ -115,17 +46,17 @@ class Reservations extends Component {
         }
 
         return (
-            <div className="container-flex">
-                <div className="row pb-3 pt-3 border-bottom text-center">
-                    <div className="col-xl-12">
-                        <h4>Current Reservations</h4>
+            <div className="container">
+                <div className="row pb-2 pt-2 border-bottom text-center">
+                    <div className="col-12">
+                        <h4>My Reservations</h4>
                     </div>
                 </div>
-                <div className="row mt-5 ">
+                <div className="row mt-3 d-flex justify-content-between text-center">
                     <div className="col-12 d-flex justify-content-center">
-                        <div className="card-deck mb-3 text-center">
-                            {reservations.map((row, i) =>
-                                <div key={i}>
+                        <div className="card-deck mb-3 text-center d-flex justify-content-between">
+                            {reservations.map((row, i) => 
+                                <div key={i} id={i}>
                                     <ReservationCard
                                         number={i + 1}
                                         address={row.Address}
@@ -140,6 +71,10 @@ class Reservations extends Component {
                                         end_time={row.End_Time}
                                         start_date={row.Start_Date}
                                         end_date={row.End_Date}
+                                        id={i}
+                                        rowID={row.ID}
+                                        makerID={row.MakerId}
+                                        starttimer={row.starttimer}
                                     />
                                 </div>
                             )}
