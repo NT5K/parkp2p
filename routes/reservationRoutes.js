@@ -171,3 +171,54 @@ router.post('/api/create/timestamp/', (req, res) => {
         }
     })
 });
+
+//===========================================================================
+// push stop time to database
+//===========================================================================
+
+
+router.post('/api/stop/timestamp/', (req, res) => {
+    const { rowID, bill, makerID } = req.body
+    // const dateNow = Date()
+    const query = 'UPDATE reservations SET stoptimer = ? WHERE ID = ?'
+    const date = new Date()
+    console.log("DATE", new Date())
+    const input = [date, rowID]
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Failed to push date')
+        } else {
+            // console.log(result)
+            return res.json(result);
+        }
+    })
+
+    const columnQuery = "SELECT * FROM users WHERE ID = ?;";
+    connection.query(columnQuery, [makerID], (err, res) => {
+        // catch any errors
+        if (err) {
+            console.log(err);
+            return res.status(500).send('failed');
+        };
+
+        const updateQuery = "UPDATE users SET ? WHERE ?;";
+        const updatedBalance = res[0].Balance + bill
+        const updateObject = [
+            {
+                Balance: updatedBalance
+            },
+            {
+                ID: makerID
+            }
+        ];
+
+        connection.query(updateQuery, updateObject, (err, data) => {
+            // catch any errors
+            if (err) {
+                console.log(err);
+            };
+            console.log(updatedBalance)
+        });
+    });
+});
