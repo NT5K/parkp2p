@@ -10,6 +10,7 @@ import Account_Cancel from "./../components/Dashboard_Account_Cancel"
 import "./DashboardStyles.css";
 import SideBar from "../components/Sidebar";
 import Navbar from './../components/Dashboard_Nav_Top'
+// import Page404 from './Page404'
 // import BackgroundProcess from './../components/Background_Proccess'
 
 function Sidebar() {
@@ -26,6 +27,7 @@ function Sidebar() {
                 <Route exact path="/dash/cancel" component={Account_Cancel} />
                 <Route exact path="/dash/reservations" component={Reservations} />
                 <Route exact path="/dash/car" component={Car} />
+                {/* <Route component={Page404} /> */}
             </div>
         </BrowserRouter>
     );
