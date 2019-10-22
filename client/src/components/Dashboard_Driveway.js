@@ -477,6 +477,7 @@ class Dashboard extends Component {
                                         value="1"
                                         form="state_change"
                                         onClick={updateStateTrueOrFalse}
+                                        style={{width: '70px'}}
                                     >
                                         Activate
                                     </button>
@@ -488,6 +489,7 @@ class Dashboard extends Component {
                                         value="0"
                                         form="state_change"
                                         onClick={updateStateTrueOrFalse}
+                                        style={{width: '100px'}}
                                     >
                                         De-activate
                                     </button>
