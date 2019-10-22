@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route /* Switch */ } from "react-router-dom";
+import Profits from "./../components/Dashboard_Profits"
 import Account from "./../components/Dashboard_Account"
 import Driveway from './../components/Dashboard_Driveway'
 import Reservations from './../components/Dashboard_Reservations'
@@ -19,11 +20,11 @@ function Sidebar() {
             <SideBar />
             <Navbar />
                 {/* <Route exact path="/dash/profits" component={component goes here} /> */}
+                <Route exact path="/dash/profits" component={Profits} />
                 <Route exact path="/dash/" component={Account} />
                 <Route exact path="/dash/driveway" component={Driveway} />
                 <Route exact path="/dash/subscription" component={Subscription} />
                 <Route exact path="/dash/cancel" component={Account_Cancel} />
-                <Route exact path="/dash/profits" component={Account} />
                 <Route exact path="/dash/reservations" component={Reservations} />
                 <Route exact path="/dash/car" component={Car} />
                 {/* <Route component={Page404} /> */}
