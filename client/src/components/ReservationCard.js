@@ -11,6 +11,7 @@ class ReservationCard extends Component {
             displayTime: '00:00:00'
         }
         this.deleteRes = this.deleteRes.bind(this);
+        this.StartTimer = this.StartTimer.bind(this);
     }
 
     onOpenModal = () => {
@@ -48,7 +49,7 @@ class ReservationCard extends Component {
         });
     }
 
-    StartTimer(rowToChange) {
+    StartTimer(rowToChange, startTimeProp) {
         // event.preventDefault()
         // // grab state
         // const { rowID } = this.props
@@ -69,7 +70,12 @@ class ReservationCard extends Component {
                 console.log('json', json);
                 // set state for display
                 if (json.success) {
-                   console.log('date added to database')
+                    let date2 = new Date(startTimeProp);
+                    let date1 = new Date()
+                    let diff = new DateDiff(date1, date2);
+                    console.log('date added to database')
+                    console.log('calculated time ', diff.hours())
+                    
                 }
             });
     }
@@ -111,7 +117,8 @@ class ReservationCard extends Component {
             rate, fee, 
             stay_type, 
             start_date, end_date, 
-            start_time, end_time
+            start_time, end_time,
+            starttimer, endtimer
         } = this.props
 
         const startTime = convertTime(start_time);
@@ -184,7 +191,8 @@ class ReservationCard extends Component {
                                         value="Start Time"
                                         id="startButton"
                                         form="time_input"
-                                        onClick={start}
+                                        // onClick={start}
+                                        onClick={() => StartTimer(rowID, starttimer )}
                                         
                                     >
                                         Start Timer

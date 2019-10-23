@@ -52,7 +52,7 @@ class MapContainer extends Component {
                 selectedPlace: this.state.marker[this.state.token - 1]
             }))
         .then( () => console.log("successful markers data fetch"))
-        // .then( () => console.log("this is the person logged in", this.state.marker[this.state.token - 1]))
+        // .then( () => console.log("this is the person logged in", this.state.marker))
         // .then( () => console.log("this is the person logged in", this.state.personLoggedIn.Description))
         .catch(err => console.log(err));
     }
@@ -65,7 +65,7 @@ class MapContainer extends Component {
     }
 
     onMarkerClick(locationString) {
-        // console.log("LOCATION STRING", locationString)
+        console.log("LOCATION STRING", locationString)
         this.setState({
             selectedPlace: locationString
         })
@@ -134,6 +134,8 @@ class MapContainer extends Component {
                                     Monthly={marker.Monthly}
                                     Spots={marker.Spots}
                                     ID={marker.ID}
+                                    Name={marker.Name}
+                                    Phone={marker.Phone_Number}
 
                                     // animation={1}
                                     position={{ lat: marker.Latitude, lng: marker.Longitude }}
@@ -161,7 +163,9 @@ class MapContainer extends Component {
                         location={this.state.selectedPlace} 
                     />
                 </div>
+                
             </div>
+            
         );
     }
 }

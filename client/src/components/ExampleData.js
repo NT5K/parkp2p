@@ -3,6 +3,12 @@ import store from 'store'
 import 'whatwg-fetch';
 import { Redirect } from 'react-router-dom';
 // import StreetView from './StreetView';
+import moment, {days} from  'moment'
+
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+
+import { DateRangePicker } from 'react-dates';
 
 class Customers extends Component {
 
@@ -18,6 +24,11 @@ class Customers extends Component {
       endDateTimeValue: '',
       rateValue: '',
       displayMessage: '',
+
+
+      startDate: null,
+      endDate: null,
+      focusedInput: null,
     };
 
     this.onTextboxChangeStartDate = this.onTextboxChangeStartDate.bind(this);
@@ -72,19 +83,23 @@ class Customers extends Component {
     let rateFromInputNumber = ''
     let typeOfRate = ''
     let feeValue = ''
-
+    
     const { 
       Hourly, Daily, Weekly, Monthly, 
-      ID, Address, City, State, Zipcode 
+      ID, Address, City, State, Zipcode,
+      Name, Phone
     } = this.props.location
-    
+    console.log(Phone)
     const { 
       startDateValue,
       startTimeValue,
       endDateValue,
       endTimeValue,
       rateValue,
-      token
+      token,
+
+      startDate,
+      endDate,
     } = this.state;
 
     if (rateValue < 2 && rateValue > 0) {
@@ -130,7 +145,12 @@ class Customers extends Component {
         city: City,
         state: State,
         zipcode: Zipcode,
-        
+
+        name: Name,
+        phone: Phone,
+
+        startDate: moment(this.state.startDate).add(days, 'd').toString() ,
+        endDate: moment(this.state.endDate).add(days, 'd').toString()
       })
     })
     .then(res => res.json())
@@ -167,11 +187,14 @@ class Customers extends Component {
       onTextboxChangeRate, 
       reserveSpot 
     } = this
+    console.log('start date', moment(this.state.startDate).add(days, 'd').toString())
+    const startDateFromMoment = moment(this.state.startDate).add(days, 'd').toString()
+    const endDateFromMoment = moment(this.state.endDate).add(days, 'd').toString()
     const { 
       Description, Instructions,
       Address, City, State, Zipcode, 
       Hourly, Daily, Weekly, Monthly, 
-      Spots, /*ID*/
+      Spots, /*ID*/ Name, Phone
     } = this.props.location
 
     if (!token) {
@@ -230,7 +253,17 @@ class Customers extends Component {
                 <form className="reserve_spot" method="post" action="/api/reserve/spot">
                   <h5 className="card-title pricing-card-title">Approximate Length of stay</h5>
                   <div className="row">
-                    <div className="col-6">
+                    <DateRangePicker
+                      className="justify-content-between"
+                      startDateId="startDate"
+                      endDateId="endDate"
+                      startDate={this.state.startDate}
+                      endDate={this.state.endDate}
+                      onDatesChange={({ startDate, endDate }) => { this.setState({ startDate, endDate }) }}
+                      focusedInput={this.state.focusedInput}
+                      onFocusChange={(focusedInput) => { this.setState({ focusedInput }) }}
+                    />
+                    {/* <div className="col-6">
                       <h6>Start Date</h6>
                       <input
                         id="start_date"
@@ -240,7 +273,7 @@ class Customers extends Component {
                         className="mb-3 form-control date-local"
                         required>
                       </input>
-                    </div>
+                    </div> */}
                     <div className="col-6">
                       <h6>Start Time</h6>
                       <input
@@ -254,7 +287,7 @@ class Customers extends Component {
                     </div>
                   </div>
                 <div className="row">
-                  <div className="col-6">
+                  {/* <div className="col-6">
                     <h6>End Date</h6>
                     <input
                       id="end_date"
@@ -264,7 +297,7 @@ class Customers extends Component {
                         className="mb-3 form-control date-local"
                       required>
                     </input>
-                  </div>
+                  </div> */}
                   <div className="col-6">
                     <h6>End Time</h6>
                     <input
@@ -293,8 +326,10 @@ class Customers extends Component {
                   >
                     Reserve Now!
                   </button>
-                  
+                  <h3>{this.props.Phone}</h3>
                   <h6 className="pt-3">{displayMessage}</h6>
+                  {/* <h6 className="pt-3">Start Date : {startDateFromMoment}</h6>  */}
+                  {/* <h6 className="pt-3">End Date : {endDateFromMoment}</h6> */}
                 </form>  
               </div>
             </div>
