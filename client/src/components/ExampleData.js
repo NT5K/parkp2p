@@ -8,7 +8,7 @@ import moment, {days} from  'moment'
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
-import { DateRangePicker } from 'react-dates';
+import { DateRangePicker, SingleDatePicker } from 'react-dates';
 
 class Customers extends Component {
 
@@ -87,9 +87,9 @@ class Customers extends Component {
     const { 
       Hourly, Daily, Weekly, Monthly, 
       ID, Address, City, State, Zipcode,
-      Name, Phone
+      Name, Phone_Number
     } = this.props.location
-    console.log(Phone)
+    console.log(Phone_Number)
     const { 
       startDateValue,
       startTimeValue,
@@ -147,7 +147,7 @@ class Customers extends Component {
         zipcode: Zipcode,
 
         name: Name,
-        phone: Phone,
+        phone: Phone_Number,
 
         startDate: moment(this.state.startDate).add(days, 'd').toString() ,
         endDate: moment(this.state.endDate).add(days, 'd').toString()
@@ -241,83 +241,92 @@ class Customers extends Component {
               <h5>Available Spots: {Spots}</h5>
             </div>
           </div> {/* end first column */}
+
+
           <div className="col-md-5 col-xs-12">
             <div className="card text-center mb-4 shadow-sm">
               <div className="card-header">
-                <h4 className="my-0 font-weight-normal">Spot reservation form</h4>
+                <h4 className="my-0 font-weight-normal">Reservation form</h4>
               </div>
               <div className="card-body">
                 <h5 className="card-title pricing-card-title">{Address}</h5>
                 <h6 className="card-title pricing-card-title">{City} {State} {Zipcode}</h6>
                 <hr />
+                <select className="w-100 form-control" id="rate_value" onChange={onTextboxChangeRate}>
+                  <option value="blank">Rate Type</option>
+                  <option value="1">${Hourly}/hour (-12 hrs)</option>
+                  <option value="2">${Daily}/daily (+12 hrs)</option>
+                  <option value="3">${Weekly}/week (5 days)</option>
+                  <option value="4">${Monthly}/month (4 weeks)</option>
+                </select>
+                <hr />
                 <form className="reserve_spot" method="post" action="/api/reserve/spot">
-                  <h5 className="card-title pricing-card-title">Approximate Length of stay</h5>
+                  
+                 <div>
+                   <h6 className="card-title pricing-card-title">Week / Month</h6>
+                  <h5 className="card-title pricing-card-title">Reservation Length</h5>
                   <div className="row">
-                    <DateRangePicker
-                      className="justify-content-between"
-                      startDateId="startDate"
-                      endDateId="endDate"
-                      startDate={this.state.startDate}
-                      endDate={this.state.endDate}
-                      onDatesChange={({ startDate, endDate }) => { this.setState({ startDate, endDate }) }}
-                      focusedInput={this.state.focusedInput}
-                      onFocusChange={(focusedInput) => { this.setState({ focusedInput }) }}
-                    />
-                    {/* <div className="col-6">
-                      <h6>Start Date</h6>
-                      <input
-                        id="start_date"
-                        type="date"
-                        value={startDateValue}
-                        onChange={onTextboxChangeStartDate}
-                        className="mb-3 form-control date-local"
-                        required>
-                      </input>
-                    </div> */}
-                    <div className="col-6">
-                      <h6>Start Time</h6>
-                      <input
-                        id="start_time"
-                        type="time"
-                        value={startTimeValue}
-                        onChange={onTextboxChangeStartTime}
-                        className="mb-3 form-control time-local"
-                        required>
-                      </input>
+                    <div className="col-12">
+                      <DateRangePicker
+                        className="justify-content-between"
+                        startDateId="startDate"
+                        endDateId="endDate"
+                        startDate={this.state.startDate}
+                        endDate={this.state.endDate}
+                        onDatesChange={({ startDate, endDate }) => { this.setState({ startDate, endDate }) }}
+                        focusedInput={this.state.focusedInput}
+                        onFocusChange={(focusedInput) => { this.setState({ focusedInput }) }}
+                        orientation="vertical" verticalHeight={400}
+                      />
                     </div>
                   </div>
-                <div className="row">
-                  {/* <div className="col-6">
-                    <h6>End Date</h6>
-                    <input
-                      id="end_date"
-                      type="date"
-                      value={endDateValue}
-                      onChange={onTextboxChangeEndDate}
-                        className="mb-3 form-control date-local"
-                      required>
-                    </input>
-                  </div> */}
-                  <div className="col-6">
-                    <h6>End Time</h6>
-                    <input
-                      id="end_time"
-                      type="time"
-                      value={endTimeValue}
-                      onChange={onTextboxChangeEndTime}
-                      className="mb-3 form-control time-local"
-                      required>
-                    </input>
+                 </div>
+
+                  <div>
+                    <hr />
+                    <h6 className="card-title pricing-card-title">Hourly / Daily</h6>
+                    <h5 className="card-title pricing-card-title">Date / Time</h5>
+                    {/* <h6 className="card-title pricing-card-title">required for hourly stay</h6> */}
+                    <div className="row">
+                      <div className="col-12">
+                        <SingleDatePicker
+                          date={this.state.date} // momentPropTypes.momentObj or null
+                          onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
+                          focused={this.state.focused} // PropTypes.bool
+                          onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
+                          id="your_unique_id" // PropTypes.string.isRequired,
+                          orientation="vertical" verticalHeight={400}
+                          openDirection= "OPEN_UP"
+                      />
+                      </div>
+
+                      <div className="col-6">
+                        <h6>Start Time</h6>
+                        <input
+                          id="start_time"
+                          type="time"
+                          value={startTimeValue}
+                          onChange={onTextboxChangeStartTime}
+                          className="mb-3 form-control time-local"
+                          required>
+                        </input>
+                      </div>
+                      
+                      <div className="col-6">
+                        <h6>End Time</h6>
+                        <input
+                          id="end_time"
+                          type="time"
+                          value={endTimeValue}
+                          onChange={onTextboxChangeEndTime}
+                          className="mb-3 form-control time-local"
+                          required>
+                        </input>
+                      </div>
+                    </div>
                   </div>
-                </div>  
-                <hr />
-                  <select className="w-100 form-control" id="rate_value" onChange={onTextboxChangeRate}>
-                  <option value="blank">Rates</option>
-                    <option value="1">${Hourly}/hour (-12 hrs)</option>
-                    <option value="2">${Daily}/daily (+12 hrs)</option>
-                    <option value="3">${Weekly}/week (5 days)</option>
-                    <option value="4">${Monthly}/month (4 weeks)</option>
-                  </select>
+                  
+            
                   <hr />
                   <button
                     type="submit"
@@ -335,14 +344,14 @@ class Customers extends Component {
             </div>
           </div>
         </div> {/* end  big row */}
-          {/* <p>Start Date: {startDateValue}</p>
-          <p>Start Time: {startTimeValue}</p>
-          <p>End Date: {endDateValue}</p>
-          <p>End Time: {endTimeValue}</p>
-          <p>Rate: {rateValue}</p>
-          <p>{Date()}</p>
-          <p>OwnerId: {ID}</p>
-          <p>option name: {document.getElementById("rate_value").value}</p> */}
+          {/* <p>Start Date: {startDateValue}</p> */}
+          {/* <p>Start Time: {startTimeValue}</p> */}
+          {/* <p>End Date: {endDateValue}</p> */}
+          {/* <p>End Time: {endTimeValue}</p> */}
+          {/* <p>Rate: {rateValue}</p> */}
+          {/* <p>{Date()}</p> */}
+          {/* <p>OwnerId: {ID}</p> */}
+          {/* <p>option name: {document.getElementById("rate_value").value}</p> */}
       </div>
     );
   }
