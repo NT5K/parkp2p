@@ -55,7 +55,7 @@ router.post('/api/account/update/balance/withdraw', (req, res) => {
     console.log("balance change", newBalance)
     console.log("new balance: ", newBalance)
 
-    if (!newBalance) {
+    if (!newBalance && newBalance ==! 0) {
         console.log("Sending false!")
         return res.send({
             success: false,
