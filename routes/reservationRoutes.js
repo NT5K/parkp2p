@@ -204,30 +204,92 @@ router.post('/api/create/timestamp/', (req, res) => {
 
 
 router.post('/api/stop/timestamp/', (req, res) => {
-    const { rowID, bill, makerID } = req.body
-    // const dateNow = Date()
-    const query = 'UPDATE reservations SET stoptimer = ? WHERE ID = ?'
-    const date = new Date()
-    console.log("DATE", new Date())
-    const input = [date, rowID]
-    connection.query(query, input, (err, result) => {
+    const {bill, makerID, Token, ID} = req.body
+
+
+    const grabtokenid = "SELECT * FROM users WHERE ID = ?;";
+    connection.query(grabtokenid, [Token], (err, res) => {
+        // catch any errors
         if (err) {
             console.log(err);
-            return res.status(500).send('Failed to push date')
-        } else {
-            // console.log(result)
-            return res.json(result);
-        }
-    })
+            // return res.status(500).send('failed');
+        };
+
+        const tokenQuery = "UPDATE users SET ? WHERE ?;"
+        const updatedTokenBalance = res[0].Credits - bill
+        const updatedTokenObject = [
+            {
+                Credits: updatedTokenBalance
+            },
+            {
+                ID: Token
+            }
+        ]
+        connection.query(tokenQuery, updatedTokenObject, (err, _) => {
+            // catch any errors
+            if (err) {
+                console.log(err);
+            };
+            // console.log(updatedBalance)
+            console.log('this is credits from databse',res[0].Credits)
+            
+        });
+    });
+
+    const grabtokenid1 = "SELECT * FROM reservations WHERE ID = ?;";
+    connection.query(grabtokenid1, [ID], (err, res) => {
+        // catch any errors
+        if (err) {
+            console.log(err);
+            // return res.status(500).send('failed');
+        };
+
+        const queryforActiveState = 'UPDATE reservations SET ? WHERE ?'
+        const updatedTokenBalance = res[0].Active === 1
+        console.log("should be one: ",updatedTokenBalance)
+        const updatedTokenObject = [
+            {
+                Active: 1
+            },
+            {
+                ID: ID
+            }
+        ]
+        connection.query(queryforActiveState,updatedTokenObject, (err, _) => {
+            // catch any errors
+            if (err) {
+                console.log(err);
+            };
+            // console.log(updatedBalance)
+            // console.log('this is credits from databse',res[0].Credits)
+            
+        });
+    });
+    
+    // const queryforActiveState = 'UPDATE reservations SET Active = true WHERE ID = ?'
+    // connection.query(queryforActiveState, [ID], (err, _) => {
+    //     // catch any errors
+    //     if (err) {
+    //         console.log(err);
+    //     };
+    //     // console.log(updatedBalance)
+    //     // console.log('this is credits from databse',res[0].Credits)
+        
+    // });
+
+
+
 
     const columnQuery = "SELECT * FROM users WHERE ID = ?;";
     connection.query(columnQuery, [makerID], (err, res) => {
         // catch any errors
         if (err) {
             console.log(err);
-            return res.status(500).send('failed');
+            // return res.status(500).send('failed');
         };
 
+
+        
         const updateQuery = "UPDATE users SET ? WHERE ?;";
         const updatedBalance = res[0].Balance + bill
         const updateObject = [
@@ -238,13 +300,19 @@ router.post('/api/stop/timestamp/', (req, res) => {
                 ID: makerID
             }
         ];
-
-        connection.query(updateQuery, updateObject, (err, data) => {
+        console.log(res)
+        connection.query(updateQuery, updateObject, (err, _) => {
             // catch any errors
             if (err) {
                 console.log(err);
             };
-            console.log(updatedBalance)
+            // console.log(updatedBalance)
+            console.log('this is balance from databse',res[0].Balance)
+            
         });
     });
+                    return res.send({
+                        success: true,
+                        message: 'success adding'
+                    });
 });
