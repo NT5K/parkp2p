@@ -8,7 +8,9 @@ class ReservationCard extends Component {
         super(props); this.state = {
             open: false,
             open1: false,
-            displayTime: '00:00:00'
+            displayTime: '00:00:00',
+            message: JSON.stringify(this.props.activeState),
+            activeState: this.props.activeState
         }
         this.deleteRes = this.deleteRes.bind(this);
         // this.StartTimer = this.StartTimer.bind(this);
@@ -20,6 +22,9 @@ class ReservationCard extends Component {
 
     onOpenModal1 = () => {
         this.setState({ open1: true});
+        this.setState({
+    activeState: true
+        });
     };
 
     onCloseModal = () => {
@@ -29,6 +34,8 @@ class ReservationCard extends Component {
     onCloseModal1 = () => {
         this.setState({ open1: false });
     };
+
+    
 
     deleteRes = (idFromCard) => {
         // remove div by id 
@@ -91,6 +98,7 @@ class ReservationCard extends Component {
     payReservation() {
         let rateWithFee = this.props.rate + this.props.fee;
         let Token = this.props.Token
+        console.log("rowID",this.props.rowID)
         fetch('/api/stop/timestamp/', {
             method: 'post',
             headers: {
@@ -100,20 +108,24 @@ class ReservationCard extends Component {
                 // rowID: rowToChange,
                 makerID: this.props.makerID,
                 bill: rateWithFee,
-               Token: Token
+                Token: Token,
+                ID: this.props.rowID
                 
             })
         })
-            .then(res => res.json())
-            .then(json => {
-                console.log('json', json);
-                // set state for display
-                if (json.success) {
-                   console.log('Balance Updated in Database')
-                   console.log("Token passed", Token)
-                   this.onCloseModal1()
-                }
-            })
+        .then(res => res.json())
+        .then(json => {
+            console.log('json', json);
+            // set state for display
+            if (json.success) {
+                console.log('Balance Updated in Database')
+                console.log("Token passed", Token)
+                this.onCloseModal1()
+                this.setState({
+                    message: 'Active'
+                })
+            }
+        })
     }
 
     render() {
@@ -128,18 +140,13 @@ class ReservationCard extends Component {
             start_time, end_time,
             starttimer, endtimer
         } = this.props
-
-        const startTime = convertTime(start_time);
-        console.log(start_time)
-        const endTime = convertTime(end_time);
+        
         const rateWithFee = rate + fee
-        console.log(this.props.rowID)
         let date1 = new Date(start_date);
         let date2 = new Date(end_date);
         let diff = new DateDiff(date2, date1);
         diff.years();
         diff.months();
-        console.log('dif days',diff.seconds())
         diff.days();
         diff.weeks();
         diff.hours();
@@ -208,7 +215,12 @@ class ReservationCard extends Component {
                                 </div>
                             </React.Fragment>
                         )}
-                    </Timer>      */} <button  className="btn btn-lg w-100 btn-block btn-primary" onClick={onOpenModal1}> I'm Here </button> 
+                    </Timer>      */} 
+                    {
+                        (this.state.message < 1) ? <h6>Inactive</h6> : <h6>Active</h6>
+                    }
+                    {/* <p>{this.state.message}</p> */}
+                    <button  className="btn btn-lg w-100 btn-block btn-primary" onClick={onOpenModal1}> I'm Here </button> 
                                 <Modal open={open1} onClose={this.onCloseModal1} center>
                                 <h5 className="mt-5">This will charge you the rate <br/> of the premade reservation.</h5>
                                 <button className="btn btn-lg w-100 btn-block btn-primary" onClick={() => this.payReservation()}> Pay for Reservation </button>

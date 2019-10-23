@@ -204,7 +204,7 @@ router.post('/api/create/timestamp/', (req, res) => {
 
 
 router.post('/api/stop/timestamp/', (req, res) => {
-    const {bill, makerID, Token } = req.body
+    const {bill, makerID, Token, ID} = req.body
 
 
     const grabtokenid = "SELECT * FROM users WHERE ID = ?;";
@@ -236,6 +236,46 @@ router.post('/api/stop/timestamp/', (req, res) => {
         });
     });
 
+    const grabtokenid1 = "SELECT * FROM reservations WHERE ID = ?;";
+    connection.query(grabtokenid1, [ID], (err, res) => {
+        // catch any errors
+        if (err) {
+            console.log(err);
+            // return res.status(500).send('failed');
+        };
+
+        const queryforActiveState = 'UPDATE reservations SET ? WHERE ?'
+        const updatedTokenBalance = res[0].Active === 1
+        console.log("should be one: ",updatedTokenBalance)
+        const updatedTokenObject = [
+            {
+                Active: 1
+            },
+            {
+                ID: ID
+            }
+        ]
+        connection.query(queryforActiveState,updatedTokenObject, (err, _) => {
+            // catch any errors
+            if (err) {
+                console.log(err);
+            };
+            // console.log(updatedBalance)
+            // console.log('this is credits from databse',res[0].Credits)
+            
+        });
+    });
+    
+    // const queryforActiveState = 'UPDATE reservations SET Active = true WHERE ID = ?'
+    // connection.query(queryforActiveState, [ID], (err, _) => {
+    //     // catch any errors
+    //     if (err) {
+    //         console.log(err);
+    //     };
+    //     // console.log(updatedBalance)
+    //     // console.log('this is credits from databse',res[0].Credits)
+        
+    // });
 
 
 
