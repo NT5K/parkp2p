@@ -191,7 +191,7 @@ class Subscription extends Component {
                             />
                             <SubscriptionPlanCard
                                 plan={"Discount"}
-                                price={"50"}
+                                price={"60"}
                                 info1={"No parking fees"}
                                 info2={"15% off spot price"}
                                 info3={"Early Bird Reservations"}
@@ -201,7 +201,7 @@ class Subscription extends Component {
                             />
                             <SubscriptionPlanCard
                                 plan={"All Inclusive"}
-                                price={"100"}
+                                price={"120"}
                                 info1={"No parking fees"}
                                 info2={"No charge for spots"}
                                 info3={"Early Bird Reservations"}
