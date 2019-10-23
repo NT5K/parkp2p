@@ -7,18 +7,27 @@ class ReservationCard extends Component {
     constructor(props) {
         super(props); this.state = {
             open: false,
+            open1: false,
             displayTime: '00:00:00'
         }
         this.deleteRes = this.deleteRes.bind(this);
-        this.StartTimer = this.StartTimer.bind(this);
+        // this.StartTimer = this.StartTimer.bind(this);
     }
 
     onOpenModal = () => {
         this.setState({ open: true });
     };
 
+    onOpenModal1 = () => {
+        this.setState({ open1: true});
+    };
+
     onCloseModal = () => {
         this.setState({ open: false });
+    };
+
+    onCloseModal1 = () => {
+        this.setState({ open1: false });
     };
 
     deleteRes = (idFromCard) => {
@@ -48,53 +57,20 @@ class ReservationCard extends Component {
         });
     }
 
-    StartTimer(rowToChange, startTimeProp) {
-        // event.preventDefault()
-        // // grab state
-        // const { rowID } = this.props
-        // post to backend
+    // StartTimer(rowToChange, startTimeProp) {
+    //     // event.preventDefault()
+    //     // // grab state
+    //     // const { rowID } = this.props
+    //     // post to backend
         
-        fetch('/api/create/timestamp/', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                rowID: rowToChange,
-                // date: Date().now
-            })
-        })
-            .then(res => res.json())
-            .then(json => {
-                console.log('json', json);
-                // set state for display
-                if (json.success) {
-                    let date2 = new Date(startTimeProp);
-                    let date1 = new Date()
-                    let diff = new DateDiff(date1, date2);
-                    console.log('date added to database')
-                    console.log('calculated time ', diff.hours())
-                    
-                }
-            });
-    }
-
-    // StopTimer(rowToChange) {
-    //     let stopDate = new Date(this.props.stoptimer);
-    //     let date2 = new Date(this.props.starttimer);
-    //     let calculatedTime = new DateDiff(stopDate, date2);
-    //     let rateWithFee = this.props.rate + this.props.fee;
-    //     fetch('/api/stop/timestamp/', {
+    //     fetch('/api/create/timestamp/', {
     //         method: 'post',
     //         headers: {
     //             'Content-Type': 'application/json'
     //         },
     //         body: JSON.stringify({
     //             rowID: rowToChange,
-    //             date: Date().now,
-    //             makerID: this.props.makerID,
-    //             bill: calculatedTime.hours()*rateWithFee
-                
+    //             // date: Date().now
     //         })
     //     })
     //         .then(res => res.json())
@@ -102,14 +78,44 @@ class ReservationCard extends Component {
     //             console.log('json', json);
     //             // set state for display
     //             if (json.success) {
-    //                console.log('stop time added to database')
+    //                 let date2 = new Date(startTimeProp);
+    //                 let date1 = new Date()
+    //                 let diff = new DateDiff(date1, date2);
+    //                 console.log('date added to database')
+    //                 console.log('calculated time ', diff.hours())
+                    
     //             }
-    //         })
+    //         });
     // }
 
+    payReservation() {
+        let rateWithFee = this.props.rate + this.props.fee;
+        fetch('/api/stop/timestamp/', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                // rowID: rowToChange,
+                makerID: this.props.makerID,
+                bill: rateWithFee
+                
+            })
+        })
+            .then(res => res.json())
+            .then(json => {
+                console.log('json', json);
+                // set state for display
+                if (json.success) {
+                   console.log('Balance Updated in Database')
+                   this.onCloseModal1()
+                }
+            })
+    }
+
     render() {
-        const { deleteRes, StartTimer, onOpenModal } = this
-        const { open, displayTime} = this.state;
+        const { deleteRes, StartTimer, onOpenModal, onOpenModal1, payReservation} = this
+        const { open, open1, displayTime} = this.state;
         const { 
             number, id, rowID,
             address, city, state, zipcode, 
@@ -146,11 +152,13 @@ class ReservationCard extends Component {
                         </div>
                         <div className="col-2">
                             {/* <p role="button" onClick={() => deleteRes(id)}> x </p> */}
+                            
                             <p role="button" onClick={onOpenModal}> x </p>
                             <Modal open={open} onClose={this.onCloseModal} center>
                                 <h2 className="mt-5">Delete this reservation?</h2>
                                 <button className="btn btn-lg w-100 btn-block btn-primary" onClick={() => deleteRes(id)}> Yes </button>
                             </Modal>
+
                         </div>
                     </div>
                 </div>
@@ -165,7 +173,8 @@ class ReservationCard extends Component {
                     </ul>
                     <hr />
                     <h6>Estimated Dates</h6>
-                    <h5>{start_date} - {end_date}</h5>
+                    <h5>{start_date}</h5>
+                    <h5>{end_date}</h5>
                     <h6>Estimated Time</h6>
                     <h5>{diff.hours()} Hours</h5>
                     <hr />
@@ -196,18 +205,11 @@ class ReservationCard extends Component {
                                 </div>
                             </React.Fragment>
                         )}
-                    </Timer>      */}<form method="post" id="time_input" action='/api/create/timestamp/'> <button
-                                        type="button"
-                                        className="btn btn-lg w-100 btn-block btn-primary"
-                                        value="Start Time"
-                                        id="startButton"
-                                        form="time_input"
-                                        onClick={() => StartTimer(rowID)}
-                                        
-                                    >
-                                        Start Reservation
-                                    </button>
-                                    </form>
+                    </Timer>      */} <button  className="btn btn-lg w-100 btn-block btn-primary" onClick={onOpenModal1}> I'm Here </button> 
+                                <Modal open={open1} onClose={this.onCloseModal1} center>
+                                <h5 className="mt-5">This will charge you the rate <br/> of the premade reservation.</h5>
+                                <button className="btn btn-lg w-100 btn-block btn-primary" onClick={() => this.payReservation()}> Pay for Reservation </button>
+                            </Modal>
                 </div>
             </div>
         )
