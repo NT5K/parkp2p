@@ -22,6 +22,24 @@ router.get('/api/reservations/:token', (req, res) => {
         };
     });
 });
+//===========================================================================
+    //  get reservations based on makerID
+//============================================================================
+
+router.get('/api/reservations/maker/:token', (req, res) => {
+    const query = "SELECT * FROM reservations WHERE MakerID = ?;";     
+    const { token } = req.params
+    const input = [token]
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Failed to get info')
+        } else {
+            // console.log(result)
+            return res.json(result);
+        };
+    });
+});
 
 //===========================================================================
 // create reservation / remove one to makers spot count
@@ -38,20 +56,24 @@ router.post('/api/reserve/spot', (req, res) => {
         feeValue,
         token,
         makerId,
-        address, city, state, zipcode
+        address, city, state, zipcode,
+        name, phone,
+        startDate,
+        endDate
     } = req.body;
-    if (!startDateValue || !startTimeValue || !endDateValue || !endTimeValue || rateValue === "blank" ) {
-        return res.send({
-            success: false,
-            spotSubtract: false
-            // new_active_state: inputState
-        });
-    }
+    // const PHONE = JSON.stringify(phone)
+    // if (!startDateValue || !startTimeValue || !endDateValue || !endTimeValue || rateValue === "blank" ) {
+    //     return res.send({
+    //         success: false,
+    //         spotSubtract: false
+    //         // new_active_state: inputState
+    //     });
+    // }
     console.log("local token", token)
     // console.log("active state change", inputState)
 
-    const query = "INSERT INTO reservations(Token, MakerId, Longitude, Latitude, Address, City, State, Zipcode, Stay_Type, Start_Date, End_Date, Start_Time, End_Time, Car, Rate, Fee, Cost, Active, starttimer) VALUES (?, ?, '0', '0', ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Car', ?, ?, 0, false, '')";
-    const input = [token, makerId, address, city, state, zipcode, rateType, startDateValue, endDateValue, startTimeValue, endTimeValue, rateValue, feeValue]
+    const query = "INSERT INTO reservations(Token, MakerId, Customer_Name, Phone_Number, Longitude, Latitude, Address, City, State, Zipcode, Stay_Type, Start_Date, End_Date, Start_Time, End_Time, Car, Rate, Fee, Cost, Active, starttimer) VALUES (?, ?, ?, ?, '0', '0', ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Car', ?, ?, 0, false, '')";
+    const input = [token, makerId, name, phone, address, city, state, zipcode, rateType, startDate, endDate, startTimeValue, endTimeValue, rateValue, feeValue]
 
     connection.query(query, input, (err, result) => {
         if (err) {
@@ -167,7 +189,11 @@ router.post('/api/create/timestamp/', (req, res) => {
             return res.status(500).send('Failed to push date')
         } else {
             // console.log(result)
-            return res.json(result);
+            // return res.json(result);return res.send({
+            return res.send({
+                success: true,
+                message: 'added start time of reservation to database'
+            });
         }
     })
 });

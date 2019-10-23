@@ -389,7 +389,7 @@ class Dashboard extends Component {
                     <div className="row mt-3 text-dark text-center">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>Contact Information</b></u></h5>
-                            <p>(personal information only you can see)</p>
+                            <p>(when a reservation is made, the driveway owner will see your name and phone number)</p>
                         </div>
                     </div>
                     <PersonalInfoRow
