@@ -12,6 +12,9 @@ const styles = {
     backgroundImage: {
         backgroundImage: "url('../../images/noSpots.jpg')",
         height: "100vh",
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
         // backgroundRepeat: "initial"
     },
     shadow: {

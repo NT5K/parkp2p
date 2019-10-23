@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import store from 'store'
 import 'whatwg-fetch';
 import { Redirect } from 'react-router-dom';
-// import StreetView from './StreetView';
 import moment, {days} from  'moment'
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import { DateRangePicker, SingleDatePicker } from 'react-dates';
 import Datetime from 'react-datetime';
+// import { DateRangePicker } from 'react-dates';
 
 class Customers extends Component {
 
@@ -70,9 +70,6 @@ class Customers extends Component {
 
   onTextboxChangeRate(event) {
     const selectedValue = document.getElementById("rate_value").value
-    // const selectedName = document.getElementById("rate_value").data
-    console.log("selected value",selectedValue)
-    // console.log("selected name",selectedName)
     this.setState({
       rateValue: selectedValue
     });
@@ -204,10 +201,7 @@ class Customers extends Component {
       endDateValue,
       endTimeValue,
       rateValue,
-      token,
-
-      startDate,
-      endDate,
+      token
     } = this.state;
 
     if (rateValue < 2 && rateValue > 0) {
@@ -280,30 +274,23 @@ class Customers extends Component {
   render() {
     const { 
       token,
-      startDateValue, 
-      startTimeValue, 
-      endDateValue, 
+      startTimeValue,  
       endTimeValue, 
       // rateValue, 
       displayMessage  
     } = this.state
     const { 
-      onTextboxChangeStartDate, 
       onTextboxChangeStartTime, 
-      onTextboxChangeEndDate, 
       onTextboxChangeEndTime,  
       onTextboxChangeRate, 
       reserveSpot,
       reserveHourly
     } = this
-    console.log('start date', moment(this.state.startDate).add(days, 'd').toString())
-    const startDateFromMoment = moment(this.state.startDate).add(days, 'd').toString()
-    const endDateFromMoment = moment(this.state.endDate).add(days, 'd').toString()
     const { 
       Description, Instructions,
       Address, City, State, Zipcode, 
       Hourly, Daily, Weekly, Monthly, 
-      Spots, /*ID*/ Name, Phone
+      Spots /*ID*/
     } = this.props.location
 
     if (!token) {
@@ -453,8 +440,6 @@ class Customers extends Component {
                   </button>
                   <h3>{this.props.Phone}</h3>
                   <h6 className="pt-3">{displayMessage}</h6>
-                  {/* <h6 className="pt-3">Start Date : {startDateFromMoment}</h6>  */}
-                  {/* <h6 className="pt-3">End Date : {endDateFromMoment}</h6> */}
                 </form>  
               </div>
             </div>

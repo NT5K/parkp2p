@@ -126,6 +126,7 @@ class Reservations extends Component {
                                         activeState={row.Active}
                                         name={row.Name}
                                         phone={row.Phone}
+                                        Token={row.Token}
                                     />
                                 </div>
                             )}
