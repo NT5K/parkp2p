@@ -48,7 +48,7 @@ class ReservationCard extends Component {
         });
     }
 
-    StartTimer(rowToChange) {
+    StartReservation(rowToChange) {
         // event.preventDefault()
         // // grab state
         // const { rowID } = this.props
@@ -74,33 +74,33 @@ class ReservationCard extends Component {
             });
     }
 
-    StopTimer(rowToChange) {
-        let stopDate = new Date(this.props.stoptimer);
-        let date2 = new Date(this.props.starttimer);
-        let calculatedTime = new DateDiff(stopDate, date2);
-        let rateWithFee = this.props.rate + this.props.fee;
-        fetch('/api/stop/timestamp/', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                rowID: rowToChange,
-                date: Date().now,
-                makerID: this.props.makerID,
-                bill: calculatedTime.hours()*rateWithFee
+    // StopTimer(rowToChange) {
+    //     let stopDate = new Date(this.props.stoptimer);
+    //     let date2 = new Date(this.props.starttimer);
+    //     let calculatedTime = new DateDiff(stopDate, date2);
+    //     let rateWithFee = this.props.rate + this.props.fee;
+    //     fetch('/api/stop/timestamp/', {
+    //         method: 'post',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             rowID: rowToChange,
+    //             date: Date().now,
+    //             makerID: this.props.makerID,
+    //             bill: calculatedTime.hours()*rateWithFee
                 
-            })
-        })
-            .then(res => res.json())
-            .then(json => {
-                console.log('json', json);
-                // set state for display
-                if (json.success) {
-                   console.log('stop time added to database')
-                }
-            })
-    }
+    //         })
+    //     })
+    //         .then(res => res.json())
+    //         .then(json => {
+    //             console.log('json', json);
+    //             // set state for display
+    //             if (json.success) {
+    //                console.log('stop time added to database')
+    //             }
+    //         })
+    // }
 
     render() {
         const { deleteRes, StartTimer, onOpenModal } = this
@@ -117,18 +117,18 @@ class ReservationCard extends Component {
         const startTime = convertTime(start_time);
         const endTime = convertTime(end_time);
         const rateWithFee = rate + fee
-        console.log(this.props.rowID)
-        let date1 = new Date();
-        let date2 = new Date(this.props.starttimer);
-        let diff = new DateDiff(date1, date2);
-        diff.years();
-        diff.months();
-        console.log('dif days',diff.seconds())
-        diff.days();
-        diff.weeks();
-        diff.hours();
-        diff.minutes();
-        diff.seconds();
+        // console.log(this.props.rowID)
+        // let date1 = new Date();
+        // let date2 = new Date(this.props.starttimer);
+        // let diff = new DateDiff(date1, date2);
+        // diff.years();
+        // diff.months();
+        // console.log('dif days',diff.seconds())
+        // diff.days();
+        // diff.weeks();
+        // diff.hours();
+        // diff.minutes();
+        // diff.seconds();
         
         return (
             <div className="card mb-4 shadow-sm">
@@ -162,9 +162,9 @@ class ReservationCard extends Component {
                     <h6>Estimated Times</h6>
                     <h5>{startTime} - {endTime}</h5>
                     <hr />
-                    <h5>Time Since Arrival</h5>
-                    <h5>{displayTime}</h5>
-                    <Timer
+                    {/* <h5>Time Since Arrival</h5>
+                    <h5>{displayTime}</h5> */}
+                    {/* <Timer
                         initialTime={diff.difference}
                         direction="forward"
                         startImmediately={true}
@@ -177,18 +177,8 @@ class ReservationCard extends Component {
                                 
                                 </div>
                                 <div>
-                                    <form method="post" id="time_input" action='/api/create/timestamp/'></form>
-                                    <button
-                                        type="button"
-                                        className="btn btn-lg w-100 btn-block btn-primary"
-                                        value="Start Time"
-                                        id="startButton"
-                                        form="time_input"
-                                        onClick={start}
-                                        
-                                    >
-                                        Start Timer
-                                    </button>
+                                    
+                                   
                                     <button 
                                     type="button"
                                     className="btn btn-lg w-100 btn-block btn-primary"
@@ -199,7 +189,18 @@ class ReservationCard extends Component {
                                 </div>
                             </React.Fragment>
                         )}
-                    </Timer>     
+                    </Timer>      */}<form method="post" id="time_input" action='/api/create/timestamp/'> <button
+                                        type="button"
+                                        className="btn btn-lg w-100 btn-block btn-primary"
+                                        value="Start Time"
+                                        id="startButton"
+                                        form="time_input"
+                                        onClick={() => StartTimer(rowID)}
+                                        
+                                    >
+                                        Start Reservation
+                                    </button>
+                                    </form>
                 </div>
             </div>
         )
