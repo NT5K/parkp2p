@@ -204,7 +204,41 @@ router.post('/api/create/timestamp/', (req, res) => {
 
 
 router.post('/api/stop/timestamp/', (req, res) => {
-    const {bill, makerID } = req.body
+    const {bill, makerID, Token } = req.body
+
+
+    const grabtokenid = "SELECT * FROM users WHERE ID = ?;";
+    connection.query(grabtokenid, [Token], (err, res) => {
+        // catch any errors
+        if (err) {
+            console.log(err);
+            // return res.status(500).send('failed');
+        };
+
+        const tokenQuery = "UPDATE users SET ? WHERE ?;"
+        const updatedTokenBalance = res[0].Credits - bill
+        const updatedTokenObject = [
+            {
+                Credits: updatedTokenBalance
+            },
+            {
+                ID: Token
+            }
+        ]
+        connection.query(tokenQuery, updatedTokenObject, (err, _) => {
+            // catch any errors
+            if (err) {
+                console.log(err);
+            };
+            // console.log(updatedBalance)
+            console.log('this is credits from databse',res[0].Credits)
+            
+        });
+    });
+
+
+
+
 
     const columnQuery = "SELECT * FROM users WHERE ID = ?;";
     connection.query(columnQuery, [makerID], (err, res) => {
@@ -214,6 +248,8 @@ router.post('/api/stop/timestamp/', (req, res) => {
             // return res.status(500).send('failed');
         };
 
+
+        
         const updateQuery = "UPDATE users SET ? WHERE ?;";
         const updatedBalance = res[0].Balance + bill
         const updateObject = [

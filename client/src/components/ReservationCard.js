@@ -90,6 +90,7 @@ class ReservationCard extends Component {
 
     payReservation() {
         let rateWithFee = this.props.rate + this.props.fee;
+        let Token = this.props.Token
         fetch('/api/stop/timestamp/', {
             method: 'post',
             headers: {
@@ -98,7 +99,8 @@ class ReservationCard extends Component {
             body: JSON.stringify({
                 // rowID: rowToChange,
                 makerID: this.props.makerID,
-                bill: rateWithFee
+                bill: rateWithFee,
+               Token: Token
                 
             })
         })
@@ -108,6 +110,7 @@ class ReservationCard extends Component {
                 // set state for display
                 if (json.success) {
                    console.log('Balance Updated in Database')
+                   console.log("Token passed", Token)
                    this.onCloseModal1()
                 }
             })
