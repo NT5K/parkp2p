@@ -204,28 +204,14 @@ router.post('/api/create/timestamp/', (req, res) => {
 
 
 router.post('/api/stop/timestamp/', (req, res) => {
-    const { rowID, bill, makerID } = req.body
-    // const dateNow = Date()
-    const query = 'UPDATE reservations SET stoptimer = ? WHERE ID = ?'
-    const date = new Date()
-    console.log("DATE", new Date())
-    const input = [date, rowID]
-    connection.query(query, input, (err, result) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send('Failed to push date')
-        } else {
-            // console.log(result)
-            return res.json(result);
-        }
-    })
+    const {bill, makerID } = req.body
 
     const columnQuery = "SELECT * FROM users WHERE ID = ?;";
     connection.query(columnQuery, [makerID], (err, res) => {
         // catch any errors
         if (err) {
             console.log(err);
-            return res.status(500).send('failed');
+            // return res.status(500).send('failed');
         };
 
         const updateQuery = "UPDATE users SET ? WHERE ?;";
@@ -238,13 +224,19 @@ router.post('/api/stop/timestamp/', (req, res) => {
                 ID: makerID
             }
         ];
-
-        connection.query(updateQuery, updateObject, (err, data) => {
+        console.log(res)
+        connection.query(updateQuery, updateObject, (err, _) => {
             // catch any errors
             if (err) {
                 console.log(err);
             };
-            console.log(updatedBalance)
+            // console.log(updatedBalance)
+            console.log('this is balance from databse',res[0].Balance)
+            
         });
     });
+                    return res.send({
+                        success: true,
+                        message: 'success adding'
+                    });
 });
