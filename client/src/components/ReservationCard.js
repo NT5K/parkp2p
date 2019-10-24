@@ -15,12 +15,12 @@ class ReservationCard extends Component {
         // this.StartTimer = this.StartTimer.bind(this);
     }
 
-    //onlcick for top right corner of the reservation X to open the modal
+    //onclick for top right corner of the reservation X to open the modal
     onOpenModal = () => {
         this.setState({ open: true });
     };
 
-    //onlcick for the bottom button of the reservation  to open the modal
+    //onclick for the bottom button of the reservation  to open the modal
     onOpenModal1 = () => {
         this.setState({ open1: true});
         // this.setState({
