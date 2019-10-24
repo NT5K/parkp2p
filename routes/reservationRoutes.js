@@ -5,6 +5,23 @@ const router = express.Router();
 module.exports = router;
 
 //===========================================================================
+    //  get all reservations
+//============================================================================
+
+router.get('/api/reservations/', (req, res) => {
+    const query = "SELECT * FROM reservations";     
+    connection.query(query, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Failed to get info')
+        } else {
+            // console.log(result)
+            return res.json(result);
+        };
+    });
+});
+
+//===========================================================================
     //  get reservations based on tokens
 //============================================================================
 
@@ -246,6 +263,63 @@ router.post('/api/reserve/remove', (req, res) => {
     });
     
 })
+
+//===========================================================================
+// delete reservation automatically
+//===========================================================================
+router.post('/api/reserve/remove/automatically', (req, res) => {
+    const { makerID, rowID } = req.body
+
+    const query1 = "DELETE FROM reservations WHERE ID = ?;";
+    const input1 = [rowID];
+
+    connection.query(query1, input1, (err, __) => {
+        if (err) {
+            console.log(err);
+            return res.send({
+                success: false,
+                message: 'Error deleting'
+            });
+        }
+        return res.send({
+            success: true,
+            message: 'success deleting'
+        });
+    });
+
+    const columnQuery = "SELECT * FROM users WHERE ID = ?;";
+    connection.query(columnQuery, [makerID], (err, res) => {
+        // catch any errors
+        if (err) {
+            console.log(err);
+            return res.status(500).send('failed');
+        };
+
+        const updateQuery = "UPDATE users SET ? WHERE ?;";
+        const updateSpotsCount = res.Spots + 1
+        const updateObject = [
+            {
+                Spots: updateSpotsCount
+            },
+            {
+                ID: makerID
+            }
+        ];
+
+        connection.query(updateQuery, updateObject, (err, data) => {
+            // catch any errors
+            if (err) {
+                console.log(err);
+            };
+                    return res.send({
+                        success: true,
+                        message: 'success adding'
+                    });
+        });
+    });
+    
+})
+
 
 //===========================================================================
 // push date to reservation row

@@ -58,6 +58,8 @@ class ReservationCardIncoming extends Component {
             name, phone
         } = this.props
 
+        console.log(this.props)
+
         const startTime = convertTime(start_time);
         const endTime = convertTime(end_time);
         const rateWithFee = rate + fee
