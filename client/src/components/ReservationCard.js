@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Modal from 'react-responsive-modal';
 import DateDiff from 'date-diff';
-const convertTime = require('convert-time');
 
 class ReservationCard extends Component {
     constructor(props) {
@@ -35,8 +34,6 @@ class ReservationCard extends Component {
         this.setState({ open1: false });
     };
 
-    
-
     deleteRes = (idFromCard) => {
         // remove div by id 
         document.getElementById(idFromCard).remove()
@@ -63,37 +60,6 @@ class ReservationCard extends Component {
             } 
         });
     }
-
-    // StartTimer(rowToChange, startTimeProp) {
-    //     // event.preventDefault()
-    //     // // grab state
-    //     // const { rowID } = this.props
-    //     // post to backend
-        
-    //     fetch('/api/create/timestamp/', {
-    //         method: 'post',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             rowID: rowToChange,
-    //             // date: Date().now
-    //         })
-    //     })
-    //         .then(res => res.json())
-    //         .then(json => {
-    //             console.log('json', json);
-    //             // set state for display
-    //             if (json.success) {
-    //                 let date2 = new Date(startTimeProp);
-    //                 let date1 = new Date()
-    //                 let diff = new DateDiff(date1, date2);
-    //                 console.log('date added to database')
-    //                 console.log('calculated time ', diff.hours())
-                    
-    //             }
-    //         });
-    // }
 
     payReservation() {
         let rateWithFee = this.props.rate + this.props.fee;
@@ -129,29 +95,20 @@ class ReservationCard extends Component {
     }
 
     render() {
-        const { deleteRes, StartTimer, onOpenModal, onOpenModal1, payReservation} = this
-        const { open, open1, displayTime} = this.state;
+        const { deleteRes, onOpenModal, onOpenModal1} = this
+        const { open, open1} = this.state;
         const { 
-            number, id, rowID,
+            number, id,
             address, city, state, zipcode, 
             rate, fee, 
             stay_type, 
-            start_date, end_date, 
-            start_time, end_time,
-            starttimer, endtimer
+            start_date, end_date
         } = this.props
         
         const rateWithFee = rate + fee
         let date1 = new Date(start_date);
         let date2 = new Date(end_date);
         let diff = new DateDiff(date2, date1);
-        diff.years();
-        diff.months();
-        diff.days();
-        diff.weeks();
-        diff.hours();
-        diff.minutes();
-        diff.seconds();
         
         return (
             <div className="card mb-4 shadow-sm">
@@ -188,38 +145,9 @@ class ReservationCard extends Component {
                     <h6>Estimated Time</h6>
                     <h5>{diff.hours()} Hours</h5>
                     <hr />
-                    {/* <h5>Time Since Arrival</h5>
-                    <h5>{displayTime}</h5> */}
-                    {/* <Timer
-                        initialTime={diff.difference}
-                        direction="forward"
-                        startImmediately={true}
-                        onStart={() => StartTimer(rowID)}
-                        onStop={() => this.StopTimer(rowID)}>
-                        {({ start, stop }) => (
-                            <React.Fragment>
-                                <div>
-                                    <h5><Timer.Days />:<Timer.Hours />:<Timer.Minutes />:<Timer.Seconds /></h5>
-                                
-                                </div>
-                                <div>
-                                    
-                                   
-                                    <button 
-                                    type="button"
-                                    className="btn btn-lg w-100 btn-block btn-primary"
-                                    form="time_input"
-                                    onClick={stop}
-                                    >Stop Timer
-                                    </button>
-                                </div>
-                            </React.Fragment>
-                        )}
-                    </Timer>      */} 
                     {
                         (this.state.message < 1) ? <h6>Inactive</h6> : <h6>Active</h6>
                     }
-                    {/* <p>{this.state.message}</p> */}
                     <button  className="btn btn-lg w-100 btn-block btn-primary" onClick={onOpenModal1}> I'm Here </button> 
                                 <Modal open={open1} onClose={this.onCloseModal1} center>
                                 <h5 className="mt-5">This will charge you the rate <br/> of the premade reservation.</h5>
