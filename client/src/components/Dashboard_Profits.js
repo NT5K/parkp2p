@@ -16,19 +16,20 @@ class Profits extends Component {
             balanceToPostRequest: '0',
             displayCredit: ''
         };
-
+//Below on lines 20 and 21 allows the us to access those functions from the "this" object
 this.onTextboxChangeBalance = this.onTextboxChangeBalance.bind(this)
 this.updateBalance = this.updateBalance.bind(this)    
 
 }
 
-
+//UNSAFE_componentWillMount sets the token variable when the page is loaded, the token variable is how we can identify a specific user
     UNSAFE_componentWillMount() {
         localStorage.getItem('park_p2p') && this.setState({
             token: store.get('park_p2p').token
         })
     }
-
+//The componentDidMount is a react function that runs when the page is loaded. In the function we get the Balance and Credit of a specific user.
+//Using a get request we are able to fetch the data from the database
     componentDidMount() {
         const { token /*, user*/ } = this.state
         fetch('/api/account/personal/profits/' + token)
@@ -45,12 +46,17 @@ this.updateBalance = this.updateBalance.bind(this)
         }, () => console.log('success'))
     }
 
+//The onTextboxChangeBalance function fires automacially when the value in the input box changes. When it fires it sets the variable balanceToPostRequest, 
+//which is the amount that will be subtracted from the users balance
     onTextboxChangeBalance(event){
         this.setState({
         balanceToPostRequest: event.target.value
         })  
     }
 
+//The updateBalance function sends the new balance to the server which updates the balance in the database.
+//The if statement prevents people from withrawing a negative value or a value greater than the balance.
+//If the value they want to withdraw is less than or equal to the balance the if statement will be true.
     updateBalance(event){
     event.preventDefault()
     const {displayBalance, balanceToPostRequest, token} = this.state
@@ -78,7 +84,7 @@ this.updateBalance = this.updateBalance.bind(this)
             }); 
         }
     }
-
+//render displays the values and puts all html and css on the page
     render() {
         
         const {displayBalance, displayCredit, balanceToPostRequest, token} = this.state

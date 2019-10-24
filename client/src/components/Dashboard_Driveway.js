@@ -5,6 +5,8 @@ import 'whatwg-fetch';
 import PersonalInfoRow from './PersonalInfoRow'
 import PersonalInfoRowTextArea from './PersonalInfoRowTextArea'
 
+//The driveway page allows a user to update the rates, number of spots, instructions, and description of the driveway.
+
 class Dashboard extends Component {
     constructor() {
         super();
