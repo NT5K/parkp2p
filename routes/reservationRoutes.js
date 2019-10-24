@@ -117,6 +117,81 @@ router.post('/api/reserve/spot', (req, res) => {
     });
 });
 //===========================================================================
+// create reservation ****HOURLY*** / remove one to makers spot count
+//===========================================================================
+
+router.post('/api/reserve/spot/hour', (req, res) => {
+    const { 
+        startDateValue,
+        startTimeValue,
+        endDateValue,
+        endTimeValue,
+        rateValue,
+        rateType,
+        feeValue,
+        token,
+        makerId,
+        address, city, state, zipcode,
+        name, phone,
+        startDate,
+        endDate
+    } = req.body;
+    // const PHONE = JSON.stringify(phone)
+    // if (!startDateValue || !startTimeValue || !endDateValue || !endTimeValue || rateValue === "blank" ) {
+    //     return res.send({
+    //         success: false,
+    //         spotSubtract: false
+    //         // new_active_state: inputState
+    //     });
+    // }
+    console.log("local token", token)
+    // console.log("active state change", inputState)
+
+    const query = "INSERT INTO reservations(Token, MakerId, Customer_Name, Phone_Number, Longitude, Latitude, Address, City, State, Zipcode, Stay_Type, Start_Date, End_Date, Start_Time, End_Time, Car, Rate, Fee, Cost, Active, starttimer) VALUES (?, ?, ?, ?, '0', '0', ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Car', ?, ?, 0, false, '')";
+    const input = [token, makerId, name, phone, address, city, state, zipcode, rateType, startDate, endDate, startTimeValue, endTimeValue, rateValue, feeValue]
+
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("failed to create reservation")
+        } else {
+            return res.send({
+                success: true,
+                spotSubtract: true
+                // new_active_state: inputState
+            });
+        };
+    });
+
+    const columnQuery = "SELECT * FROM users WHERE ID = ?;"; 
+        connection.query(columnQuery, [makerId], (err, res) => {
+        // catch any errors
+        if (err) {
+            console.log(err);
+            return res.status(500).send('failed');
+        };
+
+        const updateQuery = "UPDATE users SET ? WHERE ?;";
+        const updateSpotsCount = res[0].Spots - 1
+        const updateObject = [
+            {
+                Spots: updateSpotsCount
+            },
+            {
+                ID: makerId
+            }
+        ];
+
+        connection.query(updateQuery, updateObject, (err, data) => {
+            // catch any errors
+            if (err) {
+                console.log(err);
+                return res.status(500).send('bfgsder');
+            };
+        });
+    });
+});
+//===========================================================================
 // delete reservation / add one to makers spot count
 //===========================================================================
 router.post('/api/reserve/remove', (req, res) => {
