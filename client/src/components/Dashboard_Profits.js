@@ -55,7 +55,7 @@ this.updateBalance = this.updateBalance.bind(this)
     event.preventDefault()
     const {displayBalance, balanceToPostRequest, token} = this.state
     const newBalance = displayBalance - balanceToPostRequest;
-    if((displayBalance >= balanceToPostRequest || displayBalance == balanceToPostRequest) && balanceToPostRequest > 0 ){
+    if((displayBalance > balanceToPostRequest || displayBalance == balanceToPostRequest) && balanceToPostRequest > 0 ){
         fetch('/api/account/update/balance/withdraw', {
                 method: 'post',
                 headers: {
