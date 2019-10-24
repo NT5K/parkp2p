@@ -15,17 +15,17 @@ class ReservationCard extends Component {
         // this.StartTimer = this.StartTimer.bind(this);
     }
 
-    //onlcick for top right corner of the reservation X to open the modal
+    //onclick for top right corner of the reservation X to open the modal
     onOpenModal = () => {
         this.setState({ open: true });
     };
 
-    //onlcick for the bottom button of the reservation  to open the modal
+    //onclick for the bottom button of the reservation  to open the modal
     onOpenModal1 = () => {
         this.setState({ open1: true});
-        this.setState({
-    activeState: true
-        });
+        // this.setState({
+        //     activeState: true
+        // });
     };
     //onclick to close the modal
     onCloseModal = () => {
@@ -119,7 +119,7 @@ class ReservationCard extends Component {
         // let reservationEnd = new Date(date2, date)
         // console.log(reservationEnd)
         return (
-            <div className="card mb-4 shadow-sm">
+            <div className="card mb-4 shadow-sm" style={{ width: "350px"}}>
                 <div className="card-header">
                     <div className="row">
                         <div className="col-10">
@@ -145,8 +145,8 @@ class ReservationCard extends Component {
                     </ul>
                     <hr />
                     <h6>Estimated Dates</h6>
-                    <h5>{start_date}</h5>
-                    <h5>{end_date}</h5>
+                    <h6>{start_date}</h6>
+                    <h6>{end_date}</h6>
                     <h6>Estimated Time</h6> 
                     {/* {
                         (stay_type === "Hour") ? <h5>{diff.minutes()} Minutes</h5>:<h5>{diff.days()} Days</h5>

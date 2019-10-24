@@ -36,6 +36,8 @@ class NavBar extends Component {
       address: '',
       // Email: ''
     }
+
+    // bind 'this' for all functions
     this.handleSelect = this.handleSelect.bind(this);
     this.logout = this.logout.bind(this);
   }
@@ -46,13 +48,6 @@ class NavBar extends Component {
       token: store.get('park_p2p').token
     })
   }
-
-  // componentDidMount() {
-  //   fetch('/api/account/personal/email/' + this.state.token)
-  //     .then(res => res.json())
-  //     .then(email => this.setState({ Email: email[0].Email }))
-  //   // .then(() => console.log("email", this.state.Email))
-  // }
 
   logout(event) {
     event.preventDefault()
@@ -96,10 +91,12 @@ class NavBar extends Component {
     }
   }
 
+  // changes what is displayed in the text box when typing in value
   handleChange = address => {
     this.setState({ address });
   };
 
+  // geocode address and set the center of the map to the returned lat lng values
   handleSelect = address => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
@@ -136,6 +133,7 @@ class NavBar extends Component {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <form className="form-inline my-2 my-lg-0">
+              {/* this is the searchbar that then passes through the geolocator, then to the map */}
               <PlacesAutocomplete
                 value={address}
                 onChange={handleChange}
@@ -205,6 +203,7 @@ class NavBar extends Component {
             </ul>
           </div>
         </nav>
+        {/* pass current coords to map for display as current location */}
         <div className="pt-5">
           <GoogleMap Coords={Coords} />
         </div>

@@ -129,7 +129,7 @@ class MapContainer extends Component {
 
                         {/* marker information from mysql */}
                         {marker.map(marker => {
-                            if(marker.Active_State > 0) {
+                            if(marker.Active_State > 0 && marker.Spots > 0) {
                                 return <Marker
                                     onClick={this.onMarkerClick}
                                     key={marker.ID}

@@ -23,7 +23,7 @@ class Car extends Component {
             carColorToPostRequest: '',
             displayFullCar: ''
         };
-
+        // bind 'this' for all functions
         this.updateCarMake = this.updateCarMake.bind(this);
         this.onTextboxCarMake = this.onTextboxCarMake.bind(this);
         this.updateCarModel = this.updateCarModel.bind(this);
@@ -32,13 +32,14 @@ class Car extends Component {
         this.onTextboxCarColor = this.onTextboxCarColor.bind(this);
     }
 
-
+    // set token state to token value
     UNSAFE_componentWillMount() {
         localStorage.getItem('park_p2p') && this.setState({
             token: store.get('park_p2p').token
         })
     }
 
+    // gets info based on token
     componentDidMount() {
         const { token /*, user*/ } = this.state
         fetch('/api/account/personal/car/' + token)
@@ -46,6 +47,7 @@ class Car extends Component {
         .then(user => {
             const { Car_Make, Car_Model, Car_Year, Car_Color } = user[0]
             console.log(user)
+            // set state for displays
             this.setState({
                 user: user[0],
                 displayCarMake: Car_Make,
@@ -59,6 +61,7 @@ class Car extends Component {
         }, () => console.log('success'))
     }
 
+    // update make post request
     updateCarMake(event) {
         event.preventDefault()
         // Grab state
@@ -86,6 +89,7 @@ class Car extends Component {
         });
     }
 
+    // update model post request
     updateCarModel(event) {
         event.preventDefault()
         // Grab state
@@ -113,6 +117,7 @@ class Car extends Component {
         });
     }
     
+    // update color post request
     updateCarColor(event) {
         event.preventDefault()
         // Grab state
@@ -140,12 +145,12 @@ class Car extends Component {
         });
     }
 
+    // passes input values to state for post request params
     onTextboxCarMake(event) {
         this.setState({
             carMakeToPostRequest: event.target.value
         });
     }
-
     onTextboxCarModel(event) {
         this.setState({
             carModelToPostRequest: event.target.value
@@ -206,6 +211,7 @@ class Car extends Component {
                     </div>
                 </div>
                 <div>
+                    {/* rows of personal information with input to pass to post request functions */}
                     <PersonalInfoRow
                         header="Car Make"
                         displayText={displayCarMake}

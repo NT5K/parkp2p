@@ -26,6 +26,7 @@ class Reservations extends Component {
         fetch('/api/reservations/maker/' + token)
         .then(res => res.json())
         .then(reservations => {
+            // reservation state is a array of objects containing all incoming reservations based on your token #
             this.setState({
                 reservations
             })
@@ -38,7 +39,7 @@ class Reservations extends Component {
     render() {
         let { reservations } = this.state
         const { token } = this.state
-        console.log(reservations)
+        // console.log(reservations)
         if (!token) {
             return (
                 <div>
@@ -58,8 +59,10 @@ class Reservations extends Component {
                     <div className="col-12 d-flex justify-content-center">
                         <div className="card-deck mb-3 text-center d-flex justify-content-between">
                             
-                            {reservations.map((row, i) => { 
-                                    
+                            {/* map over reservations array and create a card for each object */}
+                            {
+                                reservations.map((row, i) => { 
+                                    // used for car data if ever implemented
                                     const carInfo = fetch('/api/account/personal/car/' + row.Token)
                                     .then(res => res.json())
 

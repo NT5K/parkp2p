@@ -16,6 +16,7 @@
     "dotenv-webpack": "^1.7.0",
     "google-maps-react": "^2.0.2",
     "moment": "^2.24.0",
+    "moment-timezone": "^0.5.27",
     "react": "^16.9.0",
     "react-burger-menu": "^2.6.11",
     "react-compound-timer": "^1.1.15",
@@ -30,6 +31,7 @@
     "react-sidebar": "^3.0.2",
     "react-sidenav": "^4.0.3",
     "react-simple-sidenav": "^1.0.1",
+    "react-times": "^3.1.12",
     "recompose": "^0.30.0"
   },
   "scripts": {

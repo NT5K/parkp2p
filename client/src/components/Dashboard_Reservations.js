@@ -56,19 +56,19 @@ class Reservations extends Component {
                     <div className="col-12 d-flex justify-content-center">
                         <div className="card-deck mb-3 text-center d-flex justify-content-between">
 
-                            <div className="card mb-4 shadow-sm">
+                            {/* <div className="card mb-4 shadow-sm">
                                 <div className="card-header">
                                     <div className="row">
                                         <div className="col-10">
                                             <h4 className="">Reservation #</h4>
                                         </div>
                                         <div className="col-2">
-                                            {/* <p role="button" onClick={() => deleteRes(id)}> x </p> */}
+                                            <p role="button" onClick={() => deleteRes(id)}> x </p>
                                             <p role="button"> x </p>
-                                            {/* <Modal open={open} onClose={this.onCloseModal} center>
+                                            <Modal open={open} onClose={this.onCloseModal} center>
                                                 <h2 className="mt-5">Delete this reservation?</h2>
                                                 <button className="btn btn-lg w-100 btn-block btn-primary" onClick={() => deleteRes(id)}> Yes </button>
-                                            </Modal> */}
+                                            </Modal>
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@ class Reservations extends Component {
                                         Start Timer
                                     </button>
                                 </div>
-                            </div>
+                            </div> */}
                             
                             {reservations.map((row, i) => 
                                 <div key={i} id={i}>

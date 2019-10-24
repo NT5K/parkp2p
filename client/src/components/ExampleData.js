@@ -6,7 +6,7 @@ import moment, {days} from  'moment'
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import { DateRangePicker, SingleDatePicker } from 'react-dates';
-import Datetime from 'react-datetime';
+// import Datetime from 'react-datetime';
 // import { DateRangePicker } from 'react-dates';
 
 class Customers extends Component {
