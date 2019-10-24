@@ -39,18 +39,20 @@ class MapContainer extends Component {
         })
     }
 
-    componentDidMount() {
-        fetch('/api/public/driveways')
+    async componentDidMount() {
+        await fetch('/api/public/driveways')
         .then(res => res.json())
         .then(marker => 
             this.setState({ 
                 marker,
-                personLoggedIn: this.state.marker[this.state.token - 1]
+                personLoggedIn: this.state.marker[0]
             }))
-        .then(()=> 
+            
+        .then(()=> { 
+            //console.log(this.state.marker.findIndex(index => { console.log(index.ID); return index.ID === this.state.token; }), "RANDOM!!!")
             this.setState({
-                selectedPlace: this.state.marker[this.state.token - 1]
-            }))
+                selectedPlace: this.state.marker[this.state.marker.findIndex(index => { return index.ID === this.state.token; })]
+            })})
         .then( () => console.log("successful markers data fetch"))
         // .then( () => console.log("this is the person logged in", this.state.marker))
         // .then( () => console.log("this is the person logged in", this.state.personLoggedIn.Description))

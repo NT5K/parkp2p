@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Modal from 'react-responsive-modal';
-import Timer from 'react-compound-timer';
-import DateDiff from 'date-diff';
 const convertTime = require('convert-time');
 
 class ReservationCardIncoming extends Component {
@@ -48,17 +46,16 @@ class ReservationCardIncoming extends Component {
     }
 
     render() {
-        const { deleteRes, onOpenModal, onCloseModal } = this
+        const { deleteRes, onOpenModal } = this
         const { open } = this.state;
         const {
-            number, id, rowID,
-            address, city, state, zipcode,
+            number, id,
             rate, fee,
             stay_type,
             start_date, end_date,
             start_time, end_time,
-            starttimer, endtimer,
-            name, phone, 
+            
+            name, phone
         } = this.props
 
         console.log(this.props)
@@ -69,14 +66,6 @@ class ReservationCardIncoming extends Component {
         // let date1 = new Date();
         // let date2 = new Date(this.props.starttimer);
         // let diff = new DateDiff(date1, date2);
-        // diff.years();
-        // diff.months();
-        // console.log('dif days', diff.seconds())
-        // diff.days();
-        // diff.weeks();
-        // diff.hours();
-        // diff.minutes();
-        // diff.seconds();
 
         return (
             <div className="card mb-4 shadow-sm">
@@ -97,7 +86,6 @@ class ReservationCardIncoming extends Component {
                 <div className="card-body">
                     <h5 className="card-title pricing-card-title">Persons Name: {name} </h5>
                     <h5 className="card-title pricing-card-title">Persons Phone: {phone} </h5>
-                    {/* <h6 className="card-title pricing-card-title">{this.props.location}</h6> */}
                     <hr />
                     <ul className="list-unstyled mt-3 mb-4">
                         <li>Rate: ${rate}/{stay_type}</li>
@@ -110,8 +98,6 @@ class ReservationCardIncoming extends Component {
                     <h6>Estimated Times</h6>
                     <h5>{startTime} - {endTime}</h5>
                     <hr />
-                    {/* <h5>Time Since Arrival</h5> */}
-                    {/* <h5>{displayTime}</h5> */}
                     
                 </div>
             </div>
