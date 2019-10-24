@@ -18,7 +18,7 @@ class BackgroundProcess extends Component {
     }
 
     componentDidMount() {
-        this.interval = setInterval(() => this.setState({ time: new Date() }), 10000);
+        this.interval = setInterval(() => this.setState({ time: new Date() }), 600000);
     
     }
     
