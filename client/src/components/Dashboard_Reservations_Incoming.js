@@ -34,6 +34,8 @@ class Reservations extends Component {
         }, () => console.log("success"))
     }   
 
+
+    //renders the dashboard for reservations and takes a sql call that sets state and passes the props to the reservationcardIncomming component.
     render() {
         let { reservations } = this.state
         const { token } = this.state

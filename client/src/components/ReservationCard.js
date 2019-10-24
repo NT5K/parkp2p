@@ -15,21 +15,24 @@ class ReservationCard extends Component {
         // this.StartTimer = this.StartTimer.bind(this);
     }
 
+    //onlcick for top right corner of the reservation X to open the modal
     onOpenModal = () => {
         this.setState({ open: true });
     };
 
+    //onlcick for the bottom button of the reservation  to open the modal
     onOpenModal1 = () => {
         this.setState({ open1: true});
         // this.setState({
         //     activeState: true
         // });
     };
-
+    //onclick to close the modal
     onCloseModal = () => {
         this.setState({ open: false });
     };
-
+    
+    //onclick to close the reservation modal
     onCloseModal1 = () => {
         this.setState({ open1: false });
     };
@@ -60,7 +63,7 @@ class ReservationCard extends Component {
             } 
         });
     }
-
+    //adds the rate and the fee props together and posts backend to charge the customers the bill and updates the balance of their account
     payReservation() {
         let rateWithFee = this.props.rate + this.props.fee;
         let Token = this.props.Token
@@ -94,6 +97,8 @@ class ReservationCard extends Component {
         })
     }
 
+
+    //renders the components defining props and creating the reservation cards.
     render() {
         const { deleteRes, onOpenModal, onOpenModal1} = this
         const { open, open1} = this.state;

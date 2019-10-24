@@ -49,27 +49,32 @@ class Customers extends Component {
     // console.log("state of token", this.state.token)
   }
 
+  //changes start date state to the targeted event
   onTextboxChangeStartDate(event) {
     this.setState({
       startDateValue: event.target.value,
     });
   }
+  //changes start date time to the targeted event
   onTextboxChangeStartTime(event) {
     this.setState({
       startTimeValue: event.target.value,
     });
   }
+  //changes end date state to the targeted event
   onTextboxChangeEndDate(event) {
     this.setState({
       endDateValue: event.target.value,
     });
   }
+  //changes end time state to the targeted event
   onTextboxChangeEndTime(event) {
     this.setState({
       endTimeValue: event.target.value,
     });
   }
 
+  //changes rate to selectedValue rate
   onTextboxChangeRate(event) {
     const selectedValue = document.getElementById("rate_value").value
     this.setState({
@@ -77,6 +82,7 @@ class Customers extends Component {
     });
   }
 
+  //function for reserving a spot taking in a lot of props associated with the markers.
   reserveSpot(event) {
     event.preventDefault()
     let rateFromInputNumber = ''
@@ -183,6 +189,8 @@ class Customers extends Component {
       }
     });
   }
+
+  //a function for hourly reservations which will make the time difference display as minutes on the reservation page rather than hours
   reserveHourly(event) {
     event.preventDefault()
     let rateFromInputNumber = ''
@@ -281,6 +289,8 @@ class Customers extends Component {
       }
     });
   }
+
+  //a function for daily reservations that will display the time difference in reservations as hours rather than minutes.
   reserveDaily(event) {
     event.preventDefault()
     let rateFromInputNumber = ''
@@ -383,7 +393,7 @@ class Customers extends Component {
       }
     });
   }
-  
+  //defining variables and rendering the component under the google maps (exampleData.js)
   render() {
     const { 
       token,
