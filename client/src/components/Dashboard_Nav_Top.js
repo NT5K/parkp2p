@@ -19,12 +19,14 @@ class DashboardNav extends Component {
         };
     }
 
+    // set token state to token value
     UNSAFE_componentWillMount() {
         localStorage.getItem('park_p2p') && this.setState({
             token: store.get('park_p2p').token
         })
     }
 
+    // gets email based on token to display on right of nav
       componentDidMount() {
     fetch('/api/account/personal/email/' + this.state.token)
       .then(res => res.json())

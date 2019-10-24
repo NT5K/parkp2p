@@ -68,11 +68,11 @@ class ReservationCardIncoming extends Component {
         // let diff = new DateDiff(date1, date2);
 
         return (
-            <div className="card mb-4 shadow-sm">
+            <div className="card mb-4 shadow-sm" style={{ width: "350px" }}>
                 <div className="card-header">
                     <div className="row">
                         <div className="col-10">
-                            <h4 className="">Reservation {number}</h4>
+                            <h4 className="">Incoming Reservation {number}</h4>
                         </div>
                         <div className="col-2">
                             <p role="button" onClick={onOpenModal}> x </p>
@@ -94,10 +94,7 @@ class ReservationCardIncoming extends Component {
                     </ul>
                     <hr />
                     <h6>Estimated Dates</h6>
-                    <h5>{start_date} - {end_date}</h5>
-                    <h6>Estimated Times</h6>
-                    <h5>{startTime} - {endTime}</h5>
-                    <hr />
+                    <h5>{start_date} < br /> {end_date}</h5>
                     
                 </div>
             </div>

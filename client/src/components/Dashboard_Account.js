@@ -28,6 +28,7 @@ class Dashboard extends Component {
             verifyMessage: ''
         };
 
+        // bind 'this' for all functions
         this.onTextboxChangeName = this.onTextboxChangeName.bind(this);
         this.onTextboxChangeEmail = this.onTextboxChangeEmail.bind(this);
         this.onTextboxChangePhone_Number = this.onTextboxChangePhone_Number.bind(this);
@@ -54,11 +55,12 @@ class Dashboard extends Component {
 
     // gets info based on token
     componentDidMount() {
-        const { token, /*user*/ } = this.state
+        const { token } = this.state
         fetch('/api/account/personal/' + token)
         .then(res => res.json())
         .then(user => {
-            const { Name, Email, Phone_Number , Address, City, Zipcode, State /*, Longitude, Latitude*/ } = user[0] 
+            const { Name, Email, Phone_Number , Address, City, Zipcode, State } = user[0] 
+            // set state for displays
             this.setState({
                 user: user[0], 
                 displayFullName: Name,
@@ -68,14 +70,12 @@ class Dashboard extends Component {
                 displayAddress: Address,
                 displayCity: City,
                 displayState: State, 
-                displayZipcode: Zipcode,
-                // displayLongitude: Longitude,
-                // displayLatitude: Latitude
+                displayZipcode: Zipcode
             })
-        }, () => console.log(/*"user array", user, "this users token", token*/))
+        }, () => console.log("success"))
     }
 
-    // passes input values to state
+    // passes input values to state for post request params
     onTextboxChangeName(event) {
         this.setState({
             fullName: event.target.value
@@ -112,6 +112,7 @@ class Dashboard extends Component {
         });
     }
 
+    // update name post request
     updateName(event) {
         event.preventDefault()
         // grab state
@@ -139,6 +140,7 @@ class Dashboard extends Component {
         });
     }
 
+    // update email post request
     updateEmail(event) {
         event.preventDefault()
         // grab state
@@ -166,6 +168,7 @@ class Dashboard extends Component {
         });
     }
 
+    // update phone number post request
     updatePhone(event) {
         event.preventDefault()
         // Grab state
@@ -192,6 +195,7 @@ class Dashboard extends Component {
         });
     }
 
+    // update address post request
     updateAddress(event) {
         event.preventDefault()
         // Grab state
@@ -220,6 +224,7 @@ class Dashboard extends Component {
         });
     }
 
+    // update city post request
     updateCity(event) {
         event.preventDefault()
         // Grab state
@@ -248,6 +253,7 @@ class Dashboard extends Component {
         });
     }
     
+    // update state post request
     updateState(event) {
         event.preventDefault()
         // Grab state
@@ -276,6 +282,7 @@ class Dashboard extends Component {
         });
     }
 
+    // update zipcode post request
     updateZipcode(event) {
         event.preventDefault()
         // Grab state
@@ -304,6 +311,7 @@ class Dashboard extends Component {
         });
     }
 
+    // verify address and push generated coords to database for map
     verifyAddress(event) {
         event.preventDefault()
         // Grab state
@@ -369,6 +377,7 @@ class Dashboard extends Component {
             verifyAddress
         } = this
 
+        // if no local storage token redirect to main page which then redirects to login
         if (!token) {
             return (
                 <div>
@@ -438,6 +447,7 @@ class Dashboard extends Component {
                         <p>(used to locate your driveway when active)</p>
                         </div>
                     </div>
+                    {/* rows of personal information with input to pass to post request functions */}
                     <PersonalInfoRow 
                         header="Address"
                         displayText={displayAddress}
@@ -510,6 +520,7 @@ class Dashboard extends Component {
                                 Verify
                             </button>
                         </div>
+                        {/* if successful verification, display message */}
                         <div className="col-sm-2 col-xs-6">
                             {verifyMessage}
                         </div>
