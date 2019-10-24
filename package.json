@@ -21,6 +21,7 @@
     "cookie-parser": "^1.4.4",
     "date-diff": "^0.2.1",
     "dotenv": "^8.1.0",
+    "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "express-validator": "^5.3.1",
     "geocoder": "^0.2.3",
@@ -31,7 +32,9 @@
     "react-burger-menu": "^2.6.11",
     "react-compound-timer": "^1.1.15",
     "react-dates": "^21.3.1",
+    "react-datetime": "^2.16.3",
     "react-places-autocomplete": "^7.2.1",
+    "react-responsive-modal": "^4.0.1",
     "store": "^2.0.12",
     "whatwg-fetch": "^3.0.0"
   }
