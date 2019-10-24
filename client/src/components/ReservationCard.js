@@ -109,7 +109,10 @@ class ReservationCard extends Component {
         let date1 = new Date(start_date);
         let date2 = new Date(end_date);
         let diff = new DateDiff(date2, date1);
-        
+
+        // let date = new Date();
+        // let reservationEnd = new Date(date2, date)
+        // console.log(reservationEnd)
         return (
             <div className="card mb-4 shadow-sm">
                 <div className="card-header">
@@ -118,14 +121,11 @@ class ReservationCard extends Component {
                             <h4 className="">Reservation {number}</h4>
                         </div>
                         <div className="col-2">
-                            {/* <p role="button" onClick={() => deleteRes(id)}> x </p> */}
-                            
                             <p role="button" onClick={onOpenModal}> x </p>
                             <Modal open={open} onClose={this.onCloseModal} center>
                                 <h2 className="mt-5">Delete this reservation?</h2>
                                 <button className="btn btn-lg w-100 btn-block btn-primary" onClick={() => deleteRes(id)}> Yes </button>
                             </Modal>
-
                         </div>
                     </div>
                 </div>
@@ -136,23 +136,32 @@ class ReservationCard extends Component {
                     <ul className="list-unstyled mt-3 mb-4">
                         <li>Rate: ${rate}/{stay_type}</li>
                         <li>Fee: ${fee}/{stay_type}</li>
-                        <li>Total: ${rateWithFee}/{stay_type}</li>
+                        <li><b>Total: ${rateWithFee}/{stay_type}</b></li>
                     </ul>
                     <hr />
                     <h6>Estimated Dates</h6>
                     <h5>{start_date}</h5>
                     <h5>{end_date}</h5>
-                    <h6>Estimated Time</h6>
-                    <h5>{diff.hours()} Hours</h5>
+                    <h6>Estimated Time</h6> 
+                    {/* {
+                        (stay_type === "Hour") ? <h5>{diff.minutes()} Minutes</h5>:<h5>{diff.days()} Days</h5>
+                    } */}
+                    {(() => {
+                        switch (stay_type) {
+                        // case "Day":   return <h5>{diff.hours()} Hours</h5>;
+                        case "Hour":  return <h5>{diff.hours()} Hours</h5>;
+                        default:      return <h5>{diff.days()} Days</h5>;
+                        }
+                    })()}
                     <hr />
                     {
                         (this.state.message < 1) ? <h6>Inactive</h6> : <h6>Active</h6>
                     }
-                    <button  className="btn btn-lg w-100 btn-block btn-primary" onClick={onOpenModal1}> I'm Here </button> 
-                                <Modal open={open1} onClose={this.onCloseModal1} center>
-                                <h5 className="mt-5">This will charge you the rate <br/> of the premade reservation.</h5>
-                                <button className="btn btn-lg w-100 btn-block btn-primary" onClick={() => this.payReservation()}> Pay for Reservation </button>
-                            </Modal>
+                    <button className="btn btn-lg w-100 btn-block btn-primary" onClick={onOpenModal1}> I'm Here </button> 
+                    <Modal open={open1} onClose={this.onCloseModal1} center>
+                        <h5 className="mt-5 text-center pb-3">This will charge <br /> <b>${rateWithFee} </b><br/> to your account</h5>
+                        <button className="btn btn-lg w-100 btn-block btn-primary" onClick={() => this.payReservation()}> Pay for Reservation </button>
+                    </Modal>
                 </div>
             </div>
         )
