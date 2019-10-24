@@ -27,7 +27,7 @@ class Reservations extends Component {
         .then(res => res.json())
         .then(reservations => {
             this.setState({
-                reservations,
+                reservations
             })
         // }, () => console.log("reservations array", reservations, "this users token", token))
         }, () => console.log("success"))
@@ -56,32 +56,40 @@ class Reservations extends Component {
                     <div className="col-12 d-flex justify-content-center">
                         <div className="card-deck mb-3 text-center d-flex justify-content-between">
                             
-                            {reservations.map((row, i) => 
-                                <div key={i} id={i}>
-                                    <ReservationCardIncoming
-                                        number={i + 1}
-                                        address={row.Address}
-                                        city={row.City}
-                                        state={row.State}
-                                        zipcode={row.Zipcode}
-                                        rate={row.Rate}
-                                        stay_type={row.Stay_Type}
-                                        fee={row.Fee}
-                                        total={row.Total}
-                                        start_time={row.Start_Time}
-                                        end_time={row.End_Time}
-                                        start_date={row.Start_Date}
-                                        end_date={row.End_Date}
-                                        id={i}
-                                        rowID={row.ID}
-                                        makerID={row.MakerId}
-                                        starttimer={row.starttimer}
-                                        stoptimer={row.stoptimer}
-                                        activeState={row.Active}
-                                        name={row.Customer_Name}
-                                        phone={row.Phone_Number}
-                                    />
-                                </div>
+                            {reservations.map((row, i) => { 
+                                    
+                                    const carInfo = fetch('/api/account/personal/car/' + row.Token)
+                                    .then(res => res.json())
+
+                                    
+                                    return (<div key={i} id={i}>
+                                        
+                                        <ReservationCardIncoming
+                                            number={i + 1}
+                                            address={row.Address}
+                                            city={row.City}
+                                            state={row.State}
+                                            zipcode={row.Zipcode}
+                                            rate={row.Rate}
+                                            stay_type={row.Stay_Type}
+                                            fee={row.Fee}
+                                            total={row.Total}
+                                            start_time={row.Start_Time}
+                                            end_time={row.End_Time}
+                                            start_date={row.Start_Date}
+                                            end_date={row.End_Date}
+                                            id={i}
+                                            rowID={row.ID}
+                                            makerID={row.MakerId}
+                                            starttimer={row.starttimer}
+                                            stoptimer={row.stoptimer}
+                                            activeState={row.Active}
+                                            name={row.Customer_Name}
+                                            phone={row.Phone_Number}
+                                            car_info={carInfo}
+                                        />
+                                    </div>)
+                                }   
                             )}
                         </div>
                     </div>

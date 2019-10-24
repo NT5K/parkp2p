@@ -27,7 +27,7 @@ class Reservations extends Component {
         .then(res => res.json())
         .then(reservations => {
             this.setState({
-                reservations,
+                reservations
             })
         // }, () => console.log("reservations array", reservations, "this users token", token))
         }, () => console.log("success"))

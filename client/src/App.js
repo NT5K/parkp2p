@@ -7,7 +7,7 @@ import Account from "./components/Dashboard_Account"
 import DashboardRoute from './pages/DashboardRoute'
 import Page404 from './pages/Page404'
 import storeFront from './pages/storeFront'
-import BackgroundProcess from './components/Background_Proccess'
+import BackgroundProcess from './components/Background_Process'
 
 class App extends Component {
   render() {
