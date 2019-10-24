@@ -27,6 +27,7 @@ class Customers extends Component {
 
       startDate: null,
       endDate: null,
+      date: null,
       focusedInput: null,
     };
 
@@ -37,6 +38,7 @@ class Customers extends Component {
     this.onTextboxChangeRate = this.onTextboxChangeRate.bind(this);
     this.reserveSpot = this.reserveSpot.bind(this);
     this.reserveHourly = this.reserveHourly.bind(this);
+    this.reserveDaily = this.reserveDaily.bind(this);
   }
 
   // if token in local storage, set token state to token value
@@ -96,26 +98,21 @@ class Customers extends Component {
       token,
       startDate,
       endDate,
+      date
     } = this.state;
 
-    // const dateString = JSON.stringify(startDate)
-    // const splitStrong = dateString.split('T')
-    // var someString = dateString;
-
-    // var index = someString.indexOf("T");  // Gets the first index where a space occurs
-    // var id = someString.substr(0, index); // Gets the first part
-    // var text = someString.substr(index + 1);  // Gets the text part
-    // console.log('this should be a date', id)
-    // const stringID = JSON.stringify(id)
-    // const timeString = JSON.stringify(startTimeValue)
-
-    // const stringStartDateTime2 = stringID.concat('', timeString)
-
-    // console.log('this is string start date',startDate)
-    // const stringStartDateTime = dateString.concat(' ', timeString)
-    // console.log('concat string  ',stringStartDateTime)
-
-    // console.log('new concated string final? ', stringStartDateTime2 )
+    // const dateMoment = moment(date).format('LL')
+    // console.log('2', moment(date).format('LL'))
+    // const onlyDate = moment(date).subtract(10, 'days').calendar()
+    // console.log('onlyDate? 11/11/11', onlyDate)
+    // console.log('start time val', startTimeValue)
+    // console.log('combined string    ', JSON.stringify(dateMoment + " " + startTimeValue))
+    // const startHoursTime = dateMoment + " " + startTimeValue
+    // const endHoursTime = dateMoment + " " + endTimeValue
+    var travelTime = moment(date).add(24, 'hours')
+    console.log('add 24 hrs  ',travelTime)
+    const moment24HrsAdded = moment(travelTime).add(days, 'd').toString()
+    console.log('moment with 24 hrs added   ', moment24HrsAdded)
 
     if (rateValue < 2 && rateValue > 0) {
       rateFromInputNumber = Hourly
@@ -161,11 +158,14 @@ class Customers extends Component {
         state: State,
         zipcode: Zipcode,
 
-        name: Name,
-        phone: Phone_Number,
+        // name: Name,
+        // phone: Phone_Number,
 
         startDate: moment(this.state.startDate).add(days, 'd').toString() ,
-        endDate: moment(this.state.endDate).add(days, 'd').toString()
+        endDate: moment(this.state.endDate).add(days, 'd').toString(),
+
+        // startDate: startHoursTime ,
+        // endDate: endHoursTime
       })
     })
     .then(res => res.json())
@@ -201,8 +201,19 @@ class Customers extends Component {
       endDateValue,
       endTimeValue,
       rateValue,
-      token
+      token,
+      date,
+      startDate,
     } = this.state;
+
+    const dateMoment = moment(date).format('LL')
+    console.log('2', moment(date).format('LL'))
+    const onlyDate = moment(date).subtract(10, 'days').calendar()
+    console.log('onlyDate? ', onlyDate)
+    console.log('start time val', startTimeValue)
+    console.log('combined string    ', JSON.stringify(dateMoment + " " + startTimeValue))
+    const startHoursTime = dateMoment + " " + startTimeValue
+    const endHoursTime = dateMoment + " " + endTimeValue
 
     if (rateValue < 2 && rateValue > 0) {
       rateFromInputNumber = Hourly
@@ -251,8 +262,110 @@ class Customers extends Component {
         name: Name,
         phone: Phone_Number,
 
-        startDate: moment(this.state.startDate).add(days, 'd').toString() ,
-        endDate: moment(this.state.endDate).add(days, 'd').toString()
+        startDate: startHoursTime,
+        endDate: endHoursTime 
+      })
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log('json', json);
+      // set state for display
+      if (json.success) {
+        this.setState({
+          displayMessage: "Congratulations! You reserved a spot!"
+        });
+      } else {
+        this.setState({
+          displayMessage: "Please fill out all information."
+        });
+      }
+    });
+  }
+  reserveDaily(event) {
+    event.preventDefault()
+    let rateFromInputNumber = ''
+    let typeOfRate = ''
+    let feeValue = ''
+    
+    const { 
+      Hourly, Daily, Weekly, Monthly, 
+      ID, Address, City, State, Zipcode,
+      Name, Phone_Number
+    } = this.props.location
+    console.log(Phone_Number)
+    const { 
+      startDateValue,
+      startTimeValue,
+      endDateValue,
+      endTimeValue,
+      rateValue,
+      token,
+      date,
+      startDate,
+    } = this.state;
+
+    // const dateMoment = moment(date).format('LL')
+    // console.log('2', moment(date).format('LL'))
+    // const onlyDate = moment(date).subtract(10, 'days').calendar()
+    // console.log('onlyDate? ', onlyDate)
+    // console.log('start time val', startTimeValue)
+    // console.log('combined string    ', JSON.stringify(dateMoment + " " + startTimeValue))
+    // const startHoursTime = dateMoment + " " + startTimeValue
+    // const endHoursTime = dateMoment + " " + endTimeValue
+    const travelTime = moment(date).add(24, 'hours')
+    console.log('add 24 hrs  ',travelTime)
+    const moment24HrsAdded = moment(travelTime)
+    console.log('moment with 24 hrs added   ', moment24HrsAdded)
+
+    if (rateValue < 2 && rateValue > 0) {
+      rateFromInputNumber = Hourly
+      typeOfRate = "Hour"
+      feeValue = "0.25"
+    }
+    if (rateValue < 3 && rateValue > 1) {
+      rateFromInputNumber = Daily
+      typeOfRate = "Day"
+      feeValue = "2.00"
+    }
+    if (rateValue < 4 && rateValue > 2) {
+      rateFromInputNumber = Weekly
+      typeOfRate = "Week"
+      feeValue = "12.00"
+    }
+    if (rateValue < 5 && rateValue > 3) {
+      rateFromInputNumber = Monthly
+      typeOfRate = "Month"
+      feeValue = "35.00"
+    }
+
+    // post to backend
+    fetch('/api/reserve/spot', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token,
+        startDateValue,
+        startTimeValue,
+        endDateValue,
+        endTimeValue,
+
+        rateValue: rateFromInputNumber,
+        rateType: typeOfRate,
+        feeValue,
+
+        makerId: ID,
+        address: Address,
+        city: City,
+        state: State,
+        zipcode: Zipcode,
+
+        name: Name,
+        phone: Phone_Number,
+
+        startDate: date,
+        endDate: moment24HrsAdded 
       })
     })
     .then(res => res.json())
@@ -284,7 +397,8 @@ class Customers extends Component {
       onTextboxChangeEndTime,  
       onTextboxChangeRate, 
       reserveSpot,
-      reserveHourly
+      reserveHourly,
+      reserveDaily
     } = this
     const { 
       Description, Instructions,
@@ -366,7 +480,41 @@ class Customers extends Component {
                       case "1": return <div>
                         <hr />
                         <h6 className="card-title pricing-card-title">Hourly Stay</h6>
-                        <Datetime />
+                        <div className="row">
+                          <div className="col-12">
+                            <SingleDatePicker
+                              date={this.state.date}
+                              onDateChange={date => this.setState({ date })}
+                              focused={this.state.focused}
+                              onFocusChange={({ focused }) => this.setState({ focused })}
+                              id="your_unique_id"
+                              orientation="vertical" verticalHeight={400}
+                              openDirection="up"
+                            />
+                          </div>
+                          <div className="col-6">
+                            <h6>Start Time</h6>
+                            <input
+                              id="start_time"
+                              type="time"
+                              value={startTimeValue}
+                              onChange={onTextboxChangeStartTime}
+                              className="mb-3 form-control time-local"
+                              required>
+                            </input>
+                          </div>
+                          <div className="col-6">
+                            <h6>End Time</h6>
+                            <input
+                              id="end_time"
+                              type="time"
+                              value={endTimeValue}
+                              onChange={onTextboxChangeEndTime}
+                              className="mb-3 form-control time-local"
+                              required>
+                            </input>
+                          </div>
+                        </div>
                       </div>;
 
                       // DAILY
@@ -379,7 +527,7 @@ class Customers extends Component {
                           onFocusChange={({ focused }) => this.setState({ focused })}
                           id="your_unique_id"
                           orientation="vertical" verticalHeight={400}
-                          openDirection="OPEN_UP"
+                          openDirection="up"
                         />
                       </div>
 
@@ -397,6 +545,7 @@ class Customers extends Component {
                               focusedInput={this.state.focusedInput}
                               onFocusChange={(focusedInput) => { this.setState({ focusedInput }) }}
                               orientation="vertical" verticalHeight={400}
+                              openDirection="up"
                             />
                           </div>
                         </div>
@@ -414,6 +563,7 @@ class Customers extends Component {
                               focusedInput={this.state.focusedInput}
                               onFocusChange={(focusedInput) => { this.setState({ focusedInput }) }}
                               orientation="vertical" verticalHeight={400}
+                              openDirection="up"
                             />
                           </div>
                         </div>
@@ -423,28 +573,56 @@ class Customers extends Component {
             })()}
 
                   <hr />
-                  <button
-                    type="submit"
-                    className="btn btn-md w-100 btn-block btn-primary mt-4"
-                    onClick={reserveSpot}
-                    // onClick={
-                    //   (() => {
-                    //     switch (this.state.rateValue) {
-                    //       case "1": return { reserveHourly }
-                    //       default: return { reserveSpot }
-                    //     }
-                    //   })
-                    // }
-                  >
-                    Reserve Now!
-                  </button>
-                  <h3>{this.props.Phone}</h3>
+                 
+
+                  {(() => {
+                    switch (this.state.rateValue) {
+                      case "1": return <button
+                          type="submit"
+                          className="btn btn-md w-100 btn-block btn-primary mt-4"
+                          onClick={reserveHourly}
+                        >
+                          Reserve Now Hourly!
+                        </button>
+                      case "2": return <button
+                        type="submit"
+                        className="btn btn-md w-100 btn-block btn-primary mt-4"
+                        onClick={reserveDaily}
+                      >
+                        Reserve Now Daily!
+                      </button>;
+                      case "3": return <button
+                        type="submit"
+                        className="btn btn-md w-100 btn-block btn-primary mt-4"
+                        onClick={reserveSpot}
+                      >
+                        Reserve Now Weekly!
+                      </button>;
+                      case "4": return <button
+                        type="submit"
+                        className="btn btn-md w-100 btn-block btn-primary mt-4"
+                        onClick={reserveSpot}
+                      >
+                        Reserve Now Monthly!
+                      </button>;
+                      default: return <button
+                        type="submit"
+                        className="btn btn-md w-100 btn-block btn-primary mt-4"
+                        onClick={reserveSpot}
+                      >
+                        Reserve Now!
+                      </button>;
+                    }
+                  })()}
+
                   <h6 className="pt-3">{displayMessage}</h6>
                 </form>  
               </div>
             </div>
           </div>
         </div> {/* end  big row */}
+
+          {/* <h3>{this.props.Phone}</h3> */}
           {/* <p>Start Date: {startDateValue}</p> */}
           {/* <p>Start Time: {startTimeValue}</p> */}
           {/* <p>End Date: {endDateValue}</p> */}
