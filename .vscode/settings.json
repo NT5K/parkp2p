@@ -6,6 +6,7 @@
         "Zipcode",
         "datetime",
         "signin",
+        "starttimer",
         "usersessions"
     ]
 }

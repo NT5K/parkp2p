@@ -38,8 +38,8 @@ CREATE TABLE reservations
     PRIMARY KEY (ID)
     );
 
-    insert into reservations
-        (Token, MakerId, Longitude, Latitude, Address, City, State, Zipcode, Stay_Type, Start_Date, End_Date, Start_Time, End_Time, Car, Rate, Fee, Cost, Active)
-    values
-       (2, 2, '-81.5323000000', '41.5366400000', '1412382 F432n Rd', 'Cleveland', 'OH', '12354', 'Hourly', '07:14:2054', '07:16:2041', '12:32 P.M.', '6:00 P.M.', 'Honda Civiccc', 1.25, .25, 0, false),
-       (1, 3, '-81.5323000000', '41.5766400000', '1483 Fel321on Rd', 'Cleveland', 'OH', '54312', 'Hourly', '07:14:2076', '07:17:2041', '12:31 P.M.', '8:00 P.M.', 'Honda Civicdsds', 1.25, .25, 0, false)
+    -- insert into reservations
+    --     (Token, MakerId, Longitude, Latitude, Address, City, State, Zipcode, Stay_Type, Start_Date, End_Date, Start_Time, End_Time, Car, Rate, Fee, Cost, Active)
+    -- values
+    --    (2, 2, '-81.5323000000', '41.5366400000', '1412382 F432n Rd', 'Cleveland', 'OH', '12354', 'Hourly', '07:14:2054', '07:16:2041', '12:32 P.M.', '6:00 P.M.', 'Honda Civiccc', 1.25, .25, 0, false),
+    --    (1, 3, '-81.5323000000', '41.5766400000', '1483 Fel321on Rd', 'Cleveland', 'OH', '54312', 'Hourly', '07:14:2076', '07:17:2041', '12:31 P.M.', '8:00 P.M.', 'Honda Civicdsds', 1.25, .25, 0, false)

@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import store from 'store'
 import 'whatwg-fetch';
 import { Redirect } from 'react-router-dom';
-// import StreetView from './StreetView';
+import moment, {days} from  'moment'
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import { DateRangePicker, SingleDatePicker } from 'react-dates';
+// import Datetime from 'react-datetime';
+// import { DateRangePicker } from 'react-dates';
 
 class Customers extends Component {
 
@@ -18,6 +23,12 @@ class Customers extends Component {
       endDateTimeValue: '',
       rateValue: '',
       displayMessage: '',
+
+
+      startDate: null,
+      endDate: null,
+      date: null,
+      focusedInput: null,
     };
 
     this.onTextboxChangeStartDate = this.onTextboxChangeStartDate.bind(this);
@@ -26,6 +37,8 @@ class Customers extends Component {
     this.onTextboxChangeEndTime = this.onTextboxChangeEndTime.bind(this);
     this.onTextboxChangeRate = this.onTextboxChangeRate.bind(this);
     this.reserveSpot = this.reserveSpot.bind(this);
+    this.reserveHourly = this.reserveHourly.bind(this);
+    this.reserveDaily = this.reserveDaily.bind(this);
   }
 
   // if token in local storage, set token state to token value
@@ -36,56 +49,76 @@ class Customers extends Component {
     // console.log("state of token", this.state.token)
   }
 
+  //changes start date state to the targeted event
   onTextboxChangeStartDate(event) {
     this.setState({
       startDateValue: event.target.value,
     });
   }
+  //changes start date time to the targeted event
   onTextboxChangeStartTime(event) {
     this.setState({
       startTimeValue: event.target.value,
     });
   }
+  //changes end date state to the targeted event
   onTextboxChangeEndDate(event) {
     this.setState({
       endDateValue: event.target.value,
     });
   }
+  //changes end time state to the targeted event
   onTextboxChangeEndTime(event) {
     this.setState({
       endTimeValue: event.target.value,
     });
   }
 
+  //changes rate to selectedValue rate
   onTextboxChangeRate(event) {
     const selectedValue = document.getElementById("rate_value").value
-    // const selectedName = document.getElementById("rate_value").data
-    console.log("selected value",selectedValue)
-    // console.log("selected name",selectedName)
     this.setState({
       rateValue: selectedValue
     });
   }
 
+  //function for reserving a spot taking in a lot of props associated with the markers.
   reserveSpot(event) {
     event.preventDefault()
     let rateFromInputNumber = ''
     let typeOfRate = ''
     let feeValue = ''
-
+    
     const { 
       Hourly, Daily, Weekly, Monthly, 
-      ID, Address, City, State, Zipcode 
+      ID, Address, City, State, Zipcode,
+      Name, Phone_Number
     } = this.props.location
-    
+    console.log(Phone_Number)
     const { 
       startDateValue,
       startTimeValue,
       endDateValue,
       endTimeValue,
       rateValue,
-      token
+      token,
+      startDate,
+      endDate,
+      date
     } = this.state;
+
+    // const dateMoment = moment(date).format('LL')
+    // console.log('2', moment(date).format('LL'))
+    // const onlyDate = moment(date).subtract(10, 'days').calendar()
+    // console.log('onlyDate? 11/11/11', onlyDate)
+    // console.log('start time val', startTimeValue)
+    // console.log('combined string    ', JSON.stringify(dateMoment + " " + startTimeValue))
+    // const startHoursTime = dateMoment + " " + startTimeValue
+    // const endHoursTime = dateMoment + " " + endTimeValue
+    var travelTime = moment(date).add(24, 'hours')
+    console.log('add 24 hrs  ',travelTime)
+    const moment24HrsAdded = moment(travelTime).add(days, 'd').toString()
+    console.log('moment with 24 hrs added   ', moment24HrsAdded)
 
     if (rateValue < 2 && rateValue > 0) {
       rateFromInputNumber = Hourly
@@ -130,7 +163,15 @@ class Customers extends Component {
         city: City,
         state: State,
         zipcode: Zipcode,
-        
+
+        // name: Name,
+        // phone: Phone_Number,
+
+        startDate: moment(this.state.startDate).add(days, 'd').toString() ,
+        endDate: moment(this.state.endDate).add(days, 'd').toString(),
+
+        // startDate: startHoursTime ,
+        // endDate: endHoursTime
       })
     })
     .then(res => res.json())
@@ -148,30 +189,232 @@ class Customers extends Component {
       }
     });
   }
-  
+
+  //a function for hourly reservations which will make the time difference display as minutes on the reservation page rather than hours
+  reserveHourly(event) {
+    event.preventDefault()
+    let rateFromInputNumber = ''
+    let typeOfRate = ''
+    let feeValue = ''
+    
+    const { 
+      Hourly, Daily, Weekly, Monthly, 
+      ID, Address, City, State, Zipcode,
+      Name, Phone_Number
+    } = this.props.location
+    console.log(Phone_Number)
+    const { 
+      startDateValue,
+      startTimeValue,
+      endDateValue,
+      endTimeValue,
+      rateValue,
+      token,
+      date,
+      startDate,
+    } = this.state;
+
+    const dateMoment = moment(date).format('LL')
+    console.log('2', moment(date).format('LL'))
+    const onlyDate = moment(date).subtract(10, 'days').calendar()
+    console.log('onlyDate? ', onlyDate)
+    console.log('start time val', startTimeValue)
+    console.log('combined string    ', JSON.stringify(dateMoment + " " + startTimeValue))
+    const startHoursTime = dateMoment + " " + startTimeValue
+    const endHoursTime = dateMoment + " " + endTimeValue
+
+    if (rateValue < 2 && rateValue > 0) {
+      rateFromInputNumber = Hourly
+      typeOfRate = "Hour"
+      feeValue = "0.25"
+    }
+    if (rateValue < 3 && rateValue > 1) {
+      rateFromInputNumber = Daily
+      typeOfRate = "Day"
+      feeValue = "2.00"
+    }
+    if (rateValue < 4 && rateValue > 2) {
+      rateFromInputNumber = Weekly
+      typeOfRate = "Week"
+      feeValue = "12.00"
+    }
+    if (rateValue < 5 && rateValue > 3) {
+      rateFromInputNumber = Monthly
+      typeOfRate = "Month"
+      feeValue = "35.00"
+    }
+
+    // post to backend
+    fetch('/api/reserve/spot', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token,
+        startDateValue,
+        startTimeValue,
+        endDateValue,
+        endTimeValue,
+
+        rateValue: rateFromInputNumber,
+        rateType: typeOfRate,
+        feeValue,
+
+        makerId: ID,
+        address: Address,
+        city: City,
+        state: State,
+        zipcode: Zipcode,
+
+        name: Name,
+        phone: Phone_Number,
+
+        startDate: startHoursTime,
+        endDate: endHoursTime 
+      })
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log('json', json);
+      // set state for display
+      if (json.success) {
+        this.setState({
+          displayMessage: "Congratulations! You reserved a spot!"
+        });
+      } else {
+        this.setState({
+          displayMessage: "Please fill out all information."
+        });
+      }
+    });
+  }
+
+  //a function for daily reservations that will display the time difference in reservations as hours rather than minutes.
+  reserveDaily(event) {
+    event.preventDefault()
+    let rateFromInputNumber = ''
+    let typeOfRate = ''
+    let feeValue = ''
+    
+    const { 
+      Hourly, Daily, Weekly, Monthly, 
+      ID, Address, City, State, Zipcode,
+      Name, Phone_Number
+    } = this.props.location
+    console.log(Phone_Number)
+    const { 
+      startDateValue,
+      startTimeValue,
+      endDateValue,
+      endTimeValue,
+      rateValue,
+      token,
+      date,
+      startDate,
+    } = this.state;
+
+    // const dateMoment = moment(date).format('LL')
+    // console.log('2', moment(date).format('LL'))
+    // const onlyDate = moment(date).subtract(10, 'days').calendar()
+    // console.log('onlyDate? ', onlyDate)
+    // console.log('start time val', startTimeValue)
+    // console.log('combined string    ', JSON.stringify(dateMoment + " " + startTimeValue))
+    // const startHoursTime = dateMoment + " " + startTimeValue
+    // const endHoursTime = dateMoment + " " + endTimeValue
+    const travelTime = moment(date).add(24, 'hours')
+    console.log('add 24 hrs  ',travelTime)
+    const moment24HrsAdded = moment(travelTime)
+    console.log('moment with 24 hrs added   ', moment24HrsAdded)
+
+    if (rateValue < 2 && rateValue > 0) {
+      rateFromInputNumber = Hourly
+      typeOfRate = "Hour"
+      feeValue = "0.25"
+    }
+    if (rateValue < 3 && rateValue > 1) {
+      rateFromInputNumber = Daily
+      typeOfRate = "Day"
+      feeValue = "2.00"
+    }
+    if (rateValue < 4 && rateValue > 2) {
+      rateFromInputNumber = Weekly
+      typeOfRate = "Week"
+      feeValue = "12.00"
+    }
+    if (rateValue < 5 && rateValue > 3) {
+      rateFromInputNumber = Monthly
+      typeOfRate = "Month"
+      feeValue = "35.00"
+    }
+
+    // post to backend
+    fetch('/api/reserve/spot', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token,
+        startDateValue,
+        startTimeValue,
+        endDateValue,
+        endTimeValue,
+
+        rateValue: rateFromInputNumber,
+        rateType: typeOfRate,
+        feeValue,
+
+        makerId: ID,
+        address: Address,
+        city: City,
+        state: State,
+        zipcode: Zipcode,
+
+        name: Name,
+        phone: Phone_Number,
+
+        startDate: date,
+        endDate: moment24HrsAdded 
+      })
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log('json', json);
+      // set state for display
+      if (json.success) {
+        this.setState({
+          displayMessage: "Congratulations! You reserved a spot!"
+        });
+      } else {
+        this.setState({
+          displayMessage: "Please fill out all information."
+        });
+      }
+    });
+  }
+  //defining variables and rendering the component under the google maps (exampleData.js)
   render() {
     const { 
       token,
-      startDateValue, 
-      startTimeValue, 
-      endDateValue, 
+      startTimeValue,  
       endTimeValue, 
       // rateValue, 
       displayMessage  
     } = this.state
     const { 
-      onTextboxChangeStartDate, 
       onTextboxChangeStartTime, 
-      onTextboxChangeEndDate, 
       onTextboxChangeEndTime,  
       onTextboxChangeRate, 
-      reserveSpot 
+      reserveSpot,
+      reserveHourly,
+      reserveDaily
     } = this
     const { 
       Description, Instructions,
       Address, City, State, Zipcode, 
       Hourly, Daily, Weekly, Monthly, 
-      Spots, /*ID*/
+      Spots /*ID*/
     } = this.props.location
 
     if (!token) {
@@ -218,96 +461,186 @@ class Customers extends Component {
               <h5>Available Spots: {Spots}</h5>
             </div>
           </div> {/* end first column */}
+
+
           <div className="col-md-5 col-xs-12">
             <div className="card text-center mb-4 shadow-sm">
               <div className="card-header">
-                <h4 className="my-0 font-weight-normal">Spot reservation form</h4>
+                <h4 className="my-0 font-weight-normal">Reservation form</h4>
               </div>
               <div className="card-body">
                 <h5 className="card-title pricing-card-title">{Address}</h5>
                 <h6 className="card-title pricing-card-title">{City} {State} {Zipcode}</h6>
                 <hr />
-                <form className="reserve_spot" method="post" action="/api/reserve/spot">
-                  <h5 className="card-title pricing-card-title">Approximate Length of stay</h5>
-                  <div className="row">
-                    <div className="col-6">
-                      <h6>Start Date</h6>
-                      <input
-                        id="start_date"
-                        type="date"
-                        value={startDateValue}
-                        onChange={onTextboxChangeStartDate}
-                        className="mb-3 form-control date-local"
-                        required>
-                      </input>
-                    </div>
-                    <div className="col-6">
-                      <h6>Start Time</h6>
-                      <input
-                        id="start_time"
-                        type="time"
-                        value={startTimeValue}
-                        onChange={onTextboxChangeStartTime}
-                        className="mb-3 form-control time-local"
-                        required>
-                      </input>
-                    </div>
-                  </div>
-                <div className="row">
-                  <div className="col-6">
-                    <h6>End Date</h6>
-                    <input
-                      id="end_date"
-                      type="date"
-                      value={endDateValue}
-                      onChange={onTextboxChangeEndDate}
-                        className="mb-3 form-control date-local"
-                      required>
-                    </input>
-                  </div>
-                  <div className="col-6">
-                    <h6>End Time</h6>
-                    <input
-                      id="end_time"
-                      type="time"
-                      value={endTimeValue}
-                      onChange={onTextboxChangeEndTime}
-                      className="mb-3 form-control time-local"
-                      required>
-                    </input>
-                  </div>
-                </div>  
+                <select className="w-100 form-control" id="rate_value" onChange={onTextboxChangeRate}>
+                  <option value="blank">Rate Type</option>
+                  <option value="1">${Hourly} per hour</option>
+                  <option value="2">${Daily} per day</option>
+                  <option value="3">${Weekly} per week</option>
+                  <option value="4">${Monthly} per month</option>
+                </select>
                 <hr />
-                  <select className="w-100 form-control" id="rate_value" onChange={onTextboxChangeRate}>
-                  <option value="blank">Rates</option>
-                    <option value="1">${Hourly}/hour (-12 hrs)</option>
-                    <option value="2">${Daily}/daily (+12 hrs)</option>
-                    <option value="3">${Weekly}/week (5 days)</option>
-                    <option value="4">${Monthly}/month (4 weeks)</option>
-                  </select>
-                  <hr />
-                  <button
-                    type="submit"
-                    className="btn btn-md w-100 btn-block btn-primary mt-4"
-                    onClick={reserveSpot}
-                  >
-                    Reserve Now!
-                  </button>
+                <form className="reserve_spot" method="post" action="/api/reserve/spot">
                   
+
+
+                  {(() => {
+                    switch (this.state.rateValue) {
+                      // HOURLY
+                      case "1": return <div>
+                        <hr />
+                        <h6 className="card-title pricing-card-title">Hourly Stay</h6>
+                        <div className="row">
+                          <div className="col-12">
+                            <SingleDatePicker
+                              date={this.state.date}
+                              onDateChange={date => this.setState({ date })}
+                              focused={this.state.focused}
+                              onFocusChange={({ focused }) => this.setState({ focused })}
+                              id="your_unique_id"
+                              orientation="vertical" verticalHeight={400}
+                              openDirection="up"
+                            />
+                          </div>
+                          <div className="col-6">
+                            <h6>Start Time</h6>
+                            <input
+                              id="start_time"
+                              type="time"
+                              value={startTimeValue}
+                              onChange={onTextboxChangeStartTime}
+                              className="mb-3 form-control time-local"
+                              required>
+                            </input>
+                          </div>
+                          <div className="col-6">
+                            <h6>End Time</h6>
+                            <input
+                              id="end_time"
+                              type="time"
+                              value={endTimeValue}
+                              onChange={onTextboxChangeEndTime}
+                              className="mb-3 form-control time-local"
+                              required>
+                            </input>
+                          </div>
+                        </div>
+                      </div>;
+
+                      // DAILY
+                      case "2": return <div>
+                        <h6 className="card-title pricing-card-title">Daily</h6>
+                        <SingleDatePicker
+                          date={this.state.date}
+                          onDateChange={date => this.setState({ date })}
+                          focused={this.state.focused}
+                          onFocusChange={({ focused }) => this.setState({ focused })}
+                          id="your_unique_id"
+                          orientation="vertical" verticalHeight={400}
+                          openDirection="up"
+                        />
+                      </div>
+
+                      //WEEKLY
+                      case "3": return <div>
+                        <h6 className="card-title pricing-card-title">Weekly</h6>
+                        <div className="row">
+                          <div className="col-12">
+                            <DateRangePicker
+                              startDateId="startDate"
+                              endDateId="endDate"
+                              startDate={this.state.startDate}
+                              endDate={this.state.endDate}
+                              onDatesChange={({ startDate, endDate }) => { this.setState({ startDate, endDate }) }}
+                              focusedInput={this.state.focusedInput}
+                              onFocusChange={(focusedInput) => { this.setState({ focusedInput }) }}
+                              orientation="vertical" verticalHeight={400}
+                              openDirection="up"
+                            />
+                          </div>
+                        </div>
+                      </div>;
+                      case "4": return <div>
+                      <h6 className="card-title pricing-card-title">Monthly</h6>
+                        <div className="row">
+                          <div className="col-12">
+                            <DateRangePicker
+                              startDateId="startDate"
+                              endDateId="endDate"
+                              startDate={this.state.startDate}
+                              endDate={this.state.endDate}
+                              onDatesChange={({ startDate, endDate }) => { this.setState({ startDate, endDate }) }}
+                              focusedInput={this.state.focusedInput}
+                              onFocusChange={(focusedInput) => { this.setState({ focusedInput }) }}
+                              orientation="vertical" verticalHeight={400}
+                              openDirection="up"
+                            />
+                          </div>
+                        </div>
+                      </div>;
+                default: return ;
+              }
+            })()}
+
+                  <hr />
+                 
+
+                  {(() => {
+                    switch (this.state.rateValue) {
+                      case "1": return <button
+                          type="submit"
+                          className="btn btn-md w-100 btn-block btn-primary mt-4"
+                          onClick={reserveHourly}
+                        >
+                          Reserve Now Hourly!
+                        </button>
+                      case "2": return <button
+                        type="submit"
+                        className="btn btn-md w-100 btn-block btn-primary mt-4"
+                        onClick={reserveDaily}
+                      >
+                        Reserve Now Daily!
+                      </button>;
+                      case "3": return <button
+                        type="submit"
+                        className="btn btn-md w-100 btn-block btn-primary mt-4"
+                        onClick={reserveSpot}
+                      >
+                        Reserve Now Weekly!
+                      </button>;
+                      case "4": return <button
+                        type="submit"
+                        className="btn btn-md w-100 btn-block btn-primary mt-4"
+                        onClick={reserveSpot}
+                      >
+                        Reserve Now Monthly!
+                      </button>;
+                      default: return <button
+                        type="submit"
+                        className="btn btn-md w-100 btn-block btn-primary mt-4"
+                        onClick={reserveSpot}
+                      >
+                        Reserve Now!
+                      </button>;
+                    }
+                  })()}
+
                   <h6 className="pt-3">{displayMessage}</h6>
                 </form>  
               </div>
             </div>
           </div>
         </div> {/* end  big row */}
-          {/* <p>Start Date: {startDateValue}</p>
-          <p>Start Time: {startTimeValue}</p>
-          <p>End Date: {endDateValue}</p>
-          <p>End Time: {endTimeValue}</p>
-          <p>Rate: {rateValue}</p>
-          <p>{Date()}</p>
-          <p>OwnerId: {ID}</p>
-          <p>option name: {document.getElementById("rate_value").value}</p> */}
+
+          {/* <h3>{this.props.Phone}</h3> */}
+          {/* <p>Start Date: {startDateValue}</p> */}
+          {/* <p>Start Time: {startTimeValue}</p> */}
+          {/* <p>End Date: {endDateValue}</p> */}
+          {/* <p>End Time: {endTimeValue}</p> */}
+          {/* <p>Rate: {rateValue}</p> */}
+          {/* <p>{Date()}</p> */}
+          {/* <p>OwnerId: {ID}</p> */}
+          {/* <p>option name: {document.getElementById("rate_value").value}</p> */}
       </div>
     );
   }

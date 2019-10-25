@@ -4,6 +4,7 @@ import { getFromStorage, setInStorage } from '../utils/storage'
 import { Redirect } from 'react-router-dom'
 import store from 'store';
 
+// background styles and login form sizing
 const styles = {
     maxWidth: {
         maxWidth: 400,
@@ -12,6 +13,9 @@ const styles = {
     backgroundImage: {
         backgroundImage: "url('../../images/noSpots.jpg')",
         height: "100vh",
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
         // backgroundRepeat: "initial"
     },
     shadow: {
@@ -30,6 +34,7 @@ class Login extends Component {
             signInPassword: '',
         };
 
+        // bind 'this' for all functions
         this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
         this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
         this.onSignIn = this.onSignIn.bind(this);
@@ -90,7 +95,6 @@ class Login extends Component {
             signInEmail: event.target.value,
         });
     }
-    
     onTextboxChangeSignInPassword(event) {
         this.setState({
             signInPassword: event.target.value,

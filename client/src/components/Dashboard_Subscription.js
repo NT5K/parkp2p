@@ -18,8 +18,8 @@ class Subscription extends Component {
             displayInfoRow4: ''
         }
 
+        // bind 'this' for all functions
         this.updateSubscription = this.updateSubscription.bind(this);
-        // this.onClickSetNumberForPostRequest = this.onClickSetNumberForPostRequest.bind(this);
     }
 
     // set token state to token value
@@ -35,8 +35,7 @@ class Subscription extends Component {
         .then(res => res.json())
         .then(user => {
             const { Subscription } = user[0]
-            // console.log(this.state.token)
-            // console.log(this.state.user)
+            // depending on subscription value, display different information on page
             if (Subscription === 1) {
                 this.setState({
                     user: user[0],
@@ -74,15 +73,17 @@ class Subscription extends Component {
                     
                 })
             }
-        }, () => console.log("user array", this.state.user, "this users token", this.state.token))
+        }, () => console.log("success"))
     }
 
+    // when input changes, set state for post request subscription plan number
     onClickSetNumberForPostRequest(event) {
         this.setState({
             subscriptionNumberToPostRequest: event.target.value
         });
     }
 
+    // update subscription plan on database post request
     updateSubscription(event) {
         event.preventDefault()
         const inputSubscription= event.target.value
@@ -135,16 +136,15 @@ class Subscription extends Component {
     render() {
         const { 
             token, 
-            // displaySubscription, 
-            // displayInfo, 
             displayInfoRow1,
             displayInfoRow2,
             displayInfoRow3, 
             displayInfoRow4 
         } = this.state
-        const { updateSubscription /*onClickSetNumberForPostRequest*/ } = this
+        const { updateSubscription } = this
 
-         if (!token) {
+        // if no local storage token, redirect to login
+        if (!token) {
             return (
                 <div>
                     <Redirect to='/login' />
@@ -163,9 +163,6 @@ class Subscription extends Component {
                     <div className="row mt-3 text-dark text-center p-3">
                         <div className="col-sm-12">
                             <h5 className="text-center"><u><b>My Current Plan</b></u></h5>
-                            {/* <p>(personal information only you can see)</p> */}
-                            {/* {displaySubscription} */}
-                            {/* <br /> */}
                             {displayInfoRow1}
                             <br />
                             {displayInfoRow2}
@@ -179,6 +176,7 @@ class Subscription extends Component {
                     <hr />
                     <div className="container pl-3 pt-3">
                         <div className="card-deck mb-3 text-center">
+                            {/* each card uses the same component with different data */}
                             <SubscriptionPlanCard
                                 plan={"Basic"}
                                 price={"30"}
@@ -187,27 +185,24 @@ class Subscription extends Component {
                                 info3={<br />}
                                 value={1}
                                 onClick={updateSubscription}
-                                // onChange={onClickSetNumberForPostRequest}
                             />
                             <SubscriptionPlanCard
                                 plan={"Discount"}
-                                price={"50"}
+                                price={"60"}
                                 info1={"No parking fees"}
                                 info2={"15% off spot price"}
                                 info3={"Early Bird Reservations"}
                                 value={2}
                                 onClick={updateSubscription}
-                                // onChange={onClickSetNumberForPostRequest}
                             />
                             <SubscriptionPlanCard
                                 plan={"All Inclusive"}
-                                price={"100"}
+                                price={"120"}
                                 info1={"No parking fees"}
                                 info2={"No charge for spots"}
                                 info3={"Early Bird Reservations"}
                                 value={3}
                                 onClick={updateSubscription}
-                                // onChange={onClickSetNumberForPostRequest}
                             />
                         </div>
                     </div>

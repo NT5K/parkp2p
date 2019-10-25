@@ -1,21 +1,23 @@
+<h1>ParkP2P</h1>
+
+<h2>A peer to peer parking spot reservation service. An individual can earn money by utilizing their driveway as a parking lot available to users of the platform. <h2>
+
+<a href="https://spotparkp2p.herokuapp.com">Visit Site</a>
+
 # install:
 
 `git clone repo`<br>
 `cd into new folder`<br>
 `npm install` (installs express dependencies)<br>
-`npm run client-install` (installs react dependencies)
-
-# populate database:
-located in `client/src/db/dbseed.sql`
+`npm run client-install` (installs react dependencies)<br>
+`please contact Nick for current .env and database seeds`
 
 # run as dev:
 
 `npm run dev`
 
+# Interested in investing?
+`contact Nick @ nicholastysh@gmail.com`
 
 
-# what is available so far:
-<a href="https://localhost:3000/">https://localhost:3000/</a><br>
-<a href="https://localhost:3000/login">https://localhost:3000/login</a><br>
-<a href="https://localhost:3000/register">https://localhost:3000/register</a>
 

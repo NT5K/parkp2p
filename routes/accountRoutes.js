@@ -27,6 +27,60 @@ router.get('/api/account/personal/:token', (req, res) => {
 });
 
 //===========================================================================
+// get profit page info from token
+//===========================================================================
+router.get('/api/account/personal/profits/:token', (req, res) => {
+    const query = "Select Balance, Credits FROM users WHERE ID = ?;";
+    const { token } = req.params
+    const input = [token]
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Failed to get users')
+        } else {
+            // console.log(result)
+            return res.json(result);
+        };
+    });
+});
+
+
+//===========================================================================
+// update balance in profits page
+//===========================================================================
+router.post('/api/account/update/balance/withdraw', (req, res) => {
+    const { token, newBalance } = req.body;
+
+    console.log("local token", token)
+    console.log("balance change", newBalance)
+    console.log("new balance: ", newBalance)
+
+    if (!newBalance && newBalance ==! 0) {
+        console.log("Sending false!")
+        return res.send({
+            success: false,
+            error: "balance input cannot be blank"
+        })
+    }
+
+    const query = "UPDATE users SET Balance = ? WHERE ID = ?;";
+    const input = [newBalance, token]
+
+    connection.query(query, input, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("failed to update hourly rate")
+        } else {
+            return res.send({
+                success: true,
+                new_balance_rate: newBalance
+            });
+        };
+    });
+});
+
+
+//===========================================================================
 // verify address for long lat on database
 //===========================================================================
 

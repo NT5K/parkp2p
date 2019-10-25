@@ -39,24 +39,27 @@ class MapContainer extends Component {
         })
     }
 
-    componentDidMount() {
-        fetch('/api/public/driveways')
+    async componentDidMount() {
+        await fetch('/api/public/driveways')
         .then(res => res.json())
         .then(marker => 
             this.setState({ 
                 marker,
-                personLoggedIn: this.state.marker[this.state.token - 1]
+                personLoggedIn: this.state.marker[0]
             }))
-        .then(()=> 
+            
+        .then(()=> { 
+            //console.log(this.state.marker.findIndex(index => { console.log(index.ID); return index.ID === this.state.token; }), "RANDOM!!!")
             this.setState({
-                selectedPlace: this.state.marker[this.state.token - 1]
-            }))
+                selectedPlace: this.state.marker[this.state.marker.findIndex(index => { return index.ID === this.state.token; })]
+            })})
         .then( () => console.log("successful markers data fetch"))
-        // .then( () => console.log("this is the person logged in", this.state.marker[this.state.token - 1]))
+        // .then( () => console.log("this is the person logged in", this.state.marker))
         // .then( () => console.log("this is the person logged in", this.state.personLoggedIn.Description))
         .catch(err => console.log(err));
     }
 
+    //if no place is selected or searched, it set the gps coordinates of where you are as the default center
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.Coords !== this.props.Coords) {
             let latLng = { lat: nextProps.Coords.lat1, lng: nextProps.Coords.Lng1 }
@@ -64,13 +67,16 @@ class MapContainer extends Component {
         }
     }
 
+    
+//binds all the information from selected place to a location string
     onMarkerClick(locationString) {
-        // console.log("LOCATION STRING", locationString)
+        console.log("LOCATION STRING", locationString)
         this.setState({
             selectedPlace: locationString
         })
     }
 
+    //closes the infowindow and sets state to false
     onClose = props => {
         if (this.state.showingInfoWindow) {
             this.setState({
@@ -88,6 +94,8 @@ class MapContainer extends Component {
         return (
             <div className="container-flex">
                 <div style={{ position: "relative", height: "50vh", width: "100%" /*marginBottom: "3.5%"*/}} id="map">
+                    
+                    {/* map styles */}
                     <Map
                         centerAroundCurrentLocation={true}
                         google={this.props.google}
@@ -103,6 +111,7 @@ class MapContainer extends Component {
                         mapTypeControl={false}
                         // styles={styles}
                     >
+                        {/* Marker of your current location */}
                         <Marker
                             onClick={this.onMarkerClick}
                             address={'You are Here'}
@@ -117,8 +126,10 @@ class MapContainer extends Component {
                                 url: "https://img.icons8.com/dusk/32/000000/street-view.png"
                             }}
                         />
+
+                        {/* marker information from mysql */}
                         {marker.map(marker => {
-                            if(marker.Active_State > 0) {
+                            if(marker.Active_State > 0 && marker.Spots > 0) {
                                 return <Marker
                                     onClick={this.onMarkerClick}
                                     key={marker.ID}
@@ -134,6 +145,8 @@ class MapContainer extends Component {
                                     Monthly={marker.Monthly}
                                     Spots={marker.Spots}
                                     ID={marker.ID}
+                                    Name={marker.Name}
+                                    Phone={marker.Phone_Number}
 
                                     // animation={1}
                                     position={{ lat: marker.Latitude, lng: marker.Longitude }}
@@ -161,7 +174,9 @@ class MapContainer extends Component {
                         location={this.state.selectedPlace} 
                     />
                 </div>
+                
             </div>
+            
         );
     }
 }

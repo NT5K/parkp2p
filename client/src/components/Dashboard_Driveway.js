@@ -477,6 +477,7 @@ class Dashboard extends Component {
                                         value="1"
                                         form="state_change"
                                         onClick={updateStateTrueOrFalse}
+                                        // style={{width: '70px'}}
                                     >
                                         Activate
                                     </button>
@@ -488,6 +489,7 @@ class Dashboard extends Component {
                                         value="0"
                                         form="state_change"
                                         onClick={updateStateTrueOrFalse}
+                                        // style={{width: '100px'}}
                                     >
                                         De-activate
                                     </button>
@@ -616,6 +618,7 @@ class Dashboard extends Component {
                     onChange={onTextboxChangeInstructions}
                     placeholder={"write instructions here"}
                     onClick={updateInstructions}
+                    size='100px'
                     buttonText={"submit"}
                     />          
                     <hr />
@@ -642,7 +645,7 @@ class Dashboard extends Component {
                         inputId={"description"}
                         value={descriptionToPostRequest}
                         onChange={onTextboxChangeDescription}
-                        placeholder={"description"}
+                        placeholder={"write description here"}
                         onClick={updateDescription}
                         buttonText={"submit"}
                     />

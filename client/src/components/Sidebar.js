@@ -57,17 +57,17 @@ class Sidebar extends Component {
     render() {
         const { logout } = this
         return (
-            <Menu>
-                <br />
-                <h1>Menu</h1>
-                <Link className="nav-link  menu-item" to="/dash/profits">Profits</Link>
+            <Menu disableAutoFocus>
+                <h5 style={{ pointerEvents: "none", cursor: "default"}}><u>Menu</u></h5>
                 <Link className="nav-link  menu-item" to="/dash/">Account</Link>
-                <Link className="nav-link  menu-item" to="/dash/driveway">My Driveway</Link>
+                <Link className="nav-link  menu-item" to="/dash/profits">Profits</Link>
+                <Link className="nav-link  menu-item" to="/dash/driveway">Driveway Info</Link>
                 <Link className="nav-link  menu-item" to="/dash/car">My Car</Link>
-                <Link className="nav-link  menu-item" to="/dash/reservations">Reservations</Link>
-                <Link className="nav-link  menu-item" to="/dash/subscription">Subscription</Link>
+                <Link className="nav-link  menu-item" to="/dash/subscription">Subscription Plan</Link>
+                <Link className="nav-link  menu-item" to="/dash/reservations">My Reservations</Link>
+                <Link className="nav-link  menu-item" to="/dash/incoming">Incoming Orders</Link>
                 <Link className="nav-link  menu-item" to="/dash/cancel">Cancel Account</Link>
-                <a className="nav-link  menu-item" href="/">Main Menu</a>
+                <a className="nav-link  menu-item" href="/">Back to Map</a>
                 <a className="nav-link menu-item" href="/" onClick={logout}>Logout</a>
             </Menu>
         );
