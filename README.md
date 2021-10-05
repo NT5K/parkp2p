@@ -10,7 +10,6 @@
 `cd into new folder`<br>
 `npm install` (installs express dependencies)<br>
 `npm run client-install` (installs react dependencies)<br>
-`please contact Nick for current .env and database seeds`
 
 # run as dev:
 
@@ -23,8 +22,6 @@
 * single page application
 * a real world utility
 
-# interested??
-`contact Nick @ nicholastysh@gmail.com`
 
 
 
