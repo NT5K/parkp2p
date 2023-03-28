@@ -2,7 +2,7 @@
 
 <h2>A peer to peer parking spot reservation service. An individual can earn money by utilizing their driveway as a parking lot available to users of the platform. <h2>
 
-<a href="https://spotparkp2p.herokuapp.com"><h2>Visit Site</h2></a>
+<a href=""><h2>Visit Site</h2></a> (currently not running)
 
 # install:
 
